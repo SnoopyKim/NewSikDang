@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "269537303619",
+    "firebase_url": "https://newsikdang-21cb1.firebaseio.com",
+    "project_id": "newsikdang-21cb1",
+    "storage_bucket": "newsikdang-21cb1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:269537303619:android:b02176e268667b0b",
+        "android_client_info": {
+          "package_name": "project.com.newsikdang"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "269537303619-dr6o513dgnbdh2c6gb42ljqeidb8kju7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "project.com.newsikdang",
+            "certificate_hash": "3c1406c850646198c133d81a81424bb9c592c60b"
+          }
+        },
+        {
+          "client_id": "269537303619-o8svv26b68toeuftm3191rsclnounjr8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW3H71U22t1bCbj344H3B5RbrsxumseN0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "269537303619-o8svv26b68toeuftm3191rsclnounjr8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
