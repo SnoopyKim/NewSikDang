@@ -58,7 +58,7 @@ function saveData() {
 }
 
 // set schedule to call saveData() at 0:00 every day
-var event = schedule.scheduleJob('0 14 * * *', saveData);
+var event = schedule.scheduleJob('10 * * * *', saveData);
 
 // basic function for firebase functions
 // check it at https://us-central1-newsikdang-21cb1.cloudfunctions.net/test
