@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <EditText
+        android:id="@+id/id"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:hint="ID" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/id"
+        android:layout_marginTop="10dp"
+        android:hint="Password"/>
+
+    <ImageButton
+        android:id="@+id/naver"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/password"
+        android:layout_alignLeft="@+id/id"
+        android:layout_marginTop="10dp"
+        android:background="#FFFFFF"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/naver" />
+
+    <ImageButton
+        android:id="@+id/kakao"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/password"
+        android:layout_toRightOf="@+id/naver"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#FFFFFF"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/kakao" />
+
+    <ImageButton
+        android:id="@+id/facebook"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/password"
+        android:layout_toRightOf="@+id/kakao"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#FFFFFF"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/facebook" />
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:background="@drawable/round"
+        android:textColor="#808080"
+        android:layout_below="@+id/password"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="100dp"
+        android:text="login" />
+
+    <Button
+        android:id="@+id/join"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:background="@drawable/round"
+        android:textColor="#808080"
+        android:layout_below="@+id/password"
+        android:layout_toRightOf="@+id/login"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="20dp"
+        android:text="join" />
+
+
+</RelativeLayout>
