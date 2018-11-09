@@ -1,4 +1,8 @@
 <resources>
+<<<<<<< HEAD
     <string name="app_name">NewSikDang</string>
     <string name="title_activity_maps">Map</string>
+=======
+    <string name="app_name">Log-in</string>
+>>>>>>> refs/remotes/origin/songdahee
 </resources>

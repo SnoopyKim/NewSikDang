@@ -1,5 +1,6 @@
 package project.com.newsikdang;
 
+<<<<<<< HEAD
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -7,14 +8,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+=======
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+>>>>>>> refs/remotes/origin/songdahee
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+<<<<<<< HEAD
 
     TextView tvTest;
     Button btnMap;
@@ -22,11 +30,14 @@ public class MainActivity extends AppCompatActivity {
     static final String API_KEY = "72676c564e6e6f6d37326c75637a4a";
     static final String API_URL = "http://openapi.gwangjin.go.kr:8088";
 
+=======
+>>>>>>> refs/remotes/origin/songdahee
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+<<<<<<< HEAD
         tvTest = findViewById(R.id.tvTest);
 
         btnMap = findViewById(R.id.btnMap);
@@ -39,64 +50,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
         new RetrieveFeedTask().execute();
+=======
+        Spinner spinner = (Spinner)findViewById(R.id.spinner);
+>>>>>>> refs/remotes/origin/songdahee
 
-    }
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-    class RetrieveFeedTask extends AsyncTask<Void, Void, String> {
-
-        private Exception exception;
-
-        protected void onPreExecute() {
-            tvTest.setText("");
-        }
-
-        protected String doInBackground(Void... urls) {
-            // Do some validation here
-
-            try {
-                URL url = new URL(API_URL + "/" + API_KEY + "/xml/GwangjinFoodHygieneBizRestaurant/280/285/2018");
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                    StringBuilder stringBuilder = new StringBuilder();
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        stringBuilder.append(line).append("\n");
-                    }
-                    bufferedReader.close();
-                    return stringBuilder.toString();
-                }
-                finally{
-                    urlConnection.disconnect();
-                }
             }
-            catch(Exception e) {
-                Log.e("ERROR", e.getMessage(), e);
-                return null;
-            }
-        }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-        protected void onPostExecute(String response) {
-            if(response == null) {
-                response = "THERE WAS AN ERROR";
             }
-            Log.i("INFO", response);
-            tvTest.setText(response);
-            // TODO: check this.exception
-            // TODO: do something with the feed
-
-//            try {
-//                JSONObject object = (JSONObject) new JSONTokener(response).nextValue();
-//                String requestID = object.getString("requestId");
-//                int likelihood = object.getInt("likelihood");
-//                JSONArray photos = object.getJSONArray("photos");
-//                .
-//                .
-//                .
-//                .
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-        }
+        });
     }
 }
