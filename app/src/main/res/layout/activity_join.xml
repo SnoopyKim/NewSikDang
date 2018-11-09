@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".JoinActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        app:layout_heightPercent="60%"
+        android:layout_centerVertical="true"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp">
+
+        <TextView
+            android:id="@+id/tvJoin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="이메일로 회원가입"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/tvJoin"
+            android:layout_marginTop="70dp"
+            android:hint="이메일 주소 입력"
+            android:inputType="textEmailAddress"/>
+        <EditText
+            android:id="@+id/etPW"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/etEmail"
+            android:hint="비밀번호 (영문, 숫자 6자리)"
+            android:inputType="textPassword"/>
+        <EditText
+            android:id="@+id/etPW2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/etPW"
+            android:hint="비밀번호 확인"
+            android:inputType="textPassword"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/etPW2"
+            android:layout_marginTop="30dp"
+            android:text="회원가입"/>
+
+    </RelativeLayout>
+
+
+</android.support.percent.PercentRelativeLayout>
