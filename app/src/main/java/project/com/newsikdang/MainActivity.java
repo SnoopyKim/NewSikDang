@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener{
@@ -26,14 +27,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ImageButton imgbtn1 = findViewById(R.id.imgbtn1);
-        imgbtn1.setOnClickListener(this);
-        ImageButton imgbtn2 = findViewById(R.id.imgbtn2);
-        imgbtn2.setOnClickListener(this);
-        ImageButton imgbtn3 = findViewById(R.id.imgbtn3);
-        imgbtn3.setOnClickListener(this);
-        ImageButton imgbtn4 = findViewById(R.id.imgbtn4);
-        imgbtn4.setOnClickListener(this);
+        LinearLayout frag1 = findViewById(R.id.frag1);
+        frag1.setOnClickListener(this);
+        LinearLayout frag2 = findViewById(R.id.frag2);
+        frag2.setOnClickListener(this);
+        LinearLayout frag3 = findViewById(R.id.frag3);
+        frag3.setOnClickListener(this);
+        LinearLayout frag4 = findViewById(R.id.frag4);
+        frag4.setOnClickListener(this);
         mCurrentFragmentIndex = FRAGMENT_ONE;
         fragmentReplace(mCurrentFragmentIndex);
     }
@@ -71,19 +72,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.imgbtn1:
+            case R.id.frag1:
                 mCurrentFragmentIndex = FRAGMENT_ONE;
                 fragmentReplace(mCurrentFragmentIndex);
                 break;
-            case R.id.imgbtn2:
+            case R.id.frag2:
                 mCurrentFragmentIndex = FRAGMENT_TWO;
                 fragmentReplace(mCurrentFragmentIndex);
                 break;
-            case R.id.imgbtn3:
+            case R.id.frag3:
                 mCurrentFragmentIndex = FRAGMENT_THREE;
                 fragmentReplace(mCurrentFragmentIndex);
                 break;
-            case R.id.imgbtn4:
+            case R.id.frag4:
                 mCurrentFragmentIndex = FRAGMENT_FOUR;
                 fragmentReplace(mCurrentFragmentIndex);
                 break;
