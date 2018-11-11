@@ -28,49 +28,44 @@
         android:orientation="horizontal">
         <LinearLayout
         android:id="@+id/frag1"
-        android:layout_width="fill_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
             <ImageButton
-                android:id="@+id/imgbtn1"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:scaleType="fitCenter"
                 android:background="#FFFFFF"
-                app:srcCompat="@drawable/restaurant_fill"
-                android:layout_marginTop="5dp"
+                android:src="@drawable/restaurant_fill"
+                android:paddingTop="5dp"
                 android:textAlignment="center"
                 />
             <TextView
-                android:id="@+id/txt1"
                 android:layout_width="fill_parent"
                 android:layout_height="20dp"
                 android:background="#FFFFFF"
                 android:textColor="#000000"
                 android:gravity="center"
-                android:text="관심목록"/>
+                android:text="관심목록"
+                />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/frag2"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
             <ImageButton
-                android:id="@+id/imgbtn2"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:background="#FFFFFF"
                 android:scaleType="fitCenter"
-                android:layout_marginTop="5dp"
-                app:srcCompat="@drawable/gps_blank" />
+                android:paddingTop="5dp"
+                android:src="@drawable/gps_blank" />
             <TextView
-                android:id="@+id/txt2"
                 android:layout_width="fill_parent"
                 android:layout_height="20dp"
-                android:layout_weight="1"
                 android:background="#FFFFFF"
                 android:textColor="#000000"
                 android:gravity="center"
@@ -78,24 +73,20 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/frag3"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
             <ImageButton
-                android:id="@+id/imgbtn3"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:background="#FFFFFF"
                 android:scaleType="fitCenter"
-                android:layout_marginTop="5dp"
-                app:srcCompat="@drawable/chat_blank" />
+                android:paddingTop="5dp"
+                android:src="@drawable/chat_blank" />
             <TextView
-                android:id="@+id/txt3"
                 android:layout_width="fill_parent"
                 android:layout_height="20dp"
-                android:layout_weight="1"
                 android:textColor="#000000"
                 android:background="#FFFFFF"
                 android:gravity="center"
@@ -103,24 +94,20 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/frag4"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
             <ImageButton
-                android:id="@+id/imgbtn4"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:background="#FFFFFF"
                 android:scaleType="fitCenter"
-                android:layout_marginTop="5dp"
-                app:srcCompat="@drawable/user_blank" />
+                android:paddingTop="5dp"
+                android:src="@drawable/user_blank" />
             <TextView
-                android:id="@+id/txt4"
                 android:layout_width="fill_parent"
                 android:layout_height="20dp"
-                android:layout_weight="1"
                 android:textColor="#000000"
                 android:background="#FFFFFF"
                 android:gravity="center"

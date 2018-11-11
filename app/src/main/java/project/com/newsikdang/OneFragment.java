@@ -16,8 +16,6 @@ public class OneFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.onefragment, container, false);
-        Button button = v.findViewById(R.id.bt_ok);
-        button.setOnClickListener(this);
 
         Spinner spinner = v.findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -32,9 +30,5 @@ public class OneFragment extends Fragment implements View.OnClickListener {
     }
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.bt_ok:
-                Toast.makeText(getActivity(), "OneFragment", Toast.LENGTH_SHORT) .show();
-                break; }
     }
 }
