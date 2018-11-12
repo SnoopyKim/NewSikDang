@@ -2,4 +2,5 @@
     <string name="app_name">NewSikDang</string>
     <string name="title_activity_maps">Map</string>
     <string name="facebook_app_id">311353712796919</string>
+    <string name="terms">시작하기를 눌러 <u>이용약관</u> 및 <u>개인정보 처리방침</u>, <u>위치기반 서비스 이용 약관</u>에 동의하고 14세 이상임을 인증합니다.</string>
 </resources>

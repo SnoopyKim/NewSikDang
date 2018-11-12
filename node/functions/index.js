@@ -57,12 +57,12 @@ function saveData() {
   });
 }
 
-// set schedule to call saveData() at 0:00 every day
-var event = schedule.scheduleJob('10 * * * *', saveData);
+var event = schedule.scheduleJob('0 0 * * *', saveData());
 
 // basic function for firebase functions
 // check it at https://us-central1-newsikdang-21cb1.cloudfunctions.net/test
 exports.test = functions.https.onRequest((request, response) => {
+  // set schedule to call saveData() at 0:00 every day
 
   response.send("Hello from Firebase!");
 });

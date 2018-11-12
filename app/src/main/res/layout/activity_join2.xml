@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".Join2Activity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        app:layout_heightPercent="50%"
+        android:layout_centerVertical="true"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivProfile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/white"
+            android:src="@drawable/empty_profile"
+            app:civ_border_color="@color/gray"
+            app:civ_border_width="3dp"/>
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/ivProfile"
+            android:hint="이름을 입력하세요"
+            android:textAlignment="center"
+            android:backgroundTint="@color/textHint"
+            android:textColorHint="@color/textHint"
+            android:textColor="@color/black"
+            android:inputType="textEmailAddress"/>
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/etName"
+            android:background="@color/btnDisabled"
+            android:text="시작하기"
+            android:textStyle="bold"
+            android:textColor="@color/textBtn"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/btnStart"
+            android:text="@string/terms"
+            android:textColor="@color/textBtn"
+            android:textSize="10dp"/>
+
+
+    </RelativeLayout>
+
+</android.support.percent.PercentRelativeLayout>
