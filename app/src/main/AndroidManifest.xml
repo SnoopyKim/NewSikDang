@@ -26,6 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".MainActivity" />
         <activity
             android:name=".MapsActivity"
@@ -37,6 +38,15 @@
             android:value="@string/facebook_app_id" />
 
         <activity android:name=".Join2Activity"></activity>
+=======
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".OneFragment" />
+        <activity android:name=".TwoFragment" />
+        <activity android:name=".ThreeFragment" />
+        <activity android:name=".FourFragment"></activity>
+>>>>>>> refs/remotes/origin/nari
     </application>
 
 </manifest>
