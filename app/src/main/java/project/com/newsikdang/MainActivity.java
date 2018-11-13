@@ -5,13 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener{
     final String TAG = "MainActivity";
@@ -26,12 +22,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-<<<<<<< HEAD
-        Spinner spinner = findViewById(R.id.spinner);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-=======
         ImageButton imgbtn1 = findViewById(R.id.imgbtn1);
         imgbtn1.setOnClickListener(this);
         ImageButton imgbtn2 = findViewById(R.id.imgbtn2);
@@ -52,7 +42,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         transaction.replace(R.id.ll_fragment, newFragment);
         // Commit the transaction
         transaction.commit(); }
->>>>>>> refs/remotes/origin/nari
 
     private Fragment getFragment(int idx) {
         Fragment newFragment = null; switch (idx) {

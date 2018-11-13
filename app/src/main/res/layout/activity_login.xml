@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".LoginActivity">
 
     <EditText
@@ -12,7 +13,11 @@
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="150dp"
-        android:hint="ID" />
+        android:backgroundTint="@color/black"
+        android:textColorHint="@color/textHint"
+        android:textColor="@color/black"
+        android:hint="ID"
+        android:inputType="textEmailAddress"/>
 
     <EditText
         android:id="@+id/password"
@@ -21,7 +26,11 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/id"
         android:layout_marginTop="10dp"
-        android:hint="Password"/>
+        android:backgroundTint="@color/black"
+        android:textColorHint="@color/textHint"
+        android:textColor="@color/black"
+        android:hint="Password"
+        android:inputType="textPassword"/>
 
     <ImageButton
         android:id="@+id/naver"
@@ -33,6 +42,11 @@
         android:background="#FFFFFF"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/naver" />
+    <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+        android:id="@+id/btnNaverLogin"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"/>
 
     <ImageButton
         android:id="@+id/kakao"
