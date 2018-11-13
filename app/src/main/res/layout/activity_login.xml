@@ -32,16 +32,25 @@
         android:hint="Password"
         android:inputType="textPassword"/>
 
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/btnGoogleLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password"
+        android:layout_alignStart="@+id/id"
+        android:layout_marginTop="10dp"/>
+
+
     <ImageButton
         android:id="@+id/naver"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_below="@+id/password"
-        android:layout_alignLeft="@+id/id"
+        android:layout_toEndOf="@+id/btnGoogleLogin"
         android:layout_marginTop="10dp"
-        android:background="#FFFFFF"
+        android:background="@color/white"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/naver" />
+        android:src="@drawable/naver"/>
     <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
         android:id="@+id/btnNaverLogin"
         android:layout_width="0dp"
@@ -56,9 +65,9 @@
         android:layout_toRightOf="@+id/naver"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:background="#FFFFFF"
+        android:background="@color/white"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/kakao" />
+        android:src="@drawable/kakao"/>
 
     <ImageButton
         android:id="@+id/facebook"
@@ -68,9 +77,9 @@
         android:layout_toRightOf="@+id/kakao"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:background="#FFFFFF"
+        android:background="@color/white"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/facebook" />
+        android:src="@drawable/facebook"/>
     <com.facebook.login.widget.LoginButton
         android:id="@+id/btnFacebookLogin"
         android:layout_width="0dp"

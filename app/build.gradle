@@ -2,7 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 repositories {
+    mavenCentral()
     maven { url 'http://maven.google.com' }
+    maven { url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/' }
     jcenter { url "http://jcenter.bintray.com/" }
 }
 
@@ -33,7 +35,6 @@ android {
 }
 
 dependencies{
-    implementation files('libs/naveridlogin_android_sdk_4.2.0.aar')
     implementation ('com.naver.nid:naveridlogin-android-sdk:4.2.0')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:cardview-v7:27.1.1'
@@ -49,6 +50,7 @@ dependencies{
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-auth:16.0.1'
     implementation 'com.google.firebase:firebase-database:16.0.1'
+    implementation 'com.google.android.gms:play-services-auth:16.0.0'
     implementation 'com.naver.maps.open:naver-map-api:2.1.2@aar'
     implementation 'com.facebook.android:facebook-android-sdk:4.38.1'
 }
