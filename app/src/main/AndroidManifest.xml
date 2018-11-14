@@ -32,7 +32,9 @@
         <activity android:name=".OneFragment" />
         <activity android:name=".TwoFragment" />
         <activity android:name=".ThreeFragment" />
-        <activity android:name=".FourFragment"></activity>
+        <activity android:name=".FourFragment" />
+        <activity android:name=".ReslistActivity" />
+        <activity android:name=".ThreeList"></activity>
     </application>
 
 </manifest>
