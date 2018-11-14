@@ -2,6 +2,7 @@ package project.com.newsikdang;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 public class ThreeList extends AppCompatActivity {
     String frag3_username;

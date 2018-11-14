@@ -20,21 +20,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".MainActivity">
+
+        </activity>
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".Restaurant">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity android:name=".OneFragment" />
-        <activity android:name=".TwoFragment" />
-        <activity android:name=".ThreeFragment" />
-        <activity android:name=".FourFragment" />
-        <activity android:name=".ReslistActivity" />
-        <activity android:name=".ThreeList"></activity>
     </application>
 
 </manifest>
