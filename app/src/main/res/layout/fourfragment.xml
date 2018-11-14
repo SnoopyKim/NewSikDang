@@ -6,5 +6,149 @@
     android:layout_height="match_parent"
     tools:context=".ThreeFragment">
 
+    <!--탑바-->
+    <LinearLayout
+        android:id="@+id/frag4_top"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="vertical">
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/setting_blank"
+            android:layout_gravity="end"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            />
+    </LinearLayout>
+
+    <!--유저정보-->
+    <RelativeLayout
+        android:id="@+id/frag4_middle"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_below="@+id/frag4_top"
+        android:orientation="vertical"
+        android:background="#FFFFFF">
+        <ImageButton
+            android:id="@+id/frag4_user"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/user_fill"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            tools:ignore="InvalidId" />
+        <TextView
+            android:id="@+id/frag4_username"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:textColor="#000000"
+            android:textSize="18dp"
+            android:layout_toRightOf="@id/frag4_user"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:text="User name"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginLeft="5dp"
+            android:textColor="#696969"
+            android:textSize="15dp"
+            android:layout_below="@+id/frag4_username"
+            android:layout_toRightOf="@id/frag4_user"
+            android:gravity="center"
+            android:text="user0123"
+            />
+        <ImageButton
+            android:id="@+id/frag4_coupon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/coupon"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="30dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="쿠폰함"
+            android:textColor="#000000"
+            android:textSize="14dp"
+            android:layout_below="@+id/frag4_coupon"
+            android:layout_alignLeft="@+id/frag4_coupon"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+    <!--좋아요 및 리뷰관리-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_below="@+id/frag4_middle"
+        android:background="#777777"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/heart_fill"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="좋아요 목록"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/noun_trash"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="싫어요 목록"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/post"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="내 리뷰 및 댓글"/>
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>
