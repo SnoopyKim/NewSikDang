@@ -31,9 +31,16 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
+
+import java.util.Hashtable;
 
 public class LoginActivity extends AppCompatActivity {
     private static String TAG = "LoginActivity";
@@ -47,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     OAuthLoginButton btnNaverLogin;
 
     private FirebaseAuth mAuth;
+    private DatabaseReference usersRef;
 
     private CallbackManager mCallbackManager;
 
@@ -68,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+        usersRef = FirebaseDatabase.getInstance().getReference("users");
 
         etID = findViewById(R.id.id);
         etPW = findViewById(R.id.password);
@@ -103,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this,JoinActivity.class);
                 startActivity(intent);
+                //startActivityForResult(intent,101);
             }
         });
 
@@ -126,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
         btnNaver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnNaverLogin.performClick();
+                //btnNaverLogin.performClick();
             }
         });
         btnNaverLogin = findViewById(R.id.btnNaverLogin);
@@ -146,13 +156,8 @@ public class LoginActivity extends AppCompatActivity {
         btnFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (AccessToken.getCurrentAccessToken()!=null) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    btnFacebookLogin.performClick();
-                }
+                if (AccessToken.getCurrentAccessToken() != null) { handleFacebookAccessToken(AccessToken.getCurrentAccessToken()); }
+                else { btnFacebookLogin.performClick(); }
             }
         });
 
@@ -198,7 +203,10 @@ public class LoginActivity extends AppCompatActivity {
                 Log.w(TAG, "Google sign in failed", e);
 
             }
-        } else {
+        } else if(requestCode == 101) {
+
+        }
+        else {
             Log.d(TAG, "onActivityResult: requestCode: "+requestCode);
             // Pass the activity result back to the Facebook SDK
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
@@ -219,8 +227,14 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
+                                Hashtable<String, String> userInfo = new Hashtable<String, String>();
+                                userInfo.put("email", user.getEmail());
+                                userInfo.put("name", user.getDisplayName());
+                                usersRef.child(user.getUid()).setValue(userInfo);
+
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
+                                finish();
                             }
                         } else {
                             // If sign in fails, display a message to the user.
@@ -247,8 +261,14 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithFacebookCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
+                                Hashtable<String, String> userInfo = new Hashtable<String, String>();
+                                userInfo.put("email", user.getEmail());
+                                userInfo.put("name", user.getDisplayName());
+                                usersRef.child(user.getUid()).setValue(userInfo);
+
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
+                                finish();
                             }
 
                         } else {
@@ -263,6 +283,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
+     * 네이버 로그인 관련
      * OAuthLoginHandler를 startOAuthLoginActivity() 메서드 호출 시 파라미터로 전달하거나 OAuthLoginButton
      객체에 등록하면 인증이 종료되는 것을 확인할 수 있습니다.
      */
@@ -288,4 +309,21 @@ public class LoginActivity extends AppCompatActivity {
         };
     };
 
+    private void addToDatabase(FirebaseUser user) {
+        usersRef.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d(TAG, "onDataChange: exists");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(TAG, "onDataChange: non-exists");
+            }
+        });
+        Hashtable<String, String> userInfo = new Hashtable<String, String>();
+        userInfo.put("email", user.getEmail());
+        userInfo.put("name", user.getDisplayName());
+        //usersRef.child(user.getUid()).setValue(userInfo);
+    }
 }

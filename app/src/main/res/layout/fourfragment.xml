@@ -27,7 +27,7 @@
         android:id="@+id/frag4_middle"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_below="@+id/frag4_top"
+        android:layout_below="@id/frag4_top"
         android:orientation="vertical"
         android:background="#FFFFFF">
         <ImageButton

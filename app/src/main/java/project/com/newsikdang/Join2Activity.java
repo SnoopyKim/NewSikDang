@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -79,7 +80,14 @@ public class Join2Activity extends AppCompatActivity {
                         userInfo.put("email", user.getEmail());
                         userInfo.put("name", user.getDisplayName());
 
-                        ref.child(user.getUid()).setValue(userInfo);
+                        ref.child(user.getUid()).setValue(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Hashtable<String, String> userSetting = new Hashtable<String, String>();
+                                userSetting.put("cgg", "3040000");
+                                ref.child(user.getUid()).child("setting").setValue(userSetting);
+                            }
+                        });
                         Intent intent = new Intent(Join2Activity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
