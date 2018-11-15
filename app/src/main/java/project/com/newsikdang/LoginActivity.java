@@ -24,6 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -35,6 +36,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
@@ -71,11 +73,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() != null) {
-            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
         usersRef = FirebaseDatabase.getInstance().getReference("users");
 
         etID = findViewById(R.id.id);
@@ -188,6 +185,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (mAuth.getCurrentUser() != null) {
+            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -225,22 +232,46 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            final FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
-                                Hashtable<String, String> userInfo = new Hashtable<String, String>();
-                                userInfo.put("email", user.getEmail());
-                                userInfo.put("name", user.getDisplayName());
-                                usersRef.child(user.getUid()).setValue(userInfo);
-
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
+                                Query userQuery = usersRef.equalTo(user.getUid());
+                                userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        if(!dataSnapshot.exists()) {
+                                            Hashtable<String, String> userInfo = new Hashtable<String, String>();
+                                            userInfo.put("email", user.getEmail());
+                                            userInfo.put("name", user.getDisplayName());
+                                            usersRef.child(user.getUid()).setValue(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Hashtable<String, String> userSetting = new Hashtable<String, String>();
+                                                    userSetting.put("cgg", "3040000");
+                                                    usersRef.child(user.getUid()).child("setting").setValue(userSetting).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                            startActivity(intent);
+                                                            finish();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        } else {
+                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) { }
+                                });
                             }
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
-
                         }
                     }
                 });
@@ -259,16 +290,40 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithFacebookCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            final FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
-                                Hashtable<String, String> userInfo = new Hashtable<String, String>();
-                                userInfo.put("email", user.getEmail());
-                                userInfo.put("name", user.getDisplayName());
-                                usersRef.child(user.getUid()).setValue(userInfo);
-
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
+                                Query userQuery = usersRef.equalTo(user.getUid());
+                                userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        if(!dataSnapshot.exists()) {
+                                            Hashtable<String, String> userInfo = new Hashtable<String, String>();
+                                            userInfo.put("email", user.getEmail());
+                                            userInfo.put("name", user.getDisplayName());
+                                            usersRef.child(user.getUid()).setValue(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Hashtable<String, String> userSetting = new Hashtable<String, String>();
+                                                    userSetting.put("cgg", "3040000");
+                                                    usersRef.child(user.getUid()).child("setting").setValue(userSetting).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                            startActivity(intent);
+                                                            finish();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        } else {
+                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) { }
+                                });
                             }
 
                         } else {

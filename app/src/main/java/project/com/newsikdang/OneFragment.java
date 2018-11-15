@@ -1,12 +1,10 @@
 package project.com.newsikdang;
 
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.graphics.Canvas;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,25 +13,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class OneFragment extends Fragment implements View.OnClickListener {
 
+
     private FirebaseUser user;
     private FirebaseDatabase database;
     private DatabaseReference userRef;
     private DatabaseReference restaurantsRef;
+
+    Button btn1;
+
     RecyclerView mRecyclerView;
     Adapter mAdapter;
     LinearLayoutManager mLayoutManager;
+
+    String stCGG = "";
+    ArrayList<ReslistActivity> items = new ArrayList();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,16 +50,34 @@ public class OneFragment extends Fragment implements View.OnClickListener {
         database = FirebaseDatabase.getInstance();
         userRef = database.getReference("users").child(user.getUid());
         restaurantsRef = database.getReference("restaurants");
+
+        btn1 = v.findViewById(R.id.btn1);
+        userRef.child("setting").child("cgg").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                stCGG = dataSnapshot.getValue().toString();
+                btn1.setText(stCGG);
+
+                restaurantsRef.child(stCGG).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot data : dataSnapshot.getChildren()) {
+                            String stResName = data.child("name").getValue().toString();
+                            items.add(new ReslistActivity(stResName, "357", "43", "9.8"));
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) { }
+                });
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler1);
         mLayoutManager = new LinearLayoutManager(this.getContext());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-        ArrayList<ReslistActivity> items = new ArrayList();
-        items.add(new ReslistActivity("일월십사일", "357", "43", "9.8"));
-        items.add(new ReslistActivity("술에맛들다", "357", "43", "9.8"));
-        items.add(new ReslistActivity("재훈이", "358", "43", "9.7"));
-        items.add(new ReslistActivity("바보", "359", "43", "9.6"));
-        items.add(new ReslistActivity("싸가지", "357", "43", "9.8"));
 
         // LinearLayout으로 설정
         mRecyclerView.setLayoutManager(mLayoutManager);

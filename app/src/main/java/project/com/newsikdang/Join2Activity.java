@@ -38,7 +38,7 @@ public class Join2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_join2);
 
         database = FirebaseDatabase.getInstance();
-        ref = database.getReference("user");
+        ref = database.getReference("users");
 
         ivProfile = findViewById(R.id.ivProfile);
 
