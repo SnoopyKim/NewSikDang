@@ -28,7 +28,7 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:textColor="#000000"
-            android:background="@drawable/stroke"
+            android:background="@drawable/stroke4"
             android:text="관심지역2" />
         <Button
             android:id="@+id/btn3"
@@ -36,7 +36,7 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:textColor="#000000"
-            android:background="@drawable/stroke"
+            android:background="@drawable/stroke4"
             android:text="관심지역3" />
         <Button
             android:id="@+id/btn4"
@@ -44,7 +44,7 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:textColor="#000000"
-            android:background="@drawable/stroke"
+            android:background="@drawable/stroke4"
             android:text="관심지역4" />
     </LinearLayout>
 
