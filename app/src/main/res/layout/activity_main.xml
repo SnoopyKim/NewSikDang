@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#FFFFFF">
 
 
     <LinearLayout
@@ -22,6 +23,12 @@
 
 
     <!--목록바-->
+        <View
+            android:id="@+id/frag4_middle_line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#000000"
+            android:layout_below="@+id/ll_fragment"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
