@@ -6,9 +6,9 @@
     android:layout_height="190dp"
     tools:context=".ThreeList">
     <RelativeLayout
-        android:layout_width="360dp"
-        android:layout_height="170dp"
-        android:background="#FFFFFF"
+        android:layout_width="350dp"
+        android:layout_height="180dp"
+        android:background="@drawable/stroke2"
         android:layout_centerInParent="true">
         <ImageView
             android:id="@+id/frag3_userimg"
