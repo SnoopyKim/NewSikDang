@@ -1,14 +1,11 @@
 package project.com.newsikdang;
 
-import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -35,12 +32,13 @@ public class Adapter extends RecyclerView.Adapter<RecyclerViewHolder> {
         holder.mRestxt3.setText(mItems.get(position).restxt3);
         holder.mRestxt4.setText(mItems.get(position).restxt4);
 
-
         // 이벤트처리 : 생성된 List 중 선택된 목록번호를 Toast로 출력
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, String.format("%d 선택", position + 1), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, Restaurant.class);
+                intent.putExtra("key",mItems.get(position).resKey);
+                mContext.startActivity(intent);
             }
         });
     }

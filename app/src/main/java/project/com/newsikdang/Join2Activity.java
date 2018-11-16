@@ -85,12 +85,16 @@ public class Join2Activity extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
                                 Hashtable<String, String> userSetting = new Hashtable<String, String>();
                                 userSetting.put("cgg", "3040000");
-                                ref.child(user.getUid()).child("setting").setValue(userSetting);
+                                ref.child(user.getUid()).child("setting").setValue(userSetting).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Intent intent = new Intent(Join2Activity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
                             }
                         });
-                        Intent intent = new Intent(Join2Activity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
                     }
                 });
             }

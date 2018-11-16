@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class RecyclerViewHolder extends RecyclerView.ViewHolder {
+
     public TextView mRestxt1;
     public TextView mRestxt2;
     public TextView mRestxt3;

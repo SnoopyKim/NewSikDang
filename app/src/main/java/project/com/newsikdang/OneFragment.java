@@ -62,8 +62,9 @@ public class OneFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot data : dataSnapshot.getChildren()) {
+                            String stResKey = data.getKey();
                             String stResName = data.child("name").getValue().toString();
-                            items.add(new ReslistActivity(stResName, "357", "43", "9.8"));
+                            items.add(new ReslistActivity(stResKey, stResName, "357", "43", "9.8"));
                             mAdapter.notifyDataSetChanged();
                         }
                     }

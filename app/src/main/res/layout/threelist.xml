@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="190dp"
     tools:context=".ThreeList">
     <RelativeLayout
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="180dp"
         android:background="@drawable/stroke2"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        app:layout_widthPercent="96%">
         <ImageView
             android:id="@+id/frag3_userimg"
             android:layout_width="50dp"
@@ -26,7 +27,8 @@
             android:layout_toRightOf="@+id/frag3_userimg"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="10dp"
-            android:background="#FFFFFF"/>
+            android:background="#FFFFFF"
+            android:text="name"/>
         <TextView
             android:id="@+id/frag3_review"
             android:layout_width="260dp"
@@ -37,7 +39,8 @@
             android:layout_below="@+id/frag3_username"
             android:layout_alignLeft="@+id/frag3_username"
             android:layout_marginTop="10dp"
+            android:text="context"
             />
     </RelativeLayout>
 
-</RelativeLayout>
+</android.support.percent.PercentRelativeLayout>
