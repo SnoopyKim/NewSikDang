@@ -97,7 +97,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
      * @return  void
      * @Comment Because of hover event about viewholder, define setOnTouchListener. but can't implement
      * */
-    //친구 데이터 리스트에 따라 row들의 이미지, 텍스트, 이벤트 관리(설정)
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         //이름과 리뷰 적기

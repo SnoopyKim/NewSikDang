@@ -38,7 +38,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, Restaurant.class);
-                intent.putExtra("key",mItems.get(position).resKey);
+                intent.putExtra("resKey",mItems.get(position).resKey);
                 mContext.startActivity(intent);
             }
         });

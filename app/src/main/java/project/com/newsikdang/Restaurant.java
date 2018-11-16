@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
@@ -58,7 +59,7 @@ public class Restaurant extends AppCompatActivity {
         tvResAddress = findViewById(R.id.res_address);
         tvResPhone = findViewById(R.id.res_number);
 
-        resKey = getIntent().getStringExtra("key");
+        resKey = getIntent().getStringExtra("resKey");
 
         restaurantRef = FirebaseDatabase.getInstance().getReference("restaurants").child("3040000").child(resKey);
         reviewRef = FirebaseDatabase.getInstance().getReference("reviews").child("304000");
@@ -90,7 +91,7 @@ public class Restaurant extends AppCompatActivity {
         });
 
         //RecyclerView 사용하기 위한 사전 작업 (크기 고정, 어댑터 설정 등등)
-        recyclerView = (RecyclerView) findViewById(R.id.rv_review);
+        recyclerView = findViewById(R.id.rv_review);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -104,16 +105,17 @@ public class Restaurant extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
                     for (DataSnapshot dataSnapshot2 : dataSnapshot.getChildren()) {
-                        String key = dataSnapshot2.getKey();
+                        String revKey = dataSnapshot2.getKey();
                         String email = dataSnapshot2.child("email").getValue().toString();
                         String name = dataSnapshot2.child("name").getValue().toString();
                         String text = dataSnapshot2.child("context").getValue().toString();
-                        Review review = new Review(key,email,name,text);
+                        Review review = new Review(revKey,resKey,email,name,text);
 
                         // [START_EXCLUDE]
                         // Update RecyclerView
                         listReview.add(review);
                     }
+                    Collections.reverse(listReview);
                     reviewAdapter.notifyDataSetChanged();
                 } else {
                     //리뷰데이터 없음
@@ -143,7 +145,7 @@ public class Restaurant extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     etReview.setText("");
 
-                    Review newReview = new Review(revkey, user.getEmail(), user.getDisplayName(), review, formattedDate);
+                    Review newReview = new Review(revkey, resKey, user.getEmail(), user.getDisplayName(), review);
                     listReview.add(newReview);
                     reviewAdapter.notifyDataSetChanged();
 
