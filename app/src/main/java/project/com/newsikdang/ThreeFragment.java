@@ -1,20 +1,14 @@
 package project.com.newsikdang;
 
 import android.graphics.Canvas;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -31,7 +25,7 @@ public class ThreeFragment extends Fragment implements View.OnClickListener {
         mLayoutManager = new LinearLayoutManager(this.getContext());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        ArrayList<ThreeList> items = new ArrayList();
+        ArrayList<ThreeList> items = new ArrayList<>();
         items.add(new ThreeList("User1004", "맛있쪙"));
         items.add(new ThreeList("User1005", "맛없쪙"));
         items.add(new ThreeList("User1006", "맛있쪙"));
@@ -56,5 +50,10 @@ public class ThreeFragment extends Fragment implements View.OnClickListener {
     }
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_review:
+
+                break;
+        }
     }
 }

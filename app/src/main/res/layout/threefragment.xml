@@ -37,14 +37,6 @@
             android:textColor="#000000"
             android:background="@drawable/stroke4"
             android:text="관심지역3" />
-        <Button
-            android:id="@+id/btn4"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:textColor="#000000"
-            android:background="@drawable/stroke4"
-            android:text="관심지역4" />
     </LinearLayout>
 
     <!--해시태그-->
@@ -62,7 +54,9 @@
             android:layout_marginTop="5dp"
             android:textColor="#000000"
             android:textColorHint="#000000"
-            android:hint="#해시태그 검색(분위기, 특징)" />
+            android:hint="#해시태그 검색(분위기, 특징)"
+            android:imeOptions="actionSearch"
+            android:inputType="text"/>
     </LinearLayout>
     <View
         android:id="@+id/frag3_hash_line"

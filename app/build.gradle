@@ -4,7 +4,6 @@ apply plugin: 'com.google.gms.google-services'
 repositories {
     mavenCentral()
     maven { url 'http://maven.google.com' }
-    maven { url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/' }
     jcenter { url "http://jcenter.bintray.com/" }
 }
 
@@ -35,7 +34,6 @@ android {
 }
 
 dependencies{
-    implementation ('com.naver.nid:naveridlogin-android-sdk:4.2.0')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.android.support:customtabs:27.1.1'
