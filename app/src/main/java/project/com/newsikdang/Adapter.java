@@ -27,6 +27,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         // 해당 position 에 해당하는 데이터 결합
+
         holder.mRestxt1.setText(mItems.get(position).restxt1);
         holder.mRestxt2.setText(mItems.get(position).restxt2);
         holder.mRestxt3.setText(mItems.get(position).restxt3);
@@ -37,7 +38,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, Restaurant.class);
-                intent.putExtra("key",mItems.get(position).resKey);
+                intent.putExtra("resKey",mItems.get(position).resKey);
                 mContext.startActivity(intent);
             }
         });

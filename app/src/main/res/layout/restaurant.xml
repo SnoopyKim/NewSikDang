@@ -8,7 +8,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true">
     <!--상단바-->
         <RelativeLayout
             android:id="@+id/res_top"
@@ -131,6 +132,7 @@
                 android:textColor="#000000"
                 android:textSize="16dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
                 android:layout_below="@+id/res_name"
                 android:layout_toStartOf="@id/res_heart_img"
                 android:layout_alignLeft="@+id/res_name"
@@ -243,6 +245,7 @@
 
         <!--리뷰-->
         <RelativeLayout
+            android:id="@+id/rl_review"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/res_detail_line"
@@ -253,8 +256,40 @@
                 android:layout_height="wrap_content"
                 android:textColor="#696969	"
                 android:textSize="40dp"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 android:text="리뷰"/>
+            <ImageView
+                android:id="@+id/icon_review"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/res_review1"
+                android:layout_marginStart="10dp"/>
+            <EditText
+                android:id="@+id/et_review"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_toEndOf="@+id/icon_review"
+                android:layout_toStartOf="@+id/btn_review"
+                android:layout_below="@+id/res_review1"
+                android:background="@color/textHint"
+                android:inputType="text"/>
+            <Button
+                android:id="@+id/btn_review"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:layout_below="@id/res_review1"
+                android:textSize="16dp"
+                android:text="등록"/>
         </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_review"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rl_review">
+
+        </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 </RelativeLayout>

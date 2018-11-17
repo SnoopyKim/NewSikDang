@@ -38,9 +38,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.nhn.android.naverlogin.OAuthLogin;
-import com.nhn.android.naverlogin.OAuthLoginHandler;
-import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 
 import java.util.Hashtable;
 
@@ -53,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
     ImageButton btnNaver, btnKakao, btnFacebook;
     SignInButton btnGoogleLogin;
     LoginButton btnFacebookLogin;
-    OAuthLoginButton btnNaverLogin;
 
     private FirebaseAuth mAuth;
     private DatabaseReference usersRef;
@@ -61,11 +57,6 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager mCallbackManager;
 
     private GoogleSignInClient mGoogleSignInClient;
-
-    private OAuthLogin mOAuthLoginModule;
-    private String OAUTH_CLIENT_ID = "JG7NnskNRdLRrwJmJXQU";
-    private String OAUTH_CLIENT_SECRET = "4oju1Wn_6H";
-    private String OAUTH_CLIENT_NAME = "뉴식당";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,17 +127,6 @@ public class LoginActivity extends AppCompatActivity {
                 //btnNaverLogin.performClick();
             }
         });
-        btnNaverLogin = findViewById(R.id.btnNaverLogin);
-        btnNaverLogin.setOAuthLoginHandler(mOAuthLoginHandler);
-        mOAuthLoginModule = OAuthLogin.getInstance();
-        mOAuthLoginModule.init(
-                LoginActivity.this
-                ,OAUTH_CLIENT_ID
-                ,OAUTH_CLIENT_SECRET
-                ,OAUTH_CLIENT_NAME
-                //,OAUTH_CALLBACK_INTENT
-                // SDK 4.1.4 버전부터는 OAUTH_CALLBACK_INTENT변수를 사용하지 않습니다.
-        );
 
         btnKakao = findViewById(R.id.kakao);
         btnFacebook = findViewById(R.id.facebook);
@@ -336,33 +316,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-
-    /**
-     * 네이버 로그인 관련
-     * OAuthLoginHandler를 startOAuthLoginActivity() 메서드 호출 시 파라미터로 전달하거나 OAuthLoginButton
-     객체에 등록하면 인증이 종료되는 것을 확인할 수 있습니다.
-     */
-    private OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
-        @Override
-        public void run(boolean success) {
-            if (success) {
-                String accessToken = mOAuthLoginModule.getAccessToken(LoginActivity.this);
-                String refreshToken = mOAuthLoginModule.getRefreshToken(LoginActivity.this);
-                long expiresAt = mOAuthLoginModule.getExpiresAt(LoginActivity.this);
-                String tokenType = mOAuthLoginModule.getTokenType(LoginActivity.this);
-                Log.d(TAG, accessToken);
-                Log.d(TAG, refreshToken);
-                Log.d(TAG, String.valueOf(expiresAt));
-                Log.d(TAG, tokenType);
-                Log.d(TAG, mOAuthLoginModule.getState(LoginActivity.this).toString());
-            } else {
-                String errorCode = mOAuthLoginModule.getLastErrorCode(LoginActivity.this).getCode();
-                String errorDesc = mOAuthLoginModule.getLastErrorDesc(LoginActivity.this);
-                Toast.makeText(LoginActivity.this, "errorCode:" + errorCode
-                        + ", errorDesc:" + errorDesc, Toast.LENGTH_SHORT).show();
-            }
-        };
-    };
 
     private void addToDatabase(FirebaseUser user) {
         usersRef.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
