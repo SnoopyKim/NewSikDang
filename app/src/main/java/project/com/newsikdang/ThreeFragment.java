@@ -100,7 +100,6 @@ public class ThreeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) { }
         });
-
         return v;
     }
     @Override

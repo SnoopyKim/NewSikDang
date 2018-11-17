@@ -1,11 +1,13 @@
 package project.com.newsikdang;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
@@ -15,6 +17,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class FourFragment extends Fragment implements View.OnClickListener {
 
     private FirebaseUser user;
@@ -23,6 +27,7 @@ public class FourFragment extends Fragment implements View.OnClickListener {
 
     ImageButton ibSetting;
     TextView tvUserName, tvUserEmail;
+    public static final int sub = 1001;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +52,35 @@ public class FourFragment extends Fragment implements View.OnClickListener {
         tvUserName.setText(user.getDisplayName());
         tvUserEmail = v.findViewById(R.id.frag4_useremail);
         tvUserEmail.setText(user.getEmail());
+
+//        좋아요 목록
+        LinearLayout llayout = v.findViewById(R.id.frag4_like);
+        llayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),FourLike.class);
+                startActivityForResult(intent,sub);//액티비티 띄우기
+            }
+        });
+
+//        싫어요목록
+        LinearLayout llayout2 = v.findViewById(R.id.frag4_unlike);
+        llayout2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),FourUnlike.class);
+                startActivityForResult(intent,sub);//액티비티 띄우기
+            }
+        });
+//        내리뷰목록
+        LinearLayout llayout3 = v.findViewById(R.id.frag4_review);
+        llayout3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),FourReview.class);
+                startActivityForResult(intent,sub);//액티비티 띄우기
+            }
+        });
 
         return v;
     }
