@@ -95,6 +95,10 @@ public class OneFragment extends Fragment implements View.OnClickListener {
         mAdapter = new Adapter(items);
         mRecyclerView.setAdapter(mAdapter);
 
+
+
+
+//        스피너
         Spinner spinner = v.findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

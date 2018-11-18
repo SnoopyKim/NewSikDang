@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -33,7 +34,6 @@ public class Adapter extends RecyclerView.Adapter<RecyclerViewHolder> {
         holder.mRestxt3.setText(mItems.get(position).restxt3);
         holder.mRestxt4.setText(mItems.get(position).restxt4);
 
-        // 이벤트처리 : 생성된 List 중 선택된 목록번호를 Toast로 출력
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,6 +42,17 @@ public class Adapter extends RecyclerView.Adapter<RecyclerViewHolder> {
                 mContext.startActivity(intent);
             }
         });
+//        holder.itemView.setOnTouchListener(new View.OnTouchListener(){
+//        public boolean onTouch(View v, MotionEvent event){
+//         switch (event.getAction()){
+//             case MotionEvent.ACTION_DOWN:{
+//                 holder.itemView.setBackground(R.drawable.stroke4); break;
+//             }
+//             case MotionEvent.ACTION_UP: {}
+//             break;
+//         }
+//        }
+//        });
     }
     // 필수 오버라이드 : 데이터 갯수 반환
     @Override

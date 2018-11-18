@@ -11,5 +11,7 @@
     <color name="btnAbled">#EC5657</color>
     <color name="btnDisabled">#EFEFEF</color>
     <color name="transparent">#00000000</color>
+    <color name="lightgray">#C0C0C0</color>
+
 
 </resources>

@@ -40,7 +40,9 @@
 
         <activity android:name=".FourLike" />
         <activity android:name=".FourUnlike" />
-        <activity android:name=".FourReview"></activity>
+        <activity android:name=".FourReview" />
+        <activity android:name=".Coupon" />
+        <activity android:name=".FourCoupon"></activity>
     </application>
 
 </manifest>

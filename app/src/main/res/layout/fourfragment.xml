@@ -70,23 +70,28 @@
             android:gravity="center"
             android:text="user0123"
             />
-        <ImageButton
+        <RelativeLayout
             android:id="@+id/frag4_coupon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/coupon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="30dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:text="쿠폰함"
-            android:textColor="#000000"
-            android:textSize="14dp"
-            android:layout_below="@+id/frag4_coupon"
-            android:layout_alignLeft="@+id/frag4_coupon"
-            android:gravity="center"/>
+            android:layout_marginRight="30dp">
+            <ImageView
+                android:id="@+id/frag4_couponimg"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/coupon"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="쿠폰함"
+                android:textColor="#000000"
+                android:textSize="14dp"
+                android:layout_below="@+id/frag4_couponimg"
+                android:layout_alignLeft="@+id/frag4_couponimg"
+                android:gravity="center"/>
+        </RelativeLayout>
     </RelativeLayout>
     <View
         android:id="@+id/frag4_middle_line"
