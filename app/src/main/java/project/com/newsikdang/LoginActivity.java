@@ -1,62 +1,30 @@
 package project.com.newsikdang;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.Hashtable;
 
 public class LoginActivity extends AppCompatActivity {
-    private static String TAG = "LoginActivity";
-    private static final int RC_SIGN_IN = 9001;
+    private final String TAG = "LoginActivity";
 
     EditText etID, etPW;
-    Button btnLogin, btnJoin;
-    ImageButton btnNaver, btnKakao, btnFacebook;
-    SignInButton btnGoogleLogin;
-    LoginButton btnFacebookLogin;
+    Button btnLogin;
 
-    private FirebaseAuth mAuth;
-    private DatabaseReference usersRef;
+    FirebaseAuth mAuth;
 
-    private CallbackManager mCallbackManager;
-
-    private GoogleSignInClient mGoogleSignInClient;
+    boolean b_id = false, b_pw = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,274 +32,84 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-        usersRef = FirebaseDatabase.getInstance().getReference("users");
 
-        etID = findViewById(R.id.id);
-        etPW = findViewById(R.id.password);
+        etID = findViewById(R.id.etID);
+        etID.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
-        btnLogin = findViewById(R.id.login);
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().equals("")) {
+                    b_id = false;
+                    etID.setBackgroundTintList(getResources().getColorStateList(R.color.gray));
+                    btnLogin.setEnabled(false);
+                    btnLogin.setBackgroundTintList(getResources().getColorStateList(R.color.btnDisabled));
+                    btnLogin.setTextColor(getResources().getColor(R.color.textBtn));
+                } else {
+                    b_id = true;
+                    etID.setBackgroundTintList(getResources().getColorStateList(R.color.btnAbled));
+                    if (b_pw) {
+                        btnLogin.setEnabled(true);
+                        btnLogin.setBackgroundTintList(getResources().getColorStateList(R.color.btnAbled));
+                        btnLogin.setTextColor(getResources().getColor(R.color.white));
+                    }
+                }
+            }
+        });
+        etPW = findViewById(R.id.etPW);
+        etPW.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().equals("")) {
+                    b_pw = false;
+                    etPW.setBackgroundTintList(getResources().getColorStateList(R.color.gray));
+                    btnLogin.setEnabled(false);
+                    btnLogin.setBackgroundTintList(getResources().getColorStateList(R.color.btnDisabled));
+                    btnLogin.setTextColor(getResources().getColor(R.color.textBtn));
+                } else {
+                    b_pw = true;
+                    etPW.setBackgroundTintList(getResources().getColorStateList(R.color.btnAbled));
+                    if (b_id) {
+                        btnLogin.setEnabled(true);
+                        btnLogin.setBackgroundTintList(getResources().getColorStateList(R.color.btnAbled));
+                        btnLogin.setTextColor(getResources().getColor(R.color.white));
+                    }
+                }
+            }
+        });
+
+        btnLogin = findViewById(R.id.btnLogin);
+        btnLogin.setEnabled(false);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String email = etID.getText().toString();
                 String password = etPW.getText().toString();
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "signInWithEmail:success");
-                                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                                startActivity(intent);
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-            }
-        });
-
-        btnJoin = findViewById(R.id.join);
-        btnJoin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this,JoinActivity.class);
-                startActivity(intent);
-                //startActivityForResult(intent,101);
-            }
-        });
-
-
-        // Configure Google Sign In
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
-        btnGoogleLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, RC_SIGN_IN);
-            }
-        });
-
-        btnNaver = findViewById(R.id.naver);
-        btnNaver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //btnNaverLogin.performClick();
-            }
-        });
-
-        btnKakao = findViewById(R.id.kakao);
-        btnFacebook = findViewById(R.id.facebook);
-        btnFacebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (AccessToken.getCurrentAccessToken() != null) { handleFacebookAccessToken(AccessToken.getCurrentAccessToken()); }
-                else { btnFacebookLogin.performClick(); }
-            }
-        });
-
-        // Initialize Facebook Login button
-        mCallbackManager = CallbackManager.Factory.create();
-        btnFacebookLogin = findViewById(R.id.btnFacebookLogin);
-        btnFacebookLogin.setReadPermissions("email", "public_profile");
-        btnFacebookLogin.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, "facebook:onSuccess:" + loginResult);
-                handleFacebookAccessToken(loginResult.getAccessToken());
-            }
-
-            @Override
-            public void onCancel() {
-                Log.d(TAG, "facebook:onCancel");
-                // ...
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Log.d(TAG, "facebook:onError", error);
-                // ...
-            }
-        });
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mAuth.getCurrentUser() != null) {
-            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e);
-
-            }
-        } else if(requestCode == 101) {
-
-        }
-        else {
-            Log.d(TAG, "onActivityResult: requestCode: "+requestCode);
-            // Pass the activity result back to the Facebook SDK
-            mCallbackManager.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    // [START auth_with_google]
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-                            final FirebaseUser user = mAuth.getCurrentUser();
-                            if (user != null) {
-                                Query userQuery = usersRef.equalTo(user.getUid());
-                                userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        if(!dataSnapshot.exists()) {
-                                            Hashtable<String, String> userInfo = new Hashtable<String, String>();
-                                            userInfo.put("email", user.getEmail());
-                                            userInfo.put("name", user.getDisplayName());
-                                            usersRef.child(user.getUid()).setValue(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Hashtable<String, String> userSetting = new Hashtable<String, String>();
-                                                    userSetting.put("cgg", "3040000");
-                                                    usersRef.child(user.getUid()).child("setting").setValue(userSetting).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                        @Override
-                                                        public void onSuccess(Void aVoid) {
-                                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                                            startActivity(intent);
-                                                            finish();
-                                                        }
-                                                    });
-                                                }
-                                            });
-                                        } else {
-                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-                                    }
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) { }
-                                });
-                            }
-
+                            Log.d(TAG, "signInWithEmail:success");
+                            setResult(101);
+                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-    // [END auth_with_google]
-
-    //Facebook Login Handler
-    private void handleFacebookAccessToken(AccessToken token) {
-        Log.d(TAG, "handleFacebookAccessToken:" + token);
-
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithFacebookCredential:success");
-                            final FirebaseUser user = mAuth.getCurrentUser();
-                            if (user != null) {
-                                Query userQuery = usersRef.equalTo(user.getUid());
-                                userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        if(!dataSnapshot.exists()) {
-                                            Hashtable<String, String> userInfo = new Hashtable<String, String>();
-                                            userInfo.put("email", user.getEmail());
-                                            userInfo.put("name", user.getDisplayName());
-                                            usersRef.child(user.getUid()).setValue(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Hashtable<String, String> userSetting = new Hashtable<String, String>();
-                                                    userSetting.put("cgg", "3040000");
-                                                    usersRef.child(user.getUid()).child("setting").setValue(userSetting).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                        @Override
-                                                        public void onSuccess(Void aVoid) {
-                                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                                            startActivity(intent);
-                                                            finish();
-                                                        }
-                                                    });
-                                                }
-                                            });
-                                        } else {
-                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-                                    }
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) { }
-                                });
-                            }
-
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithFacebookCredential:failure", task.getException());
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
-    }
-
-    private void addToDatabase(FirebaseUser user) {
-        usersRef.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onDataChange: exists");
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d(TAG, "onDataChange: non-exists");
             }
         });
-        Hashtable<String, String> userInfo = new Hashtable<String, String>();
-        userInfo.put("email", user.getEmail());
-        userInfo.put("name", user.getDisplayName());
-        //usersRef.child(user.getUid()).setValue(userInfo);
     }
 }

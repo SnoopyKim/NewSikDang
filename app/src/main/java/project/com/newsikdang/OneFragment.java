@@ -27,7 +27,6 @@ import java.util.ArrayList;
 
 public class OneFragment extends Fragment implements View.OnClickListener {
 
-
     private FirebaseUser user;
     private FirebaseDatabase database;
     private DatabaseReference userRef;

@@ -1,5 +1,6 @@
 package project.com.newsikdang;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -40,6 +41,9 @@ public class FourFragment extends Fragment implements View.OnClickListener {
                 if (AccessToken.getCurrentAccessToken() != null) {
                     LoginManager.getInstance().logOut();
                 }
+                Intent intent = new Intent(getContext(),IntroActivity.class);
+                startActivity(intent);
+                getActivity().finish();
             }
         });
 

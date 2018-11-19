@@ -249,29 +249,66 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/res_detail_line"
+            android:padding="20dp"
             android:background="#FFFFFF">
             <TextView
                 android:id="@+id/res_review1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#696969	"
-                android:textSize="40dp"
-                android:layout_centerHorizontal="true"
+                android:textColor="@color/black"
+                android:textSize="23dp"
                 android:text="리뷰"/>
+            <TextView
+                android:id="@+id/tv_rev_cnt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/res_review1"
+                android:layout_marginStart="5dp"
+                android:text="0"
+                android:textSize="21dp"
+                android:textColor="@color/btnAbled"/>
             <ImageView
                 android:id="@+id/icon_review"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentStart="true"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/review"/>
+
+            <LinearLayout
+                android:id="@+id/ll_rev_choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/res_review1"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true">
+                <Button
+                    android:id="@+id/btn_rev_simple"
+                    android:layout_width="150dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rev_simple"
+                    android:text="한줄리뷰 0"
+                    android:textStyle="bold"
+                    android:textSize="14dp"
+                    android:textColor="@color/white"/>
+                <Button
+                    android:id="@+id/btn_rev_detail"
+                    android:layout_width="150dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rev_detail"
+                    android:text="상세리뷰 0"
+                    android:textStyle="bold"
+                    android:textSize="14dp"
+                    android:textColor="@color/textBtn"/>
+            </LinearLayout>
             <EditText
                 android:id="@+id/et_review"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_toEndOf="@+id/icon_review"
                 android:layout_toStartOf="@+id/btn_review"
-                android:layout_below="@+id/res_review1"
+                android:layout_alignBottom="@+id/btn_review"
                 android:background="@color/textHint"
                 android:inputType="text"/>
             <Button
@@ -280,7 +317,8 @@
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="10dp"
-                android:layout_below="@id/res_review1"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/ll_rev_choice"
                 android:textSize="16dp"
                 android:text="등록"/>
         </RelativeLayout>

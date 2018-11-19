@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".LoginActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl_login_logo"
+        android:layout_width="match_parent"
+        app:layout_heightPercent="50%"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/iv_logo_text"
+            android:text="새로운 곳이 필요할 땐."
+            android:textSize="18dp"
+            android:textColor="@color/btnAbled"
+            android:textStyle="bold"/>
+        <ImageView
+            android:id="@+id/iv_logo_text"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="-10dp"
+            android:src="@drawable/logo_text"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        app:layout_heightPercent="50%"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
+        android:layout_below="@+id/rl_login_logo">
+
+        <RelativeLayout
+            android:id="@+id/kakao"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/kakao_yellow">
+
+            <ImageView
+                android:id="@+id/iv_kakao"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/transparent"
+                android:src="@drawable/kakao"
+                android:scaleX="0.5"
+                android:scaleY="0.5"/>
+            <View
+                android:id="@+id/v_bar_kakao"
+                android:layout_width="2dp"
+                android:layout_height="25dp"
+                android:layout_toEndOf="@+id/iv_kakao"
+                android:layout_centerVertical="true"
+                android:background="@color/kakao_font"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@+id/iv_kakao"
+                android:text="카카오톡 로그인"
+                android:textColor="@color/kakao_font"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:gravity="center"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/facebook"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/facebook"
+            android:layout_below="@+id/kakao">
+
+            <ImageView
+                android:id="@+id/iv_facebook"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/transparent"
+                android:src="@drawable/facebook"
+                android:scaleX="0.5"
+                android:scaleY="0.5"/>
+            <View
+                android:id="@+id/v_bar_facebook"
+                android:layout_width="2dp"
+                android:layout_height="25dp"
+                android:layout_toEndOf="@+id/iv_facebook"
+                android:layout_centerVertical="true"
+                android:background="@color/white"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@+id/v_bar_facebook"
+                android:text="페이스북 로그인"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:gravity="center"/>
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/btnFacebookLogin"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/google"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/google_login"
+            android:layout_below="@+id/facebook">
+
+            <ImageView
+                android:id="@+id/ib_google"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/transparent"
+                android:src="@drawable/google"
+                android:scaleX="0.5"
+                android:scaleY="0.5"/>
+            <View
+                android:id="@+id/v_bar_google"
+                android:layout_width="2dp"
+                android:layout_height="25dp"
+                android:layout_toEndOf="@+id/ib_google"
+                android:layout_centerVertical="true"
+                android:background="@color/btnAbled"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@+id/v_bar_google"
+                android:text="구글 로그인"
+                android:textColor="@color/google_red"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:gravity="center"/>
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/btnGoogleLogin"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/basic"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/btnAbled"
+            android:layout_below="@+id/google">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+                <TextView
+                    android:id="@+id/tv_email_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="이메일로 "
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tv_email_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tv_email_text"
+                    android:text="로그인"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tv_slash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tv_email_login"
+                    android:text="/"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tv_email_join"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tv_slash"
+                    android:text="회원가입"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</android.support.percent.PercentRelativeLayout>

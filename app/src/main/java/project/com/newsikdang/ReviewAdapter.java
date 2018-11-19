@@ -5,9 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
@@ -40,41 +41,28 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
      * @Usage   Save views in Recycler view and link between variable and layout view(tag)
      * */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvName, tvContext;
+        public TextView tvName, tvContext, tvDate, tvHeart;
+        public Button btnHeart;
+        public RatingBar rbStar;
 
         //순서대로 칸, 이름, 이미지를 레이아웃에서 불러와 생성
         public ViewHolder(View itemView) {
             super(itemView);
-            tvName = (TextView) itemView.findViewById(R.id.frag3_username);
-            tvContext = (TextView) itemView.findViewById(R.id.frag3_review);
-            /*
-            overall = (LinearLayout) itemView.findViewById(R.id.friend_overall);
-            tvEmail = (TextView) itemView.findViewById(R.id.tvEmail);
-            tvLogin = (TextView) itemView.findViewById(R.id.tvLoginTime);
-            ivUser = (ImageView) itemView.findViewById(R.id.ivUser);
-            ivLogin = (ImageView) itemView.findViewById(R.id.ivLogin);
-            tvFirstname = (TextView) itemView.findViewById(R.id.tvFirstname);
-            */
+            tvName = itemView.findViewById(R.id.frag3_username);
+            tvContext = itemView.findViewById(R.id.frag3_review);
+            tvDate = itemView.findViewById(R.id.tv_rev_date);
+            tvHeart = itemView.findViewById(R.id.tv_rev_heart);
+            btnHeart = itemView.findViewById(R.id.btn_rev_heart);
+            rbStar = itemView.findViewById(R.id.rb_rev_star);
         }
     }
 
-    // 커스텀 생성자로 친구 데이터 리스트를 받음
+    // 커스텀 생성자로 리뷰 데이터 리스트를 받음
     public ReviewAdapter(List<Review> reviews, Context context) {
-        /* //가나다순 정렬
-        Comparator<Review> cmpAsc = new Comparator<Review>() {
-            @Override
-            public int compare(Review o1, Review o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        };
-        Collections.sort(aFriend, cmpAsc);
-        */
         this.listReview = reviews;
         this.listFilter = new ArrayList<>();
         this.listFilter.addAll(reviews);
         this.context = context;
-
-        user = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     //VIew생성 및 레이아웃 설정
@@ -102,6 +90,20 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         //이름과 리뷰 적기
         holder.tvName.setText(listReview.get(position).getName());
         holder.tvContext.setText(listReview.get(position).getText());
+        holder.tvDate.setText(listReview.get(position).getDate());
+
+
+        holder.btnHeart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View button) {
+                button.setSelected(!button.isSelected());
+                if (button.isSelected()) {
+
+                } else {
+
+                }
+            }
+        });
 
         /*
         String stPhoto = mFriend.get(position).getPhoto();

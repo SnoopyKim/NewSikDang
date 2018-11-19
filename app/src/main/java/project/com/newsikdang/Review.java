@@ -8,11 +8,12 @@ public class Review {
     public String name;
     public String text;
     public String photo;
+    public String date;
 
     public Review() {
         //기본 생성자
     }
-    public Review(String revKey, String resKey, String email, String name, String text) {
+    public Review(String revKey, String resKey, String email, String name, String text, String date) {
         //생성자2
         this.revKey = revKey;
         this.resKey = resKey;
@@ -20,8 +21,9 @@ public class Review {
         this.name = name;
         this.text = text;
         this.photo = "";
+        this.date = date;
     }
-    public Review(String revKey, String resKey, String email, String name, String text, String photo) {
+    public Review(String revKey, String resKey, String email, String name, String text, String photo, String date) {
         //생성자3
         this.revKey = revKey;
         this.resKey = resKey;
@@ -29,6 +31,7 @@ public class Review {
         this.name = name;
         this.text = text;
         this.photo = photo;
+        this.date = date;
     }
 
     public String getRevKey() { return revKey; }
@@ -37,6 +40,7 @@ public class Review {
     public String getName() { return name; }
     public String getText() { return text; }
     public String getPhoto() { return photo; }
+    public String getDate() { return date; }
 
     public void setRevKey(String revKey) { this.revKey = revKey; }
     public void setResKey(String resKey) { this.resKey = resKey; }
@@ -44,5 +48,5 @@ public class Review {
     public void setName(String name) { this.name = name; }
     public void setText(String text) { this.text = text; }
     public void setPhoto(String photo) { this.photo = photo; }
-
+    public void setDate(String date) { this.date = date; }
 }

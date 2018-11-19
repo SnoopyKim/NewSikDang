@@ -43,8 +43,9 @@ public class Restaurant extends AppCompatActivity {
 
     TextView tvResName, tvResAddress, tvResPhone;
 
+    TextView tvReviewCnt;
     EditText etReview;
-    Button btnReview;
+    Button btnSimple,btnDetail,btnReview;
 
     String resKey;
 
@@ -73,6 +74,33 @@ public class Restaurant extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+
+        tvReviewCnt = findViewById(R.id.tv_rev_cnt);
+        btnSimple = findViewById(R.id.btn_rev_simple);
+        btnSimple.setSelected(true);
+        btnSimple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!btnSimple.isSelected()) {
+                    btnSimple.setSelected(true);
+                    btnSimple.setTextColor(getResources().getColor(R.color.white));
+                    btnDetail.setSelected(false);
+                    btnDetail.setTextColor(getResources().getColor(R.color.textBtn));
+                }
+            }
+        });
+        btnDetail = findViewById(R.id.btn_rev_detail);
+        btnDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!btnDetail.isSelected()) {
+                    btnDetail.setSelected(true);
+                    btnDetail.setTextColor(getResources().getColor(R.color.white));
+                    btnSimple.setSelected(false);
+                    btnSimple.setTextColor(getResources().getColor(R.color.textBtn));
+                }
+            }
         });
 
         etReview = findViewById(R.id.et_review);
@@ -109,7 +137,8 @@ public class Restaurant extends AppCompatActivity {
                         String email = dataSnapshot2.child("email").getValue().toString();
                         String name = dataSnapshot2.child("name").getValue().toString();
                         String text = dataSnapshot2.child("context").getValue().toString();
-                        Review review = new Review(revKey,resKey,email,name,text);
+                        String date = dataSnapshot2.child("date").getValue().toString();
+                        Review review = new Review(revKey,resKey,email,name,text,date);
 
                         // [START_EXCLUDE]
                         // Update RecyclerView
@@ -120,6 +149,7 @@ public class Restaurant extends AppCompatActivity {
                 } else {
                     //리뷰데이터 없음
                 }
+                tvReviewCnt.setText(String.valueOf(reviewAdapter.getItemCount()));
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
@@ -145,7 +175,7 @@ public class Restaurant extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     etReview.setText("");
 
-                    Review newReview = new Review(revkey, resKey, user.getEmail(), user.getDisplayName(), review);
+                    Review newReview = new Review(revkey, resKey, user.getEmail(), user.getDisplayName(), review, formattedDate);
                     listReview.add(newReview);
                     reviewAdapter.notifyDataSetChanged();
 

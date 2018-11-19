@@ -67,7 +67,8 @@ public class ThreeFragment extends Fragment implements View.OnClickListener {
                     String email = data.child("email").getValue().toString();
                     String name = data.child("name").getValue().toString();
                     String text = data.child("context").getValue().toString();
-                    Review review = new Review(revKey,resKey,email,name,text);
+                    String date = data.child("date").getValue().toString();
+                    Review review = new Review(revKey,resKey,email,name,text,date);
 
                     listReview.add(review);
                 }
