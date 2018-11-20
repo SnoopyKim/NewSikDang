@@ -37,12 +37,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="#FFFFFF"
         android:orientation="vertical">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:scaleType="fitCenter"
-                android:background="#FFFFFF"
                 android:src="@drawable/restaurant_fill"
                 android:paddingTop="5dp"
                 android:textAlignment="center"
@@ -50,7 +50,6 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="20dp"
-                android:background="#FFFFFF"
                 android:textColor="#000000"
                 android:gravity="center"
                 android:text="관심목록"
@@ -61,18 +60,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#FFFFFF"
             android:orientation="vertical">
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
-                android:background="#FFFFFF"
                 android:scaleType="fitCenter"
                 android:paddingTop="5dp"
                 android:src="@drawable/gps_blank" />
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="20dp"
-                android:background="#FFFFFF"
                 android:textColor="#000000"
                 android:gravity="center"
                 android:text="내위치"/>
@@ -82,11 +80,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#FFFFFF"
             android:orientation="vertical">
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
-                android:background="#FFFFFF"
                 android:scaleType="fitCenter"
                 android:paddingTop="5dp"
                 android:src="@drawable/chat_blank" />
@@ -94,7 +92,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="20dp"
                 android:textColor="#000000"
-                android:background="#FFFFFF"
                 android:gravity="center"
                 android:text="리뷰피드"/>
         </LinearLayout>
@@ -103,11 +100,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#FFFFFF"
             android:orientation="vertical">
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
-                android:background="#FFFFFF"
                 android:scaleType="fitCenter"
                 android:paddingTop="5dp"
                 android:src="@drawable/user_blank" />
@@ -115,7 +112,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="20dp"
                 android:textColor="#000000"
-                android:background="#FFFFFF"
                 android:gravity="center"
                 android:text="내정보"/>
         </LinearLayout>

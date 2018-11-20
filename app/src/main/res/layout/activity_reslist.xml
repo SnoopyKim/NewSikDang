@@ -36,6 +36,49 @@
             android:textSize="20dp"
             android:textStyle="bold" />
 
+
+        <!--디데이부분-->
+        <RelativeLayout
+            android:id="@+id/resdday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/restxt1"
+            android:layout_below="@+id/restxt1"
+            android:layout_marginTop="5dp"
+            android:padding="2dp"
+            android:background="#EC5657"
+            >
+        <TextView
+            android:id="@+id/resd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="D+"
+            android:textSize="10dp"
+            android:textColor="#FFFFFF" />
+        <TextView
+            android:id="@+id/resday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/resd"
+            android:text="33"
+            android:textSize="10dp"
+            android:textColor="#FFFFFF" />
+        </RelativeLayout>
+
+        <!--이벤트-->
+        <TextView
+            android:id="@+id/resevent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/resdday"
+            android:layout_alignTop="@+id/resdday"
+            android:layout_marginLeft="5dp"
+            android:padding="2dp"
+            android:text="이벤트"
+            android:background="#1E90FF"
+            android:textSize="10dp"
+            android:textColor="#FFFFFF" />
+
         <ImageView
             android:id="@+id/heart"
             android:layout_width="20dp"
@@ -95,6 +138,18 @@
             android:gravity="center"
             android:textColor="#696969"
             android:textSize="15dp" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:padding="2dp"
+            android:src="@drawable/xicon" />
+
+
     </RelativeLayout>
 
 

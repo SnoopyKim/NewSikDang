@@ -19,5 +19,7 @@
     <color name="star_yellow">#F3D13F</color>
     <color name="heart_cnt">#464646</color>
     <color name="review_border">#ECEAEA</color>
+    <color name="lightgray">#C0C0C0</color>
+
 
 </resources>
