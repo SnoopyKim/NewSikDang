@@ -1,6 +1,7 @@
 package project.com.newsikdang;
 
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,7 +9,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,7 +28,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class OneFragment extends Fragment implements View.OnClickListener {
+import static com.facebook.FacebookSdk.getApplicationContext;
+
+public class OneFragment extends Fragment implements View.OnClickListener{
 
 
     private FirebaseUser user;
@@ -33,7 +38,8 @@ public class OneFragment extends Fragment implements View.OnClickListener {
     private DatabaseReference userRef;
     private DatabaseReference restaurantsRef;
 
-    Button btn1;
+    Button btn1, btn2, btn3, btn4; //관심구역 1,2,3,4
+
 
     RecyclerView mRecyclerView;
     Adapter mAdapter;
@@ -52,6 +58,14 @@ public class OneFragment extends Fragment implements View.OnClickListener {
         restaurantsRef = database.getReference("restaurants");
 
         btn1 = v.findViewById(R.id.btn1);
+        btn1.setOnClickListener(this);
+        btn2 = v.findViewById(R.id.btn2);
+        btn2.setOnClickListener(this);
+        btn3 = v.findViewById(R.id.btn3);
+        btn3.setOnClickListener(this);
+        btn4 = v.findViewById(R.id.btn4);
+        btn4.setOnClickListener(this);
+
         userRef.child("setting").child("cgg").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -65,8 +79,8 @@ public class OneFragment extends Fragment implements View.OnClickListener {
                             String stResKey = data.getKey();
                             String stResName = data.child("name").getValue().toString();
                             items.add(new ReslistActivity(stResKey, stResName, "357", "43", "9.8"));
-                            mAdapter.notifyDataSetChanged();
                         }
+                        mAdapter.notifyDataSetChanged();
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) { }
@@ -95,8 +109,78 @@ public class OneFragment extends Fragment implements View.OnClickListener {
         mAdapter = new Adapter(items);
         mRecyclerView.setAdapter(mAdapter);
 
-
-
+        btn1.setOnTouchListener(new View.OnTouchListener(){
+            public boolean onTouch(View v, MotionEvent event){
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:{
+                        btn1.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeon));
+                        btn1.setTextColor(getApplicationContext().getResources().getColor(R.color.maincolor));
+                        btn2.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
+                        btn2.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
+                        btn3.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
+                        btn3.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
+                        btn4.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
+                        btn4.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
+        btn2.setOnTouchListener(new View.OnTouchListener(){
+            public boolean onTouch(View v, MotionEvent event){
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:{
+                        btn1.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
+                        btn1.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
+                        btn2.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeon));
+                        btn2.setTextColor(getApplicationContext().getResources().getColor(R.color.maincolor));
+                        btn3.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
+                        btn3.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
+                        btn4.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
+                        btn4.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
+        btn3.setOnTouchListener(new View.OnTouchListener(){
+            public boolean onTouch(View v, MotionEvent event){
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:{
+                        btn1.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
+                        btn1.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
+                        btn2.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
+                        btn2.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
+                        btn3.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeon));
+                        btn3.setTextColor(getApplicationContext().getResources().getColor(R.color.maincolor));
+                        btn4.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
+                        btn4.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
+        btn4.setOnTouchListener(new View.OnTouchListener(){
+            public boolean onTouch(View v, MotionEvent event){
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:{
+                        btn1.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
+                        btn1.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
+                        btn2.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
+                        btn2.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
+                        btn3.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
+                        btn3.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
+                        btn4.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeon));
+                        btn4.setTextColor(getApplicationContext().getResources().getColor(R.color.maincolor));
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
 
 //        스피너
         Spinner spinner = v.findViewById(R.id.spinner);
@@ -110,7 +194,20 @@ public class OneFragment extends Fragment implements View.OnClickListener {
         });
         return v;
     }
+
     @Override
     public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.btn1:
+                        break;
+                    case R.id.btn2:
+                        items.clear();
+                        mAdapter.notifyDataSetChanged();
+                        break;
+                    case R.id.btn3:
+                        break;
+                    case R.id.btn4:
+                        break;
+        }
     }
 }

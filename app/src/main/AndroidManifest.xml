@@ -41,8 +41,10 @@
         <activity android:name=".FourLike" />
         <activity android:name=".FourUnlike" />
         <activity android:name=".FourReview" />
-        <activity android:name=".Coupon" />
-        <activity android:name=".FourCoupon"></activity>
+        <activity android:name=".FourCoupon" />
+        <activity android:name=".OnePopup"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"
+            ></activity>
     </application>
 
 </manifest>
