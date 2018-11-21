@@ -37,7 +37,7 @@ public class ThreeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.threefragment, container, false);
 
-        reviewRef = FirebaseDatabase.getInstance().getReference("reviews").child("304000");
+        reviewRef = FirebaseDatabase.getInstance().getReference("reviews").child("3040000");
 
         recyclerView = v.findViewById(R.id.recycler3);
         layoutManager = new LinearLayoutManager(this.getContext());
@@ -88,7 +88,7 @@ public class ThreeFragment extends Fragment implements View.OnClickListener {
                 if (reviewBlock != null && e.getAction()==1) {
                     int position = rv.getChildAdapterPosition(reviewBlock);
 
-                    Intent intent = new Intent(getContext(),Restaurant.class);
+                    Intent intent = new Intent(getContext(),RestaurantActivity.class);
                     intent.putExtra("resKey",listReview.get(position).resKey);
                     startActivity(intent);
 

@@ -1,76 +1,63 @@
 package project.com.newsikdang;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created by snoopy on 2017-04-01.
- */
-/**
- * @Name    FriendAdapter
- * @Usage   Friend list adapter
- *           manage each view
- *           search list
- *           show info dialog
- * @Layout  my_friend_view.xml
- * */
-public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
+public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
 
     //리뷰 데이터 리스트 두개 (하나는 백업용)
     //@Comment search results are dynamic element. So, Friends list back up to mFilter
-    List<Review> listReview;
-    List<Review> listFilter;
+    List<Restaurant> listRestaurant;
     Context context;
-
-    //Firebase관련
-    FirebaseUser user;
 
     /**
      * @Name    ViewHolder
      * @Usage   Save views in Recycler view and link between variable and layout view(tag)
      * */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvName, tvContext, tvDate, tvHeart;
+        public RelativeLayout rlRestaurant;
+        public TextView tvName, tvAddress, tvDate, tvStar, tvHeart, tvReview;
         public Button btnHeart;
         public RatingBar rbStar;
 
         //순서대로 칸, 이름, 이미지를 레이아웃에서 불러와 생성
         public ViewHolder(View itemView) {
             super(itemView);
-            tvName = itemView.findViewById(R.id.frag3_username);
-            tvContext = itemView.findViewById(R.id.frag3_review);
-            tvDate = itemView.findViewById(R.id.tv_rev_date);
-            tvHeart = itemView.findViewById(R.id.tv_rev_heart);
-            btnHeart = itemView.findViewById(R.id.btn_rev_heart);
-            rbStar = itemView.findViewById(R.id.rb_rev_star);
+            rlRestaurant = itemView.findViewById(R.id.rl_restaurant);
+            tvName = itemView.findViewById(R.id.tv_res_name);
+            tvAddress = itemView.findViewById(R.id.tv_res_address);
+            tvDate = itemView.findViewById(R.id.tv_res_day);
+            tvStar = itemView.findViewById(R.id.tv_res_star);
+            tvHeart = itemView.findViewById(R.id.tv_res_heart);
+            tvReview = itemView.findViewById(R.id.tv_res_review);
+            btnHeart = itemView.findViewById(R.id.btn_res_heart);
+            rbStar = itemView.findViewById(R.id.rb_res_star);
         }
     }
 
     // 커스텀 생성자로 리뷰 데이터 리스트를 받음
-    public ReviewAdapter(List<Review> reviews, Context context) {
-        this.listReview = reviews;
-        this.listFilter = new ArrayList<>();
-        this.listFilter.addAll(reviews);
+    public RestaurantAdapter(List<Restaurant> restaurants, Context context) {
+        this.listRestaurant = restaurants;
         this.context = context;
     }
 
     //VIew생성 및 레이아웃 설정
     @Override
-    public ReviewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RestaurantAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.review_simple, parent, false);
+                .inflate(R.layout.restaurant, parent, false);
 
         //set the view's size, margin, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
@@ -88,20 +75,32 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         //이름과 리뷰 적기
-        holder.tvName.setText(listReview.get(position).getName());
-        holder.tvContext.setText(listReview.get(position).getText());
-        holder.tvDate.setText(listReview.get(position).getDate());
+        holder.tvName.setText(listRestaurant.get(position).getName());
+        holder.tvAddress.setText(listRestaurant.get(position).getAddress());
 
+        Calendar now = Calendar.getInstance();
+        int date = Integer.parseInt(listRestaurant.get(position).getDate());
+        Calendar date_cal = Calendar.getInstance();
+        date_cal.set(date/10000,(date/100)%100-1,date%100);
+        long dday = (now.getTimeInMillis()-date_cal.getTimeInMillis()) / (1000*60*60*24);
+        holder.tvDate.setText(String.valueOf(dday));
 
         holder.btnHeart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View button) {
                 button.setSelected(!button.isSelected());
-                if (button.isSelected()) {
+                int cnt_like = Integer.parseInt(holder.tvHeart.getText().toString());
+                if (button.isSelected()) { holder.tvHeart.setText(String.valueOf(cnt_like+1)); }
+                else { holder.tvHeart.setText(String.valueOf(cnt_like-1)); }
+            }
+        });
 
-                } else {
-
-                }
+        holder.rlRestaurant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,RestaurantActivity.class);
+                intent.putExtra("resKey",listRestaurant.get(position).getResKey());
+                context.startActivity(intent);
             }
         });
 
@@ -137,10 +136,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
                         holder.overall.setBackgroundColor(Color.WHITE);
 
                         //변수들의 값을 설정
-                        stFriendUid = listReview.get(position).getKey();
-                        stFriendEmail = listReview.get(position).getEmail();
-                        stFriendname = listReview.get(position).getName();
-                        stFriendPhoto = listReview.get(position).getPhoto();
+                        stFriendUid = listRestaurant.get(position).getKey();
+                        stFriendEmail = listRestaurant.get(position).getEmail();
+                        stFriendname = listRestaurant.get(position).getName();
+                        stFriendPhoto = listRestaurant.get(position).getPhoto();
 
                         break;
                 }
@@ -180,7 +179,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return listReview.size();
+        return listRestaurant.size();
     }
 
 

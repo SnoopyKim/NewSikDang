@@ -21,9 +21,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class OneFragment extends Fragment implements View.OnClickListener {
 
@@ -35,11 +37,11 @@ public class OneFragment extends Fragment implements View.OnClickListener {
     Button btn1;
 
     RecyclerView mRecyclerView;
-    Adapter mAdapter;
+    RestaurantAdapter resAdapter;
     LinearLayoutManager mLayoutManager;
 
     String stCGG = "";
-    ArrayList<ReslistActivity> items = new ArrayList();
+    ArrayList<Restaurant> items = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,15 +59,19 @@ public class OneFragment extends Fragment implements View.OnClickListener {
                 stCGG = dataSnapshot.getValue().toString();
                 btn1.setText(stCGG);
 
-                restaurantsRef.child(stCGG).addListenerForSingleValueEvent(new ValueEventListener() {
+                Query query = restaurantsRef.child(stCGG).orderByChild("date").limitToLast(30);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot data : dataSnapshot.getChildren()) {
                             String stResKey = data.getKey();
                             String stResName = data.child("name").getValue().toString();
-                            items.add(new ReslistActivity(stResKey, stResName, "357", "43", "9.8"));
-                            mAdapter.notifyDataSetChanged();
+                            String stResAddress = data.child("address").getValue().toString();
+                            String stDate = data.child("date").getValue().toString();
+                            items.add(new Restaurant(stResKey, stResName, stResAddress, stDate));
                         }
+                        Collections.reverse(items);
+                        resAdapter.notifyDataSetChanged();
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) { }
@@ -75,7 +81,7 @@ public class OneFragment extends Fragment implements View.OnClickListener {
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
 
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler1);
+        mRecyclerView = v.findViewById(R.id.recycler1);
         mLayoutManager = new LinearLayoutManager(this.getContext());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -91,10 +97,8 @@ public class OneFragment extends Fragment implements View.OnClickListener {
             }
         });
         // Adapter 생성
-        mAdapter = new Adapter(items);
-        mRecyclerView.setAdapter(mAdapter);
-
-
+        resAdapter = new RestaurantAdapter(items, getContext());
+        mRecyclerView.setAdapter(resAdapter);
 
 
 //        스피너
