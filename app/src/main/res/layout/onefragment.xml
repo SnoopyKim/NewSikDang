@@ -5,46 +5,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".OneFragment"
-    android:background="#696969">
+    android:background="@color/white">
 
     <RelativeLayout
         android:id="@+id/frag1_top"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="50dp">
     <Spinner
         android:id="@+id/spinner"
-        android:entries="@array/arr"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginLeft="20dp"
-        android:backgroundTint="@color/black"
+        android:background="@drawable/spinner_spinner"
         />
+
+        <ImageButton
+            android:id="@+id/frag1_alarm"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:background="@drawable/alarm_blank"
+            android:layout_toStartOf="@+id/frag1_feed"
+            android:layout_alignTop="@+id/frag1_feed"
+            android:layout_marginRight="5dp"/>
 
     <ImageButton
-        android:id="@+id/frag1_mapview"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/mapview"
+        android:id="@+id/frag1_feed"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:background="@drawable/myfeed"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"/>
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="13dp"/>
 
-    <TextView
-        android:layout_width="45dp"
-        android:layout_height="20dp"
-        android:layout_below="@+id/frag1_mapview"
-        android:layout_alignStart="@+id/frag1_mapview"
-        android:layout_marginStart="-4dp"
-        android:textSize="9dp"
-        android:textColor="#000000"
-        android:text="지도보기"
-        />
     </RelativeLayout>
     <View
         android:id="@+id/frag1_top_line"
         android:layout_width="match_parent"
-        android:layout_height="3dp"
+        android:layout_height="1dp"
         android:background="#D1D1D1"
         android:layout_below="@+id/frag1_top"/>
 
