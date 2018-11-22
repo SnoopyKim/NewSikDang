@@ -1,6 +1,5 @@
 package project.com.newsikdang;
 
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +8,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -64,11 +62,11 @@ public class ThreeFragment extends Fragment implements View.OnClickListener {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     String revKey = data.getKey();
                     String resKey = data.child("restaurant").getValue().toString();
-                    String email = data.child("email").getValue().toString();
+                    String uid = data.child("uid").getValue().toString();
                     String name = data.child("name").getValue().toString();
                     String text = data.child("context").getValue().toString();
                     String date = data.child("date").getValue().toString();
-                    Review review = new Review(revKey,resKey,email,name,text,date);
+                    Review review = new Review(revKey,resKey,uid,name,text,date);
 
                     listReview.add(review);
                 }
@@ -79,28 +77,9 @@ public class ThreeFragment extends Fragment implements View.OnClickListener {
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
         // Adapter 생성
-        reviewAdapter = new ReviewAdapter(listReview, getActivity());
+        reviewAdapter = new ReviewAdapter(listReview, getActivity(), true);
         recyclerView.setAdapter(reviewAdapter);
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                View reviewBlock = rv.findChildViewUnder(e.getX(),e.getY());
-                if (reviewBlock != null && e.getAction()==1) {
-                    int position = rv.getChildAdapterPosition(reviewBlock);
 
-                    Intent intent = new Intent(getContext(),RestaurantActivity.class);
-                    intent.putExtra("resKey",listReview.get(position).resKey);
-                    startActivity(intent);
-
-                    return true;
-                }
-                return false;
-            }
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) { }
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) { }
-        });
         return v;
     }
     @Override

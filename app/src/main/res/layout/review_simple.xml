@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="160dp">
     <RelativeLayout
+        android:id="@+id/rl_review"
         android:layout_width="0dp"
         android:layout_height="160dp"
         android:background="@drawable/stroke2"
@@ -87,7 +88,7 @@
             android:layout_alignBottom="@+id/rb_rev_star"
             android:layout_alignParentEnd="true"
             android:gravity="center"
-            android:text="3"
+            android:text="0"
             android:textColor="@color/heart_cnt"
             android:textSize="14dp"/>
     </RelativeLayout>

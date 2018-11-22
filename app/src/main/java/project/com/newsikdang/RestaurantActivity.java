@@ -2,6 +2,7 @@ package project.com.newsikdang;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,8 +34,7 @@ import java.util.List;
 public class RestaurantActivity extends AppCompatActivity {
 
     FirebaseUser user;
-    DatabaseReference restaurantRef;
-    DatabaseReference reviewRef;
+    DatabaseReference restaurantRef, reviewRef, userRef;
 
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
@@ -48,6 +49,8 @@ public class RestaurantActivity extends AppCompatActivity {
     Button btnSimple,btnDetail,btnReview;
 
     String resKey;
+
+    long res_review_num, user_review_num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
         restaurantRef = FirebaseDatabase.getInstance().getReference("restaurants").child("3040000").child(resKey);
         reviewRef = FirebaseDatabase.getInstance().getReference("reviews").child("3040000");
+        userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
 
         restaurantRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -71,7 +75,33 @@ public class RestaurantActivity extends AppCompatActivity {
                 tvResName.setText(dataSnapshot.child("name").getValue().toString());
                 tvResAddress.setText(dataSnapshot.child("address").getValue().toString());
                 tvResPhone.setText(dataSnapshot.child("tel").getValue().toString());
+
+                if (!dataSnapshot.child("review").exists()) {
+                    res_review_num = 0;
+                    tvReviewCnt.setText(String.valueOf(res_review_num));
+                } else {
+                    res_review_num = dataSnapshot.child("review").getChildrenCount();
+                    tvReviewCnt.setText(String.valueOf(res_review_num));
+                }
             }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+        restaurantRef.child("review").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                res_review_num += 1;
+                tvReviewCnt.setText(String.valueOf(res_review_num));
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                res_review_num -= 1;
+                tvReviewCnt.setText(String.valueOf(res_review_num));
+            }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
@@ -112,7 +142,7 @@ public class RestaurantActivity extends AppCompatActivity {
                 if (stReview.equals("")) {
                     Toast.makeText(RestaurantActivity.this, "리뷰를 입력해주세요", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(RestaurantActivity.this, stReview, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RestaurantActivity.this, "리뷰가 등록되었습니다", Toast.LENGTH_SHORT).show();
                     addReview(stReview);
                 }
             }
@@ -124,7 +154,7 @@ public class RestaurantActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         listReview = new ArrayList<>();
-        reviewAdapter = new ReviewAdapter(listReview, this);
+        reviewAdapter = new ReviewAdapter(listReview, this, false);
         recyclerView.setAdapter(reviewAdapter);
 
         Query reviewQuery = reviewRef.orderByChild("restaurant").equalTo(resKey);
@@ -134,11 +164,11 @@ public class RestaurantActivity extends AppCompatActivity {
                 if(dataSnapshot.exists()) {
                     for (DataSnapshot dataSnapshot2 : dataSnapshot.getChildren()) {
                         String revKey = dataSnapshot2.getKey();
-                        String email = dataSnapshot2.child("email").getValue().toString();
+                        String uid = dataSnapshot2.child("uid").getValue().toString();
                         String name = dataSnapshot2.child("name").getValue().toString();
                         String text = dataSnapshot2.child("context").getValue().toString();
                         String date = dataSnapshot2.child("date").getValue().toString();
-                        Review review = new Review(revKey,resKey,email,name,text,date);
+                        Review review = new Review(revKey,resKey,uid,name,text,date);
 
                         // [START_EXCLUDE]
                         // Update RecyclerView
@@ -146,10 +176,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     }
                     Collections.reverse(listReview);
                     reviewAdapter.notifyDataSetChanged();
-                } else {
-                    //리뷰데이터 없음
                 }
-                tvReviewCnt.setText(String.valueOf(reviewAdapter.getItemCount()));
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
@@ -163,7 +190,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
         Hashtable<String, String> reviewInfo = new Hashtable<String, String>();
         reviewInfo.put("restaurant", resKey);
-        reviewInfo.put("email", user.getEmail());
+        reviewInfo.put("uid", user.getUid());
         reviewInfo.put("name", user.getDisplayName());
         reviewInfo.put("context", review);
         reviewInfo.put("date", formattedDate);
@@ -175,7 +202,7 @@ public class RestaurantActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     etReview.setText("");
 
-                    Review newReview = new Review(revkey, resKey, user.getEmail(), user.getDisplayName(), review, formattedDate);
+                    Review newReview = new Review(revkey, resKey, user.getUid(), user.getDisplayName(), review, formattedDate);
                     listReview.add(newReview);
                     reviewAdapter.notifyDataSetChanged();
 
@@ -184,5 +211,7 @@ public class RestaurantActivity extends AppCompatActivity {
                 }
             }
         });
+        restaurantRef.child("review").child(revkey).setValue(true);
+        userRef.child("review").child(revkey).setValue(true);
     }
 }

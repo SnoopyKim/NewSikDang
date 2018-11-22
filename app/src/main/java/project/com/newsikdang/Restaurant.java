@@ -8,8 +8,8 @@ public class Restaurant {
     public String photo;
     public String date;
     public float star;
-    public int like;
-    public int review;
+    public long heart;
+    public long review;
 
     public Restaurant() {
         //기본 생성자
@@ -22,10 +22,10 @@ public class Restaurant {
         this.photo = "";
         this.date = date;
         this.star = 0;
-        this.like = 0;
+        this.heart = 0;
         this.review = 0;
     }
-    public Restaurant(String resKey, String name, String address, String photo, String date, float star, int like, int review) {
+    public Restaurant(String resKey, String name, String address, String photo, String date, float star, long heart, long review) {
         //생성자3
         this.resKey = resKey;
         this.name = name;
@@ -33,7 +33,7 @@ public class Restaurant {
         this.photo = photo;
         this.date = date;
         this.star = star;
-        this.like = like;
+        this.heart = heart;
         this.review = review;
     }
 
@@ -43,8 +43,8 @@ public class Restaurant {
     public String getPhoto() { return photo; }
     public String getDate() { return date; }
     public float getStar() { return star; }
-    public int getLike() { return like; }
-    public int getReview() { return review; }
+    public long getHeart() { return heart; }
+    public long getReview() { return review; }
 
     public void setResKey(String resKey) { this.resKey = resKey; }
     public void setName(String name) { this.name = name; }
@@ -52,6 +52,6 @@ public class Restaurant {
     public void setPhoto(String photo) { this.photo = photo; }
     public void setDate(String date) { this.date = date; }
     public void setStar(float star) { this.star = star; }
-    public void setLike(int like) { this.like = like; }
-    public void setReview(int review) { this.review = review; }
+    public void setHeart(long heart) { this.heart = heart; }
+    public void setReview(long review) { this.review = review; }
 }

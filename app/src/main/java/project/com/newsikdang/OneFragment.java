@@ -26,8 +26,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class OneFragment extends Fragment implements View.OnClickListener {
+    private final String TAG = "OneFragment";
 
     private FirebaseUser user;
     private FirebaseDatabase database;
@@ -40,7 +42,7 @@ public class OneFragment extends Fragment implements View.OnClickListener {
     RestaurantAdapter resAdapter;
     LinearLayoutManager mLayoutManager;
 
-    String stCGG = "";
+    String stCGG = "3040000";
     ArrayList<Restaurant> items = new ArrayList<>();
 
     @Override
@@ -53,22 +55,26 @@ public class OneFragment extends Fragment implements View.OnClickListener {
         restaurantsRef = database.getReference("restaurants");
 
         btn1 = v.findViewById(R.id.btn1);
-        userRef.child("setting").child("cgg").addListenerForSingleValueEvent(new ValueEventListener() {
+        btn1.setText(stCGG);
+        userRef.child("block").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                stCGG = dataSnapshot.getValue().toString();
-                btn1.setText(stCGG);
-
-                Query query = restaurantsRef.child(stCGG).orderByChild("date").limitToLast(30);
+                final List<String> blockList = new ArrayList<>();
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    blockList.add(data.getKey());
+                }
+                Query query = restaurantsRef.child(stCGG).orderByChild("date");
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot data : dataSnapshot.getChildren()) {
+                            if (blockList.indexOf(data.getKey()) != -1) { continue; }
                             String stResKey = data.getKey();
                             String stResName = data.child("name").getValue().toString();
                             String stResAddress = data.child("address").getValue().toString();
                             String stDate = data.child("date").getValue().toString();
-                            items.add(new Restaurant(stResKey, stResName, stResAddress, stDate));
+
+                            items.add(new Restaurant(stResKey, stResName, stResAddress, "", stDate, 0, 0 , 0 ));
                         }
                         Collections.reverse(items);
                         resAdapter.notifyDataSetChanged();
@@ -99,7 +105,6 @@ public class OneFragment extends Fragment implements View.OnClickListener {
         // Adapter 생성
         resAdapter = new RestaurantAdapter(items, getContext());
         mRecyclerView.setAdapter(resAdapter);
-
 
 //        스피너
         Spinner spinner = v.findViewById(R.id.spinner);

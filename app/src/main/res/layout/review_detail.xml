@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <RelativeLayout
+        android:id="@+id/rl_review"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:background="@drawable/stroke2"
@@ -211,16 +212,19 @@
             android:layout_alignBottom="@+id/rb_rev_star"
             android:layout_toStartOf="@+id/tv_rev_heart"
             android:background="@drawable/heart_states"/>
+
         <TextView
             android:id="@+id/tv_rev_heart"
             android:layout_width="30dp"
             android:layout_height="25dp"
             android:layout_alignBottom="@+id/rb_rev_star"
             android:layout_alignParentEnd="true"
+            android:layout_marginEnd="9dp"
+            android:layout_marginBottom="3dp"
             android:gravity="center"
-            android:text="3"
+            android:text="0"
             android:textColor="@color/heart_cnt"
-            android:textSize="14dp"/>
+            android:textSize="14dp" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -1,15 +1,27 @@
 package project.com.newsikdang;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +45,17 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     List<Review> listFilter;
     Context context;
 
-    //Firebase관련
     FirebaseUser user;
+    DatabaseReference userRef, reviewRef;
+
+    boolean clickable;
 
     /**
      * @Name    ViewHolder
      * @Usage   Save views in Recycler view and link between variable and layout view(tag)
      * */
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public RelativeLayout rlReview;
         public TextView tvName, tvContext, tvDate, tvHeart;
         public Button btnHeart;
         public RatingBar rbStar;
@@ -48,6 +63,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         //순서대로 칸, 이름, 이미지를 레이아웃에서 불러와 생성
         public ViewHolder(View itemView) {
             super(itemView);
+            rlReview = itemView.findViewById(R.id.rl_review);
             tvName = itemView.findViewById(R.id.frag3_username);
             tvContext = itemView.findViewById(R.id.frag3_review);
             tvDate = itemView.findViewById(R.id.tv_rev_date);
@@ -58,11 +74,15 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     }
 
     // 커스텀 생성자로 리뷰 데이터 리스트를 받음
-    public ReviewAdapter(List<Review> reviews, Context context) {
+    public ReviewAdapter(List<Review> reviews, Context context, boolean clickable) {
         this.listReview = reviews;
         this.listFilter = new ArrayList<>();
         this.listFilter.addAll(reviews);
         this.context = context;
+        this.clickable = clickable;
+        this.user = FirebaseAuth.getInstance().getCurrentUser();
+        this.userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
+        this.reviewRef = FirebaseDatabase.getInstance().getReference("users").child("3040000");
     }
 
     //VIew생성 및 레이아웃 설정
@@ -88,22 +108,63 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         //이름과 리뷰 적기
-        holder.tvName.setText(listReview.get(position).getName());
-        holder.tvContext.setText(listReview.get(position).getText());
-        holder.tvDate.setText(listReview.get(position).getDate());
+        final Review review = listReview.get(position);
 
+        holder.tvName.setText(review.getName());
+        holder.tvContext.setText(review.getText());
+        holder.tvDate.setText(review.getDate());
 
+        userRef.child("heart").child(review.getRevKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) { holder.btnHeart.setSelected(true); }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+        reviewRef.child(review.getRevKey()).child("heart").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                review.setHeart(review.getHeart()+1);
+                Log.d("Heart", "onChildAdded: " + review.getHeart());
+                holder.tvHeart.setText(String.valueOf(review.getHeart()));
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                review.setHeart(review.getHeart()-1);
+                holder.tvHeart.setText(String.valueOf(review.getHeart()));
+            }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
         holder.btnHeart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View button) {
                 button.setSelected(!button.isSelected());
                 if (button.isSelected()) {
-
+                    reviewRef.child(review.getRevKey()).child("heart").child(user.getUid()).setValue(true);
+                    userRef.child("heart").child(review.getRevKey()).setValue(true);
                 } else {
-
+                    reviewRef.child(review.getRevKey()).child("heart").child(user.getUid()).removeValue();
+                    userRef.child("heart").child(review.getRevKey()).removeValue();
                 }
             }
         });
+
+        if (clickable) {
+            holder.rlReview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, RestaurantActivity.class);
+                    intent.putExtra("resKey", listReview.get(position).getResKey());
+                    context.startActivity(intent);
+                }
+            });
+        }
 
         /*
         String stPhoto = mFriend.get(position).getPhoto();
