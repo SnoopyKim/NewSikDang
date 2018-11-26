@@ -3,9 +3,7 @@ package project.com.newsikdang;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +15,6 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -93,7 +90,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         //이름과 리뷰 적기
-        final Restaurant restaurant = listRestaurant.get(position);
+        if (holder.getAdapterPosition() == RecyclerView.NO_POSITION) return;
+        final Restaurant restaurant = listRestaurant.get(holder.getAdapterPosition());
 
         holder.tvName.setText(restaurant.getName());
         holder.tvAddress.setText(restaurant.getAddress());
@@ -121,43 +119,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
-        restaurantRef.child(restaurant.getResKey()).child("heart").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                restaurant.setHeart(restaurant.getHeart()+1);
-                Log.d("Heart", "onChildAdded: " + restaurant.getHeart());
-                holder.tvHeart.setText(String.valueOf(restaurant.getHeart()));
-            }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                restaurant.setHeart(restaurant.getHeart()-1);
-                holder.tvHeart.setText(String.valueOf(restaurant.getHeart()));
-            }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
-        restaurantRef.child(restaurant.getResKey()).child("review").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                restaurant.setReview(restaurant.getReview()+1);
-                holder.tvReview.setText(String.valueOf(restaurant.getReview()));
-            }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                restaurant.setReview(restaurant.getReview()-1);
-                holder.tvReview.setText(String.valueOf(restaurant.getReview()));
-            }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
 
         holder.tvHeart.setText(String.valueOf(restaurant.getHeart()));
         holder.btnHeart.setOnClickListener(new View.OnClickListener() {
@@ -167,11 +128,15 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                 if (button.isSelected()) {
                     restaurantRef.child(restaurant.getResKey()).child("heart").child(user.getUid()).setValue(true);
                     userRef.child("heart").child(restaurant.getResKey()).setValue(true);
+                    restaurant.setHeart(restaurant.getHeart()+1);
+                    holder.tvHeart.setText(String.valueOf(restaurant.getHeart()));
                     Toast.makeText(context,"좋아요 목록에 추가되었습니다.",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     restaurantRef.child(restaurant.getResKey()).child("heart").child(user.getUid()).removeValue();
                     userRef.child("heart").child(restaurant.getResKey()).removeValue();
+                    restaurant.setHeart(restaurant.getHeart()-1);
+                    holder.tvHeart.setText(String.valueOf(restaurant.getHeart()));
                     Toast.makeText(context,"좋아요 목록에서 삭제되었습니다.",Toast.LENGTH_SHORT).show();
                 }
             }

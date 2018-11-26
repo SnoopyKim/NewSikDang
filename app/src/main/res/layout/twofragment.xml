@@ -33,7 +33,7 @@
             android:id="@+id/frag1_mapview"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:background="@drawable/mapview"
+            android:background="@drawable/location"
             android:layout_toLeftOf="@+id/frag1_setting"
             android:layout_alignTop="@+id/frag1_setting"
             android:layout_marginRight="10dp"/>
