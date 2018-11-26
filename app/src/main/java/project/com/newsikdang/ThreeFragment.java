@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ThreeFragment extends Fragment implements View.OnClickListener {
+public class ThreeFragment extends Fragment {
     RecyclerView recyclerView;
     ReviewAdapter reviewAdapter;
     LinearLayoutManager layoutManager;
@@ -81,13 +81,5 @@ public class ThreeFragment extends Fragment implements View.OnClickListener {
         recyclerView.setAdapter(reviewAdapter);
 
         return v;
-    }
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_review:
-
-                break;
-        }
     }
 }

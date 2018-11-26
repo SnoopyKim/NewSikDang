@@ -1,25 +1,21 @@
 package project.com.newsikdang;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.Transformation;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,15 +25,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
-import java.util.Hashtable;
 import java.util.List;
 
 public class RestaurantActivity extends AppCompatActivity {
+    private static final String TAG = "RestaurantActivity";
 
     FirebaseUser user;
     DatabaseReference restaurantRef, reviewRef, userRef;
@@ -52,12 +46,13 @@ public class RestaurantActivity extends AppCompatActivity {
     TextView tvDate, tvHeart, tvReview;
 
     TextView tvReviewCnt;
-    EditText etReview;
-    Button btnHeart,btnSimple,btnDetail,btnReview;
+    Button btnHeart,btnSimple,btnDetail;
 
     RelativeLayout rlDetail, rlMenu;
     TableLayout tlTag;
-    ImageView ivDetailMore, ivMenuMore, ivTagMore;
+    ImageView ivDetailMore, ivMenuMore, ivTagMore, ivReview;
+
+    int detailHeight, menuHeight, tagHeight;
 
     String resKey;
 
@@ -81,9 +76,12 @@ public class RestaurantActivity extends AppCompatActivity {
         rlMenu = findViewById(R.id.rl_res_menu_view);
         tlTag = findViewById(R.id.tl_res_hashtag);
 
-        final int detailHeight = rlDetail.getHeight();
-        final int menuHeight = rlMenu.getHeight();
-        final int tagHeight = tlTag.getHeight();
+        rlDetail.measure(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
+        detailHeight = rlDetail.getMeasuredHeight();
+        rlMenu.measure(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
+        menuHeight = rlMenu.getMeasuredHeight();
+        tlTag.measure(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
+        tagHeight = tlTag.getMeasuredHeight();
 
         resKey = getIntent().getStringExtra("resKey");
 
@@ -151,28 +149,23 @@ public class RestaurantActivity extends AppCompatActivity {
         ivDetailMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View button) {
-                button.setSelected(!button.isSelected());
-                Animation rotate, scale;
-                if (button.isSelected()) {
-                    //slide up
-                    rotate = AnimationUtils.loadAnimation(RestaurantActivity.this,R.anim.rotate_up);
-                    scale = AnimationUtils.loadAnimation(RestaurantActivity.this,R.anim.scale_down);
-                    Log.d("Scale", "rlDetail height " + rlDetail.getHeight());
-
-                } else {
-                    //slide down
-                    rotate = AnimationUtils.loadAnimation(RestaurantActivity.this,R.anim.rotate_down);
-                    scale = AnimationUtils.loadAnimation(RestaurantActivity.this,R.anim.scale_up);
-                    Log.d("Scale", "rlDetail height " + rlDetail.getHeight());
-                }
-                if (rotate!=null && scale!=null) {
-                    button.startAnimation(rotate);
-                    rlDetail.startAnimation(scale);
-                }
+                foldLayout(button, rlDetail);
             }
         });
         ivMenuMore = findViewById(R.id.iv_res_menu_more);
+        ivMenuMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View button) {
+                foldLayout(button, rlMenu);
+            }
+        });
         ivTagMore = findViewById(R.id.iv_res_hashtag_more);
+        ivTagMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View button) {
+                foldLayout(button, tlTag);
+            }
+        });
 
         tvReviewCnt = findViewById(R.id.tv_rev_cnt);
         btnSimple = findViewById(R.id.btn_rev_simple);
@@ -201,19 +194,14 @@ public class RestaurantActivity extends AppCompatActivity {
             }
         });
 
-        etReview = findViewById(R.id.et_review);
-        btnReview = findViewById(R.id.btn_review);
-        btnReview.setOnClickListener(new View.OnClickListener() {
+        ivReview = findViewById(R.id.icon_review);
+        ivReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String stReview = etReview.getText().toString();
-                if (stReview.equals("")) {
-                    Toast.makeText(RestaurantActivity.this, "리뷰를 입력해주세요", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(RestaurantActivity.this, "리뷰가 등록되었습니다", Toast.LENGTH_SHORT).show();
-
-                    addReview(stReview);
-                }
+                Intent intent = new Intent(getApplicationContext(),ReviewActivity.class);
+                intent.putExtra("resName", tvResName.getText());
+                intent.putExtra("resKey", resKey);
+                startActivity(intent);
             }
         });
 
@@ -252,66 +240,44 @@ public class RestaurantActivity extends AppCompatActivity {
         });
     }
 
-    private void addReview(final String review) {
-
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        final String formattedDate = df.format(new Date());
-
-        Hashtable<String, String> reviewInfo = new Hashtable<String, String>();
-        reviewInfo.put("restaurant", resKey);
-        reviewInfo.put("uid", user.getUid());
-        reviewInfo.put("name", user.getDisplayName());
-        reviewInfo.put("context", review);
-        reviewInfo.put("date", formattedDate);
-
-        final String revkey = reviewRef.push().getKey();
-        reviewRef.child(revkey).setValue(reviewInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    etReview.setText("");
-                    review_cnt += 1;
-                    tvReviewCnt.setText(String.valueOf(review_cnt));
-
-                    Review newReview = new Review(revkey, resKey, user.getUid(), user.getDisplayName(), review, formattedDate);
-                    listReview.add(newReview);
-                    reviewAdapter.notifyDataSetChanged();
-
-                } else {
-                    Toast.makeText(RestaurantActivity.this,"리뷰 작성에 실패했습니다.",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        restaurantRef.child("review").child(revkey).setValue(true);
-        userRef.child("review").child(revkey).setValue(true);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        detailHeight = rlDetail.getHeight();
+        menuHeight = rlMenu.getHeight();
+        tagHeight = tlTag.getHeight();
     }
 
-    class MoreAnimation extends Animation {
-        RelativeLayout rl_view;
-        int initialHeight;
-        boolean show;
+    public void foldLayout(View button, final View layout) {
+        button.setSelected(!button.isSelected());
 
-        public MoreAnimation(RelativeLayout view, int height, boolean show) {
-            this.rl_view = view;
-            this.initialHeight = height;
-            this.show = show;
+        Animation rotate;
+        if (button.isSelected()) {
+            //slide up
+            rotate = AnimationUtils.loadAnimation(RestaurantActivity.this,R.anim.rotate_up);
+            rotate.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) { }
+                @Override
+                public void onAnimationEnd(Animation animation) { layout.setVisibility(View.GONE); }
+                @Override
+                public void onAnimationRepeat(Animation animation) { }
+            });
+
+        } else {
+            //slide down
+            rotate = AnimationUtils.loadAnimation(RestaurantActivity.this,R.anim.rotate_down);
+            rotate.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) { }
+                @Override
+                public void onAnimationEnd(Animation animation) { layout.setVisibility(View.VISIBLE); }
+                @Override
+                public void onAnimationRepeat(Animation animation) { }
+            });
         }
 
-        @Override
-        protected void applyTransformation(float interpolatedTime, Transformation t) {
-            int newHeight;
+        button.startAnimation(rotate);
 
-            if (!show) { newHeight = (int)(initialHeight * (1-interpolatedTime)); }
-            else { newHeight = (int)(initialHeight * interpolatedTime); }
-
-            rl_view.removeAllViews();
-            rl_view.getLayoutParams().height = newHeight;
-            rl_view.requestLayout();
-        }
-
-        @Override
-        public boolean willChangeBounds() {
-            return true;
-        }
     }
 }
