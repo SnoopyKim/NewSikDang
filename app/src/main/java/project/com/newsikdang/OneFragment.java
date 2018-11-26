@@ -1,8 +1,6 @@
 package project.com.newsikdang;
 
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,13 +8,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
@@ -89,8 +84,10 @@ public class OneFragment extends Fragment implements View.OnClickListener {
                             String stResName = data.child("name").getValue().toString();
                             String stResAddress = data.child("address").getValue().toString();
                             String stDate = data.child("date").getValue().toString();
+                            long l_heart = data.child("heart").getChildrenCount();
+                            long l_review = data.child("review").getChildrenCount();
 
-                            items.add(new Restaurant(stResKey, stResName, stResAddress, "", stDate, 0, 0 , 0 ));
+                            items.add(new Restaurant(stResKey, stResName, stResAddress, "", stDate, 0, l_heart , l_review ));
                         }
                         Collections.reverse(items);
                         resAdapter.notifyDataSetChanged();
@@ -222,7 +219,7 @@ public class OneFragment extends Fragment implements View.OnClickListener {
                         break;
                     case R.id.btn2:
                         items.clear();
-                        mAdapter.notifyDataSetChanged();
+                        resAdapter.notifyDataSetChanged();
                         break;
                     case R.id.btn3:
                         break;

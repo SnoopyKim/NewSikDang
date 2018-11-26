@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:background="@color/time_gray"
         android:focusableInTouchMode="true">
         <!--상단바-->
         <RelativeLayout
@@ -20,31 +21,13 @@
             android:background="#FFFFFF">
 
             <ImageView
-                android:id="@+id/res_top_setting"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentRight="true"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/setting_blank" />
+                android:layout_marginStart="10dp"
+                android:src="@drawable/back" />
 
-            <ImageView
-                android:id="@+id/res_top_map"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/res_top_setting"
-                android:src="@drawable/mapview" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/res_top_map"
-                android:layout_alignLeft="@+id/res_top_map"
-                android:text="지도보기"
-                android:textColor="#000000"
-                android:textSize="10dp" />
         </RelativeLayout>
 
         <View
@@ -114,317 +97,540 @@
             </HorizontalScrollView>
         </RelativeLayout>
 
-        <View
-            android:id="@+id/res_img_line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/res_img"
-            android:background="#000000" />
-
         <!--매장 이름(정보)-->
         <RelativeLayout
-            android:id="@+id/res_inform"
+            android:id="@+id/rl_res_title"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_below="@+id/res_img_line"
-            android:background="#FFFFFF">
+            android:layout_height="120dp"
+            android:layout_below="@+id/res_img"
+            android:layout_marginTop="1dp"
+            android:background="#FFFFFF"
+            android:padding="20dp">
 
             <TextView
-                android:id="@+id/res_name"
-                android:layout_width="match_parent"
+                android:id="@+id/tv_res_name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_toStartOf="@id/res_star_img"
                 android:text="매장명"
-                android:textColor="#000000"
-                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:textSize="24dp" />
+            <!--디데이부분-->
+            <RelativeLayout
+                android:id="@+id/rl_res_dday"
+                android:layout_width="40dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_toEndOf="@+id/tv_res_name"
+                android:background="@drawable/bg_dday"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_res_d"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="D+"
+                    android:textColor="@color/white"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_res_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_res_d"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+            <!--이벤트-->
+            <TextView
+                android:id="@+id/tv_res_event"
+                android:layout_width="40dp"
+                android:layout_height="25dp"
+                android:layout_alignTop="@+id/rl_res_dday"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/rl_res_dday"
+                android:background="@drawable/bg_event"
+                android:gravity="center"
+                android:text="EVENT"
+                android:textColor="@color/white"
+                android:textSize="11dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/res_address"
-                android:layout_width="match_parent"
+                android:id="@+id/tv_res_category"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/res_name"
-                android:layout_alignLeft="@+id/res_name"
+                android:layout_below="@+id/tv_res_name"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="30dp"
-                android:layout_toStartOf="@id/res_heart_img"
-                android:text="광진구 군자동 세종대학교"
-                android:textColor="#000000"
-                android:textSize="16dp" />
+                android:text="일반 음식점"
+                android:textColor="@color/textHint"
+                android:textSize="12dp" />
 
-            <TextView
-                android:id="@+id/res_number"
+            <RatingBar
+                android:id="@+id/rb_res_star"
+                style="@style/ReviewRatingBar"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/res_address"
-                android:layout_alignLeft="@+id/res_name"
+                android:layout_height="20dp"
+                android:layout_below="@+id/tv_res_category"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
-                android:text="☎: 02-2625-9050"
-                android:textColor="#000000"
-                android:textSize="16dp" />
+                android:max="5"
+                android:progressBackgroundTint="@color/time_gray"
+                android:progressTint="@color/star_yellow"
+                android:rating="3"
+                android:scaleX="1.2"
+                android:scaleY="1.2" />
 
             <TextView
-                android:id="@+id/res_star"
+                android:id="@+id/tv_res_review_cnt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp"
-                android:text="9.9"
-                android:textColor="#000000"
-                android:textSize="22dp" />
-
-            <TextView
-                android:id="@+id/res_star_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:layout_toLeftOf="@+id/res_star"
-                android:text="★"
-                android:textColor="#FFD700"
-                android:textSize="24dp" />
-
-            <TextView
-                android:id="@+id/res_heart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/res_star"
-                android:layout_alignLeft="@+id/res_star"
-                android:layout_marginTop="5dp"
-                android:text="17"
-                android:textColor="#000000"
-                android:textSize="22dp" />
-
-            <TextView
-                android:id="@+id/res_heart_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/res_star_img"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@+id/res_heart"
-                android:text="♥"
-                android:textColor="#FF0000"
-                android:textSize="22dp" />
-
-            <TextView
-                android:id="@+id/res_review"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/res_heart"
-                android:layout_alignLeft="@+id/res_star"
-                android:layout_marginTop="5dp"
+                android:layout_alignBottom="@+id/rb_res_star"
+                android:layout_marginStart="12dp"
+                android:layout_toEndOf="@+id/rb_res_star"
                 android:text="6"
                 android:textColor="#000000"
-                android:textSize="22dp" />
+                android:textSize="14dp" />
 
-            <TextView
-                android:id="@+id/res_review_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/res_heart_img"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="7dp"
-                android:layout_toLeftOf="@+id/res_review"
-                android:text="☞"
-                android:textColor="#696969	"
-                android:textSize="22dp" />
+            <RelativeLayout
+                android:id="@+id/rl_res_heart"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_res_heart">
+
+                <Button
+                    android:id="@+id/btn_res_heart"
+                    android:layout_width="35dp"
+                    android:layout_height="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/heart_states" />
+
+                <TextView
+                    android:id="@+id/tv_res_heart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btn_res_heart"
+                    android:layout_centerHorizontal="true"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:textSize="13dp" />
+            </RelativeLayout>
+
         </RelativeLayout>
 
-        <View
-            android:id="@+id/res_name_line"
+        <RelativeLayout
+            android:id="@+id/rl_res_inform_basic"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/res_inform"
-            android:background="#000000" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_res_title"
+            android:layout_marginTop="5dp"
+            android:background="@color/white"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:id="@+id/tv_res_inform_basic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="기본정보"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/iv_res_map"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_below="@+id/tv_res_inform_basic"
+                android:layout_marginTop="10dp"
+                android:background="@color/btnDisabled" />
+
+            <ImageView
+                android:id="@+id/iv_res_address"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/iv_res_map"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/location" />
+
+            <TextView
+                android:id="@+id/tv_res_address"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_alignBottom="@+id/iv_res_address"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/iv_res_address"
+                android:gravity="center_vertical"
+                android:text="주소"
+                android:textColor="@color/textBtn"
+                android:textSize="16dp" />
+
+            <ImageView
+                android:id="@+id/iv_res_phone"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/iv_res_address"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/phone" />
+
+            <TextView
+                android:id="@+id/tv_res_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_alignBottom="@+id/iv_res_phone"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/iv_res_phone"
+                android:gravity="center_vertical"
+                android:text="전화번호"
+                android:textColor="@color/textBtn"
+                android:textSize="16dp" />
+
+        </RelativeLayout>
 
         <!--매장상세정보-->
         <RelativeLayout
-            android:id="@+id/res_detail"
+            android:id="@+id/rl_res_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/res_name_line"
+            android:layout_below="@+id/rl_res_inform_basic"
             android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:padding="20dp"
             android:background="#FFFFFF">
-
             <TextView
-                android:id="@+id/res_detail_top"
+                android:id="@+id/tv_res_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
                 android:text="편의정보"
                 android:textColor="#000000"
                 android:textSize="20dp"
                 android:textStyle="bold" />
-            <TextView
-                android:id="@+id/res_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/res_detail_top"
-                android:layout_alignStart="@+id/res_detail_top"
-                android:layout_marginTop="10dp"
-                android:text="영업시간"
-                android:textColor="#696969"
-                android:textSize="18dp" />
-            <TextView
-                android:id="@+id/res_week"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/res_time"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:text="월-금: 13:00 - 23:30"
-                android:textColor="#000000"
-                android:textSize="18dp" />
-            <TextView
-                android:id="@+id/res_weekend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/res_week"
-                android:layout_alignStart="@+id/res_week"
-                android:text="토-일: 12:00 - 24:00"
-                android:textColor="#000000"
-                android:textSize="18dp" />
-            <TextView
-                android:id="@+id/res_toilet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/res_weekend"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:text="화장실정보"
-                android:textColor="#696969"
-                android:textSize="18dp" />
+            <ImageView
+                android:id="@+id/iv_res_detail_more"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignTop="@+id/tv_res_detail"
+                android:layout_alignBottom="@+id/tv_res_detail"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/more"/>
 
-            <TextView
-                android:id="@+id/res_toilet_inform"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/rl_res_detail_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/res_toilet"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:text="화장실 있음"
-                android:textColor="#000000"
-                android:textSize="18dp" />
+                android:layout_below="@+id/tv_res_detail"
+                android:layout_marginTop="15dp">
+                <ImageView
+                    android:id="@+id/iv_res_time"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/clock"
+                    />
+                <TextView
+                    android:id="@+id/tv_res_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/iv_res_time"
+                    android:layout_alignBottom="@+id/iv_res_time"
+                    android:gravity="center_vertical"
+                    android:text="영업시간"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tv_res_time_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/tv_res_time"
+                    android:layout_alignBottom="@+id/iv_res_time"
+                    android:gravity="center_vertical"
+                    android:text="00:00 - 00:30"
+                    android:textColor="@color/btnAbled"
+                    android:textSize="16dp" />
 
-            <TextView
-                android:id="@+id/res_wifi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/res_toilet"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="20dp"
-                android:text="와이파이"
-                android:textColor="#696969"
-                android:textSize="18dp" />
+                <ImageView
+                    android:id="@+id/iv_res_dayoff"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/dayoff"
+                    android:layout_below="@+id/iv_res_time"
+                    android:layout_marginTop="5dp"/>
+                <TextView
+                    android:id="@+id/tv_res_dayoff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/iv_res_dayoff"
+                    android:layout_alignBottom="@+id/iv_res_dayoff"
+                    android:gravity="center_vertical"
+                    android:text="휴일"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tv_res_dayoff_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/tv_res_dayoff"
+                    android:layout_alignBottom="@+id/iv_res_dayoff"
+                    android:gravity="center_vertical"
+                    android:text="매주 월요일"
+                    android:textColor="@color/btnAbled"
+                    android:textSize="16dp" />
 
-            <TextView
-                android:id="@+id/res_wifi_inform"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/res_wifi"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:text="와이파이 있음"
-                android:textColor="#000000"
-                android:textSize="18dp" />
+                <ImageView
+                    android:id="@+id/iv_res_last"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/receipt"
+                    android:layout_below="@+id/iv_res_dayoff"
+                    android:layout_marginTop="5dp"/>
+                <TextView
+                    android:id="@+id/tv_res_last"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/iv_res_last"
+                    android:layout_alignBottom="@+id/iv_res_last"
+                    android:gravity="center_vertical"
+                    android:text="라스트 오더"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tv_res_last_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/tv_res_last"
+                    android:layout_alignBottom="@+id/iv_res_last"
+                    android:gravity="center_vertical"
+                    android:text="21:00"
+                    android:textColor="@color/btnAbled"
+                    android:textSize="16dp" />
 
-            <TextView
-            android:id="@+id/res_park"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/res_wifi"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="20dp"
-            android:text="주차공간"
-            android:textColor="#696969"
-            android:textSize="18dp" />
-            <TextView
-                android:id="@+id/res_park_inform"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/res_park"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:text="주차공간 없음"
-                android:textColor="#000000"
-                android:textSize="18dp" />
-            <TextView
-                android:id="@+id/res_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/res_park"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="20dp"
-                android:text="단체여부"
-                android:textColor="#696969"
-                android:textSize="18dp" />
-            <TextView
-                android:id="@+id/res_group_inform"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/res_group"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:text="단체손님가능"
-                android:textColor="#000000"
-                android:textSize="18dp" />
+                <ImageView
+                    android:id="@+id/iv_res_parking"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/parking"
+                    android:layout_below="@+id/iv_res_last"
+                    android:layout_marginTop="5dp"/>
+                <TextView
+                    android:id="@+id/tv_res_parking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/iv_res_parking"
+                    android:layout_alignBottom="@+id/iv_res_parking"
+                    android:gravity="center_vertical"
+                    android:text="주차장"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tv_res_parking_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/tv_res_parking"
+                    android:layout_alignBottom="@+id/iv_res_parking"
+                    android:gravity="center_vertical"
+                    android:text="전용 주차장"
+                    android:textColor="@color/btnAbled"
+                    android:textSize="16dp" />
 
+                <ImageView
+                    android:id="@+id/iv_res_toilet"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/toilet"
+                    android:layout_below="@+id/iv_res_parking"
+                    android:layout_marginTop="5dp"/>
+                <TextView
+                    android:id="@+id/tv_res_toilet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/iv_res_toilet"
+                    android:layout_alignBottom="@+id/iv_res_toilet"
+                    android:gravity="center_vertical"
+                    android:text="화장실"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tv_res_toilet_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/tv_res_toilet"
+                    android:layout_alignBottom="@+id/iv_res_toilet"
+                    android:gravity="center_vertical"
+                    android:text="남녀 구분"
+                    android:textColor="@color/btnAbled"
+                    android:textSize="16dp" />
+            </RelativeLayout>
 
         </RelativeLayout>
 
-        <View
-            android:id="@+id/res_detail_line"
+        <!--메뉴정보-->
+        <RelativeLayout
+            android:id="@+id/rl_res_menu"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/res_detail"
-            android:background="#000000" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_res_detail"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:padding="20dp"
+            android:background="@color/white">
+            <TextView
+                android:id="@+id/tv_res_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="메뉴"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/iv_res_menu_more"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignTop="@+id/tv_res_menu"
+                android:layout_alignBottom="@+id/tv_res_menu"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/more" />
+
+            <RelativeLayout
+                android:id="@+id/rl_res_menu_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_res_menu"
+                android:layout_marginTop="15dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_res_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/btnDisabled"
+                    >
+
+                </android.support.v7.widget.RecyclerView>
+
+                <HorizontalScrollView
+                    android:id="@+id/hsv_res_menu_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_below="@+id/rv_res_menu"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/btnDisabled">
+                    <LinearLayout
+                        android:id="@+id/ll_res_menu_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <!--식당 분위기-->
+        <RelativeLayout
+            android:id="@+id/rl_res_hashtag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_res_menu"
+            android:layout_marginTop="5dp"
+            android:padding="20dp"
+            android:background="@color/white">
+            <TextView
+                android:id="@+id/tv_res_hashtag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="식당 분위기"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/iv_res_hashtag_more"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignTop="@+id/tv_res_hashtag"
+                android:layout_alignBottom="@+id/tv_res_hashtag"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/more"/>
+            
+            <TableLayout
+                android:id="@+id/tl_res_hashtag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_res_hashtag"
+                android:layout_marginTop="15dp"
+                android:stretchColumns="*">
+
+            </TableLayout>
+
+        </RelativeLayout>
 
         <!--리뷰-->
         <RelativeLayout
-            android:id="@+id/rl_review"
+            android:id="@+id/rl_res_review"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/res_detail_line"
-            android:padding="20dp"
-            android:background="#FFFFFF">
+            android:layout_below="@+id/rl_res_hashtag"
+            android:background="#FFFFFF"
+            android:padding="20dp">
 
             <TextView
                 android:id="@+id/res_review1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="리뷰"
                 android:textColor="@color/black"
-                android:textSize="23dp"
-                android:text="리뷰"/>
+                android:textSize="23dp" />
+
             <TextView
                 android:id="@+id/tv_rev_cnt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/res_review1"
                 android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/res_review1"
                 android:text="0"
-                android:textSize="21dp"
-                android:textColor="@color/btnAbled"/>
+                android:textColor="@color/btnAbled"
+                android:textSize="21dp" />
+
             <ImageView
                 android:id="@+id/icon_review"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="6dp"
-                android:background="@drawable/review"/>
+                android:background="@drawable/review" />
 
             <LinearLayout
                 android:id="@+id/ll_rev_choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/res_review1"
-                android:layout_marginTop="10dp"
-                android:layout_centerHorizontal="true">
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp">
+
                 <Button
                     android:id="@+id/btn_rev_simple"
                     android:layout_width="150dp"
@@ -432,9 +638,10 @@
                     android:layout_weight="1"
                     android:background="@drawable/btn_rev_simple"
                     android:text="한줄리뷰 0"
-                    android:textStyle="bold"
+                    android:textColor="@color/white"
                     android:textSize="14dp"
-                    android:textColor="@color/white"/>
+                    android:textStyle="bold" />
+
                 <Button
                     android:id="@+id/btn_rev_detail"
                     android:layout_width="150dp"
@@ -442,16 +649,17 @@
                     android:layout_weight="1"
                     android:background="@drawable/btn_rev_detail"
                     android:text="상세리뷰 0"
-                    android:textStyle="bold"
+                    android:textColor="@color/textBtn"
                     android:textSize="14dp"
-                    android:textColor="@color/textBtn"/>
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <EditText
                 android:id="@+id/et_review"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_toStartOf="@+id/btn_review"
                 android:layout_alignBottom="@+id/btn_review"
+                android:layout_toStartOf="@+id/btn_review"
                 android:background="@color/textHint"
                 android:inputType="text" />
 
@@ -459,19 +667,19 @@
                 android:id="@+id/btn_review"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_below="@+id/ll_rev_choice"
-                android:textSize="16dp"
-                android:text="등록"/>
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="등록"
+                android:textSize="16dp" />
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_review"
+            android:id="@+id/rv_res_review"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/rl_review">
+            android:layout_below="@+id/rl_res_review">
 
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
