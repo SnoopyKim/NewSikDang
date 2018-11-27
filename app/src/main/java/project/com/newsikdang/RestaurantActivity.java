@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class RestaurantActivity extends AppCompatActivity {
@@ -46,7 +47,7 @@ public class RestaurantActivity extends AppCompatActivity {
     TextView tvDate, tvHeart, tvReview;
 
     TextView tvReviewCnt;
-    Button btnHeart,btnSimple,btnDetail;
+    Button btnHeart, btnSimple, btnDetail;
 
     RelativeLayout rlDetail, rlMenu;
     TableLayout tlTag;
@@ -168,6 +169,7 @@ public class RestaurantActivity extends AppCompatActivity {
         });
 
         tvReviewCnt = findViewById(R.id.tv_rev_cnt);
+
         btnSimple = findViewById(R.id.btn_rev_simple);
         btnSimple.setSelected(true);
         btnSimple.setOnClickListener(new View.OnClickListener() {
@@ -178,6 +180,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     btnSimple.setTextColor(getResources().getColor(R.color.white));
                     btnDetail.setSelected(false);
                     btnDetail.setTextColor(getResources().getColor(R.color.textBtn));
+                    reviewAdapter.filter_detail(false);
                 }
             }
         });
@@ -190,6 +193,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     btnDetail.setTextColor(getResources().getColor(R.color.white));
                     btnSimple.setSelected(false);
                     btnSimple.setTextColor(getResources().getColor(R.color.textBtn));
+                    reviewAdapter.filter_detail(true);
                 }
             }
         });
@@ -211,41 +215,60 @@ public class RestaurantActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         listReview = new ArrayList<>();
-        reviewAdapter = new ReviewAdapter(listReview, this, false);
-        recyclerView.setAdapter(reviewAdapter);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadReviews();
+    }
+
+    public void loadReviews() {
         Query reviewQuery = reviewRef.orderByChild("restaurant").equalTo(resKey);
         reviewQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
+                    long l_simple = 0, l_detail = 0;
                     for (DataSnapshot dataSnapshot2 : dataSnapshot.getChildren()) {
+                        boolean detail = Boolean.valueOf(dataSnapshot2.child("detail").getValue().toString());
+
                         String revKey = dataSnapshot2.getKey();
                         String uid = dataSnapshot2.child("uid").getValue().toString();
                         String name = dataSnapshot2.child("name").getValue().toString();
                         String text = dataSnapshot2.child("context").getValue().toString();
                         String date = dataSnapshot2.child("date").getValue().toString();
-                        Review review = new Review(revKey,resKey,uid,name,text,date);
+                        float star = Float.valueOf(dataSnapshot2.child("star_main").getValue().toString());
 
-                        // [START_EXCLUDE]
-                        // Update RecyclerView
+                        Review review;
+                        if (!detail) {
+                            l_simple += 1;
+                            review = new Review(revKey, resKey, uid, name, text, date, star, 0);
+                        } else {
+                            l_detail += 1;
+                            float star_t = Float.valueOf(dataSnapshot2.child("star_taste").getValue().toString());
+                            float star_c = Float.valueOf(dataSnapshot2.child("star_cost").getValue().toString());
+                            float star_s = Float.valueOf(dataSnapshot2.child("star_service").getValue().toString());
+                            float star_a = Float.valueOf(dataSnapshot2.child("star_ambiance").getValue().toString());
+                            review = new Review(revKey, resKey, uid, name, text, "", date, star, star_t, star_c, star_s, star_a, 0);
+                        }
+
                         listReview.add(review);
                     }
-                    Collections.reverse(listReview);
-                    reviewAdapter.notifyDataSetChanged();
+                    btnSimple.setText("한줄리뷰 " + l_simple);
+                    btnDetail.setText("상세리뷰 " + l_detail);
+
+                    Collections.sort(listReview, new ReviewComparator());
+
+                    reviewAdapter = new ReviewAdapter(listReview, getApplicationContext(), false);
+                    recyclerView.setAdapter(reviewAdapter);
+
+                    reviewAdapter.filter_detail(false);
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        detailHeight = rlDetail.getHeight();
-        menuHeight = rlMenu.getHeight();
-        tagHeight = tlTag.getHeight();
     }
 
     public void foldLayout(View button, final View layout) {
@@ -279,5 +302,12 @@ public class RestaurantActivity extends AppCompatActivity {
 
         button.startAnimation(rotate);
 
+    }
+
+    public class ReviewComparator implements Comparator<Review> {
+        @Override
+        public int compare(Review r1, Review r2) {
+            return r2.getDate().compareTo(r1.getDate());
+        }
     }
 }
