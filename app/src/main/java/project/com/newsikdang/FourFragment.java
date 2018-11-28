@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,6 +20,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class FourFragment extends Fragment implements View.OnClickListener {
@@ -27,7 +30,7 @@ public class FourFragment extends Fragment implements View.OnClickListener {
     private FirebaseDatabase database;
     private DatabaseReference userRef;
 
-    ImageButton ibSetting;
+    CircleImageView ibSetting;
     TextView tvUserName, tvUserEmail;
     public static final int sub = 1001;
 
@@ -59,7 +62,7 @@ public class FourFragment extends Fragment implements View.OnClickListener {
         tvUserEmail.setText(user.getEmail());
 
 //        내쿠폰함
-        RelativeLayout llayout = v.findViewById(R.id.frag4_coupon);
+        ImageView llayout = v.findViewById(R.id.frag4_coupon);
         llayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
