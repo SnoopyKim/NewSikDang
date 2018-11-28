@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ThreeFragment extends Fragment implements View.OnClickListener {
+public class ThreeFragment extends Fragment {
     RecyclerView recyclerView;
     ReviewAdapter reviewAdapter;
     LinearLayoutManager layoutManager;
@@ -60,13 +60,25 @@ public class ThreeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    boolean detail = Boolean.valueOf(data.child("detail").getValue().toString());
                     String revKey = data.getKey();
                     String resKey = data.child("restaurant").getValue().toString();
                     String uid = data.child("uid").getValue().toString();
                     String name = data.child("name").getValue().toString();
                     String text = data.child("context").getValue().toString();
                     String date = data.child("date").getValue().toString();
-                    Review review = new Review(revKey,resKey,uid,name,text,date);
+                    float star = Float.valueOf(data.child("star_main").getValue().toString());
+
+                    Review review;
+                    if (!detail) {
+                        review = new Review(revKey, resKey, uid, name, text, date, star, 0);
+                    } else {
+                        float star_t = Float.valueOf(data.child("star_taste").getValue().toString());
+                        float star_c = Float.valueOf(data.child("star_cost").getValue().toString());
+                        float star_s = Float.valueOf(data.child("star_service").getValue().toString());
+                        float star_a = Float.valueOf(data.child("star_ambiance").getValue().toString());
+                        review = new Review(revKey, resKey, uid, name, text, "", date, star, star_t, star_c, star_s, star_a, 0);
+                    }
 
                     listReview.add(review);
                 }
@@ -81,13 +93,5 @@ public class ThreeFragment extends Fragment implements View.OnClickListener {
         recyclerView.setAdapter(reviewAdapter);
 
         return v;
-    }
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_review:
-
-                break;
-        }
     }
 }

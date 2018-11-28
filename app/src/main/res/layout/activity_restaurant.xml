@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@color/time_gray"
+        android:background="@color/btnDisabled"
         android:focusableInTouchMode="true">
         <!--상단바-->
         <RelativeLayout
@@ -594,6 +594,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rl_res_hashtag"
+            android:layout_marginTop="5dp"
             android:background="#FFFFFF"
             android:padding="20dp">
 
@@ -654,32 +655,14 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/et_review"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/btn_review"
-                android:layout_toStartOf="@+id/btn_review"
-                android:background="@color/textHint"
-                android:inputType="text" />
-
-            <Button
-                android:id="@+id/btn_review"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/ll_rev_choice"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:text="등록"
-                android:textSize="16dp" />
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_res_review"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/rl_res_review">
+            android:layout_below="@+id/rl_res_review"
+            >
 
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>

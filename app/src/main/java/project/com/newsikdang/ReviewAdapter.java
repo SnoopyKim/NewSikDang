@@ -3,7 +3,6 @@ package project.com.newsikdang;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -58,7 +56,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         public RelativeLayout rlReview;
         public TextView tvName, tvContext, tvDate, tvHeart;
         public Button btnHeart;
-        public RatingBar rbStar;
+        public RatingBar rbStar, rbTaste, rbCost, rbService, rbAmbiance;
 
         //순서대로 칸, 이름, 이미지를 레이아웃에서 불러와 생성
         public ViewHolder(View itemView) {
@@ -70,6 +68,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             tvHeart = itemView.findViewById(R.id.tv_rev_heart);
             btnHeart = itemView.findViewById(R.id.btn_rev_heart);
             rbStar = itemView.findViewById(R.id.rb_rev_star);
+            rbTaste = itemView.findViewById(R.id.rb_rev_taste);
+            rbCost = itemView.findViewById(R.id.rb_rev_cost);
+            rbService = itemView.findViewById(R.id.rb_rev_service);
+            rbAmbiance = itemView.findViewById(R.id.rb_rev_ambiance);
         }
     }
 
@@ -85,12 +87,19 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         this.reviewRef = FirebaseDatabase.getInstance().getReference("users").child("3040000");
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (listReview.get(position).isDetail()) { return 1; }
+        else { return 0; }
+    }
+
     //VIew생성 및 레이아웃 설정
     @Override
     public ReviewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.review_simple, parent, false);
+        View v;
+        if (viewType == 0) { v = LayoutInflater.from(parent.getContext()).inflate(R.layout.review_simple, parent, false); }
+        else { v = LayoutInflater.from(parent.getContext()).inflate(R.layout.review_detail, parent, false); }
 
         //set the view's size, margin, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
@@ -113,6 +122,13 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         holder.tvName.setText(review.getName());
         holder.tvContext.setText(review.getText());
         holder.tvDate.setText(review.getDate());
+        holder.rbStar.setRating(review.getStar());
+        if (review.isDetail()) {
+            holder.rbTaste.setRating(review.getStartaste());
+            holder.rbCost.setRating(review.getStarcost());
+            holder.rbService.setRating(review.getStarservice());
+            holder.rbAmbiance.setRating(review.getStarambiance());
+        }
 
         userRef.child("heart").child(review.getRevKey()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -122,22 +138,11 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
-        reviewRef.child(review.getRevKey()).child("heart").addChildEventListener(new ChildEventListener() {
+        reviewRef.child(review.getRevKey()).child("heart").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                review.setHeart(review.getHeart()+1);
-                Log.d("Heart", "onChildAdded: " + review.getHeart());
-                holder.tvHeart.setText(String.valueOf(review.getHeart()));
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                holder.tvHeart.setText(String.valueOf(dataSnapshot.getChildrenCount()));
             }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                review.setHeart(review.getHeart()-1);
-                holder.tvHeart.setText(String.valueOf(review.getHeart()));
-            }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
@@ -148,9 +153,13 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
                 if (button.isSelected()) {
                     reviewRef.child(review.getRevKey()).child("heart").child(user.getUid()).setValue(true);
                     userRef.child("heart").child(review.getRevKey()).setValue(true);
+                    review.setHeart(review.getHeart()+1);
+                    holder.tvHeart.setText(String.valueOf(review.getHeart()));
                 } else {
                     reviewRef.child(review.getRevKey()).child("heart").child(user.getUid()).removeValue();
                     userRef.child("heart").child(review.getRevKey()).removeValue();
+                    review.setHeart(review.getHeart()-1);
+                    holder.tvHeart.setText(String.valueOf(review.getHeart()));
                 }
             }
         });
@@ -178,37 +187,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
                     .into(holder.ivUser);
         }
         */
-
-
-        /* //View(칸) 클릭 시 -> 나중에 써먹을지도?
-        holder.overall.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // TODO Auto-generated method stub
-                switch (event.getAction()) {
-                    //마우스를 눌렀을 때
-                    case MotionEvent.ACTION_DOWN:
-                        //holder.overall.setBackgroundColor(Color.parseColor("#F5F5F5"));
-
-                        break;
-                    //마우스를 땠을 때
-                    case MotionEvent.ACTION_UP:
-                        //set color back to default
-                        holder.overall.setBackgroundColor(Color.WHITE);
-
-                        //변수들의 값을 설정
-                        stFriendUid = listReview.get(position).getKey();
-                        stFriendEmail = listReview.get(position).getEmail();
-                        stFriendname = listReview.get(position).getName();
-                        stFriendPhoto = listReview.get(position).getPhoto();
-
-                        break;
-                }
-                return true;
-            }
-        });
-        */
     }
 
     /**
@@ -218,25 +196,22 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
      * @return  void
      * @Comment mFilter : backup, mFilter : showing at user
      * */
-    /*
-    public void filter(String charText) {
-        charText = charText.toLowerCase(Locale.getDefault());
+
+    public void filter_detail(boolean detail) {
         //친구 데이터 리스트를 하나 비운 뒤, 입력한 문자에 따라 백업용으로 다시 친구 데이터 리스트를 만듬
-        mFriend.clear();
-        if (charText.length() == 0) {
-            mFriend.addAll(mFilter);
-        } else {
-            for (Friend friend : mFilter) {
-                String name = friend.getName();
-                if (name.toLowerCase().contains(charText)) {
-                    mFriend.add(friend);
-                }
+        listReview.clear();
+        Log.d("filter", "listFilter" + listFilter);
+        for (Review review : listFilter) {
+            if (review.isDetail() == detail) {
+                Log.d("filter", "review_if "+ review);
+                listReview.add(review);
             }
+            Log.d("filter", "review_else "+ review);
         }
+
         //Communicate list view with adapter. Saying "data set Changed!"
         notifyDataSetChanged();
     }
-    */
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
