@@ -11,14 +11,14 @@
     <RelativeLayout
         android:id="@+id/frag4_top"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:orientation="vertical"
         android:background="@color/white">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ibSetting"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginTop="10dp"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:src="@color/white"
             app:civ_border_color="@color/textBtn"
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/ibSetting"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="30dp"
             android:layout_marginLeft="10dp"
             android:text="joy"
             android:textColor="#3d3d3d"
@@ -69,10 +69,11 @@
             android:id="@+id/attention"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="관심지역 설정"
-            android:textColor="#000000"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
+            android:text="관심지역 설정"
+            android:textColor="#000000"
+            android:textSize="15dp"
             android:textStyle="bold" />
         <TextView
             android:layout_width="wrap_content"
@@ -83,31 +84,44 @@
             android:textColor="#B4B4B4"/>
         <RelativeLayout
             android:id="@+id/attention_1"
-            android:layout_width="80dp"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:layout_marginLeft="20dp"
             android:background="#FFFFFF"
             android:orientation="vertical">
             <ImageView
+                android:id="@+id/at1_back"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:background="@drawable/bg_dday"
+                android:background="@drawable/frag4_fillbox"
                 android:scaleType="fitXY"
                 android:gravity="center"
                 />
             <TextView
+                android:id="@+id/it1_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="7dp"
                 android:layout_centerVertical="true"
                 android:text="서울시 광진구"
                 android:textSize="10dp"
-                android:textStyle="bold"/>
+                android:textColor="@color/white"/>
+            <ImageView
+                android:id="@+id/it1_button"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/frag4_x"
+                android:scaleType="fitXY"
+                android:gravity="center"
+                />
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/attention_2"
-            android:layout_width="80dp"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/attention_1"
             android:layout_toEndOf="@+id/attention_1"
@@ -115,24 +129,37 @@
             android:background="#FFFFFF"
             android:orientation="vertical">
             <ImageView
+                android:id="@+id/it2_back"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:background="@drawable/bg_dday"
+                android:background="@drawable/frag4_fillbox"
                 android:scaleType="fitXY"
                 android:gravity="center"
                 />
             <TextView
+                android:id="@+id/it2_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="7dp"
                 android:layout_centerVertical="true"
                 android:text="서울시 중랑구"
                 android:textSize="10dp"
-                android:textStyle="bold"/>
+                android:textColor="@color/white"/>
+            <ImageView
+                android:id="@+id/id2_button"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/frag4_x"
+                android:scaleType="fitXY"
+                android:gravity="center"
+                />
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/attention_3"
-            android:layout_width="80dp"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/attention_2"
             android:layout_toEndOf="@+id/attention_2"
@@ -140,20 +167,33 @@
             android:background="#FFFFFF"
             android:orientation="vertical">
             <ImageView
+                android:id="@+id/it3_back"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:background="@drawable/bg_dday"
+                android:background="@drawable/frag4_fillbox"
                 android:scaleType="fitXY"
                 android:gravity="center"
                 />
             <TextView
+                android:id="@+id/it3_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="7dp"
                 android:layout_centerVertical="true"
                 android:text="서울시 성동구"
                 android:textSize="10dp"
-                android:textStyle="bold"/>
+                android:textColor="@color/white"/>
+            <ImageView
+                android:id="@+id/it3_button"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/frag4_x"
+                android:scaleType="fitXY"
+                android:gravity="center"
+                />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -168,17 +208,24 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:text="내활동"
-            android:textColor="#000000"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
+            android:text="내활동"
+            android:textColor="#000000"
+            android:textSize="15dp"
             android:textStyle="bold" />
     </RelativeLayout>
     <LinearLayout
-        android:id="@+id/log_context"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_below="@+id/log"
+        android:background="@color/white"/>
+    <LinearLayout
+        android:id="@+id/log_context"
+        android:layout_width="280dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/log"
+        android:layout_centerHorizontal="true"
         android:orientation="horizontal"
         android:background="@color/white">
         <LinearLayout
@@ -257,39 +304,12 @@
                 android:text="2"
                 />
         </LinearLayout>
-        <View
-            android:layout_width="1dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="5dp"
-            android:background="#D3D3D3"/>
-        <LinearLayout
-            android:id="@+id/frag4_dot"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#FFFFFF"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:text="댓글"
-                android:textColor="#B4B4B4"
-                android:gravity="center"
-                />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="20dp"
-                android:textColor="#000000"
-                android:gravity="center"
-                android:text="2"
-                />
-        </LinearLayout>
     </LinearLayout>
 
     <!--공지사항&문의하기-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:layout_below="@+id/log_context"
         android:layout_marginTop="10dp"
         android:background="@color/white">
@@ -299,13 +319,15 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:text="공지사항"
+            android:textSize="15dp"
             android:textColor="#000000"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="40dp"
             android:layout_marginLeft="20dp"
             android:text="문의하기"
+            android:textSize="15dp"
             android:textColor="#000000"/>
     </RelativeLayout>
 </RelativeLayout>
