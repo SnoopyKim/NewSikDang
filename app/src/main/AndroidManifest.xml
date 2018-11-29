@@ -53,6 +53,7 @@
         <activity android:name=".ManagerLoginActivity" />
         <activity android:name=".ManagerJoinActivity" />
         <activity android:name=".SettingActivity"></activity>
+        <activity android:name=".AreaActivity"></activity>
     </application>
 
 </manifest>
