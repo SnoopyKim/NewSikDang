@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ManagerLoginActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        app:layout_heightPercent="60%"
+        android:layout_centerVertical="true"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            android:id="@+id/tvLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="업주 로그인"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/etID"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/tvLogin"
+            android:layout_marginTop="70dp"
+            android:hint="이메일 주소 입력"
+            android:backgroundTint="@color/gray"
+            android:textStyle="bold"
+            android:textColorHint="@color/textHint"
+            android:textColor="@color/black"
+            android:inputType="textEmailAddress"/>
+        <EditText
+            android:id="@+id/etPW"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/etID"
+            android:layout_marginTop="10dp"
+            android:hint="비밀번호 입력"
+            android:backgroundTint="@color/gray"
+            android:textStyle="bold"
+            android:textColorHint="@color/textHint"
+            android:textColor="@color/black"
+            android:inputType="textPassword"/>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/etPW"
+            android:layout_marginTop="40dp"
+            android:background="@color/btnDisabled"
+
+            android:text="로그인"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:textColor="@color/textBtn"/>
+
+    </RelativeLayout>
+
+</android.support.percent.PercentRelativeLayout>

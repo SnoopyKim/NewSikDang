@@ -84,7 +84,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         this.clickable = clickable;
         this.user = FirebaseAuth.getInstance().getCurrentUser();
         this.userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
-        this.reviewRef = FirebaseDatabase.getInstance().getReference("users").child("3040000");
+        this.reviewRef = FirebaseDatabase.getInstance().getReference("reviews").child("3040000");
     }
 
     @Override
@@ -140,9 +140,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         });
         reviewRef.child(review.getRevKey()).child("heart").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                holder.tvHeart.setText(String.valueOf(dataSnapshot.getChildrenCount()));
-            }
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) { holder.tvHeart.setText(String.valueOf(dataSnapshot.getChildrenCount())); }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });

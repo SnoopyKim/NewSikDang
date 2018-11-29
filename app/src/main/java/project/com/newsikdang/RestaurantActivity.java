@@ -43,6 +43,8 @@ public class RestaurantActivity extends AppCompatActivity {
 
     List<Review> listReview;
 
+    ImageView ivBack, ivSetting;
+
     TextView tvResName, tvResAddress, tvResPhone;
     TextView tvDate, tvHeart, tvReview;
 
@@ -65,6 +67,23 @@ public class RestaurantActivity extends AppCompatActivity {
         setContentView(R.layout.activity_restaurant);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
+
+        ivBack = findViewById(R.id.iv_res_back);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        ivSetting = findViewById(R.id.iv_res_setting);
+        ivSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         tvResName = findViewById(R.id.tv_res_name);
         tvResAddress = findViewById(R.id.tv_res_address);
@@ -214,7 +233,6 @@ public class RestaurantActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        listReview = new ArrayList<>();
     }
 
     @Override
@@ -224,6 +242,7 @@ public class RestaurantActivity extends AppCompatActivity {
     }
 
     public void loadReviews() {
+        listReview = new ArrayList<>();
         Query reviewQuery = reviewRef.orderByChild("restaurant").equalTo(resKey);
         reviewQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -255,6 +274,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
                         listReview.add(review);
                     }
+                    tvReviewCnt.setText(String.valueOf(l_simple+l_detail));
                     btnSimple.setText("한줄리뷰 " + l_simple);
                     btnDetail.setText("상세리뷰 " + l_detail);
 

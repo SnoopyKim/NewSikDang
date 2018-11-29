@@ -21,12 +21,21 @@
             android:background="#FFFFFF">
 
             <ImageView
+                android:id="@+id/iv_res_back"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
                 android:src="@drawable/back" />
+            <ImageView
+                android:id="@+id/iv_res_setting"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/setting_blank"/>
 
         </RelativeLayout>
 
@@ -101,7 +110,7 @@
         <RelativeLayout
             android:id="@+id/rl_res_title"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="135dp"
             android:layout_below="@+id/res_img"
             android:layout_marginTop="1dp"
             android:background="#FFFFFF"
@@ -195,7 +204,16 @@
                 android:layout_toEndOf="@+id/rb_res_star"
                 android:text="6"
                 android:textColor="#000000"
-                android:textSize="14dp" />
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_res_event_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rb_res_star"
+                android:text="이벤트 내용"
+                android:textColor="@color/black"
+                android:textSize="12dp"/>
 
             <RelativeLayout
                 android:id="@+id/rl_res_heart"
@@ -207,7 +225,7 @@
 
                 <Button
                     android:id="@+id/btn_res_heart"
-                    android:layout_width="35dp"
+                    android:layout_width="33dp"
                     android:layout_height="30dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
@@ -219,9 +237,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/btn_res_heart"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="-2dp"
                     android:text="0"
                     android:textColor="@color/black"
-                    android:textSize="13dp" />
+                    android:textSize="14dp" />
             </RelativeLayout>
 
         </RelativeLayout>
@@ -245,6 +264,7 @@
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
+
 
             <ImageView
                 android:id="@+id/iv_res_map"
@@ -331,6 +351,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_res_detail"
                 android:layout_marginTop="15dp">
+
                 <ImageView
                     android:id="@+id/iv_res_time"
                     android:layout_width="20dp"
@@ -567,6 +588,7 @@
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
+
             <ImageView
                 android:id="@+id/iv_res_hashtag_more"
                 android:layout_width="30dp"
@@ -618,11 +640,10 @@
 
             <ImageView
                 android:id="@+id/icon_review"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/review" />
+                android:background="@drawable/icon_review" />
 
             <LinearLayout
                 android:id="@+id/ll_rev_choice"

@@ -36,7 +36,7 @@ public class FourLike extends AppCompatActivity {
         setContentView(R.layout.fourlike);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
+        userRef = FirebaseDatabase.getInstance().getReference("users").child("customer").child(user.getUid());
         restaurantRef = FirebaseDatabase.getInstance().getReference("restaurants").child("3040000");
 
         userRef.child("heart").addListenerForSingleValueEvent(new ValueEventListener() {

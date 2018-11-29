@@ -37,7 +37,7 @@ public class FourFragment extends Fragment implements View.OnClickListener {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        userRef = database.getReference("users").child(user.getUid());
+        userRef = database.getReference("users").child("customer").child(user.getUid());
 
         ibSetting = v.findViewById(R.id.ibSetting);
         ibSetting.setOnClickListener(new View.OnClickListener() {

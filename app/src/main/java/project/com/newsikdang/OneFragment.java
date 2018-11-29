@@ -54,7 +54,7 @@ public class OneFragment extends Fragment implements View.OnClickListener {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        userRef = database.getReference("users").child(user.getUid());
+        userRef = database.getReference("users").child("customer").child(user.getUid());
         restaurantsRef = database.getReference("restaurants");
 
         btn1 = v.findViewById(R.id.btn1);

@@ -51,9 +51,11 @@ public class IntroActivity extends AppCompatActivity {
     private static String TAG = "IntroActivity";
     private static final int LOGIN = 101;
     private static final int JOIN = 102;
+    private static final int MANAGER_LOGIN = 103;
+    private static final int MANAGER_JOIN = 104;
     private static final int RC_SIGN_IN = 9001;
 
-    TextView tvLogin, tvJoin;
+    TextView tvLogin, tvJoin, tvManagerLogin, tvManagerJoin;
     RelativeLayout btnKakao, btnFacebook, btnGoogle;
     SignInButton btnGoogleLogin;
     LoginButton btnFacebookLogin;
@@ -73,7 +75,7 @@ public class IntroActivity extends AppCompatActivity {
         getHashKey(this);
 
         mAuth = FirebaseAuth.getInstance();
-        usersRef = FirebaseDatabase.getInstance().getReference("users");
+        usersRef = FirebaseDatabase.getInstance().getReference("users").child("customer");
 
         tvLogin = findViewById(R.id.tv_email_login);
         tvLogin.setOnClickListener(new View.OnClickListener() {
@@ -83,12 +85,28 @@ public class IntroActivity extends AppCompatActivity {
                 startActivityForResult(intent,LOGIN);
             }
         });
-
         tvJoin = findViewById(R.id.tv_email_join);
         tvJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(IntroActivity.this,JoinActivity.class);
+                startActivityForResult(intent,JOIN);
+            }
+        });
+
+        tvManagerLogin = findViewById(R.id.tv_manager_login);
+        tvManagerLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(IntroActivity.this,ManagerLoginActivity.class);
+                startActivityForResult(intent,LOGIN);
+            }
+        });
+        tvManagerJoin = findViewById(R.id.tv_manager_join);
+        tvManagerJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(IntroActivity.this,ManagerJoinActivity.class);
                 startActivityForResult(intent,JOIN);
             }
         });
@@ -179,12 +197,16 @@ public class IntroActivity extends AppCompatActivity {
                 Log.w(TAG, "Google sign in failed", e);
 
             }
-        } else if(requestCode == LOGIN || requestCode == JOIN) {
+        } else if (requestCode == LOGIN || requestCode == JOIN) {
             Intent intent = new Intent(IntroActivity.this,MainActivity.class);
             startActivity(intent);
             finish();
-        }
-        else {
+
+        } else if (requestCode == MANAGER_LOGIN || requestCode == MANAGER_JOIN) {
+            //usersRef.
+            Intent intent = new Intent(IntroActivity.this,RestaurantActivity.class);
+
+        } else {
             Log.d(TAG, "onActivityResult: requestCode: "+requestCode);
             // Pass the activity result back to the Facebook SDK
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
@@ -306,24 +328,6 @@ public class IntroActivity extends AppCompatActivity {
 
                     }
                 });
-    }
-
-    private void addToDatabase(FirebaseUser user) {
-        usersRef.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onDataChange: exists");
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d(TAG, "onDataChange: non-exists");
-            }
-        });
-        Hashtable<String, String> userInfo = new Hashtable<String, String>();
-        userInfo.put("email", user.getEmail());
-        userInfo.put("name", user.getDisplayName());
-        //usersRef.child(user.getUid()).setValue(userInfo);
     }
 
     // 프로젝트의 해시키를 반환

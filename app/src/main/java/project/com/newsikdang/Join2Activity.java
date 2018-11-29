@@ -1,6 +1,5 @@
 package project.com.newsikdang;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -38,9 +37,15 @@ public class Join2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_join2);
 
         database = FirebaseDatabase.getInstance();
-        ref = database.getReference("users");
+        ref = database.getReference("users").child("customer");
 
         ivProfile = findViewById(R.id.ivProfile);
+        ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         etName = findViewById(R.id.etName);
         etName.addTextChangedListener(new TextWatcher() {
@@ -88,8 +93,6 @@ public class Join2Activity extends AppCompatActivity {
                                 ref.child(user.getUid()).child("setting").setValue(userSetting).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Intent intent = new Intent(Join2Activity.this, MainActivity.class);
-                                        startActivity(intent);
                                         finish();
                                     }
                                 });
