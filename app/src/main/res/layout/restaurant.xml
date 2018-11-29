@@ -36,9 +36,7 @@
             android:id="@+id/tv_res_name"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
-            android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
-            android:layout_toEndOf="@+id/rl_res_dday"
             android:layout_below="@+id/tv_res_address"
             android:text="식당이름"
             android:textColor="#000000"
@@ -48,13 +46,14 @@
         <!--디데이부분-->
         <RelativeLayout
             android:id="@+id/rl_res_dday"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="25dp"
             android:layout_below="@+id/tv_res_address"
             android:layout_marginTop="5dp"
-            android:paddingStart="3dp"
-            android:paddingEnd="3dp"
-            android:background="@color/btnAbled"
+            android:layout_toEndOf="@+id/tv_res_name"
+            android:layout_marginStart="5dp"
+            android:gravity="center"
+            android:background="@drawable/bg_dday"
             >
             <TextView
                 android:id="@+id/tv_res_d"
@@ -70,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/tv_res_d"
                 android:layout_centerVertical="true"
-                android:text="33"
+                android:text="0"
                 android:textSize="12dp"
                 android:textColor="@color/white" />
         </RelativeLayout>
@@ -78,53 +77,36 @@
         <!--이벤트-->
         <TextView
             android:id="@+id/tv_res_event"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="25dp"
-            android:layout_toRightOf="@+id/tv_res_name"
+            android:layout_toEndOf="@+id/rl_res_dday"
             android:layout_alignTop="@+id/tv_res_name"
-            android:layout_marginLeft="5dp"
-            android:padding="2dp"
-            android:text="이벤트"
-            android:background="#1E90FF"
+            android:layout_marginStart="5dp"
+            android:text="EVENT"
+            android:gravity="center"
+            android:background="@drawable/bg_event"
             android:textSize="12dp"
-            android:textColor="@color/white"
-            android:visibility="invisible"/>
+            android:textColor="@color/white"/>
 
         <Button
             android:id="@+id/btn_res_heart"
-            android:layout_width="28dp"
-            android:layout_height="25dp"
-            android:layout_toStartOf="@+id/tv_res_heart"
-            android:layout_alignBottom="@+id/tv_res_heart"
+            android:layout_width="20dp"
+            android:layout_height="18dp"
+            android:layout_toEndOf="@+id/tv_res_review"
+            android:layout_marginStart="10dp"
+            android:layout_alignBottom="@+id/rb_res_star"
             android:background="@drawable/heart_states" />
         <TextView
             android:id="@+id/tv_res_heart"
             android:layout_width="30dp"
-            android:layout_height="25dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/tv_res_name"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/btn_res_heart"
+            android:layout_alignBottom="@+id/rb_res_star"
             android:gravity="center"
             android:text="0"
             android:textColor="@color/black"
-            android:textSize="16dp" />
-        <ImageView
-            android:id="@+id/iv_res_review"
-            android:layout_width="23dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="3dp"
-            android:layout_toStartOf="@+id/tv_res_review"
-            android:layout_alignBottom="@+id/tv_res_review"
-            android:background="@drawable/comment" />
-        <TextView
-            android:id="@+id/tv_res_review"
-            android:layout_width="30dp"
-            android:layout_height="25dp"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/tv_res_heart"
-            android:gravity="center"
-            android:text="0"
-            android:textColor="@color/black"
-            android:textSize="16dp" />
+            android:textSize="13dp" />
+
 
         <RatingBar
             android:id="@+id/rb_res_star"
@@ -138,7 +120,7 @@
             android:max="5"
             android:rating="3"/>
         <TextView
-            android:id="@+id/tv_res_star"
+            android:id="@+id/tv_res_review"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/rb_res_star"
@@ -148,18 +130,17 @@
             android:textColor="@color/black"
             android:textSize="13dp" />
 
-        <ImageView
-            android:id="@+id/iv_res_delete"
+        <Button
+            android:id="@+id/btn_res_remove"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
+            android:layout_alignBottom="@+id/tv_res_name"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:padding="2dp"
-            android:src="@drawable/xicon"
-            android:visibility="invisible"/>
-
+            android:background="@drawable/block_states"
+            android:scaleType="fitXY"
+            android:scaleX="1.8"
+            android:scaleY="1.8"/>
 
     </RelativeLayout>
 

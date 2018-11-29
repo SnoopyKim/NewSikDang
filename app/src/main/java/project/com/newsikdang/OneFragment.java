@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -33,19 +32,21 @@ import java.util.List;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class OneFragment extends Fragment implements View.OnClickListener {
+    private final String TAG = "OneFragment";
 
     private FirebaseUser user;
     private FirebaseDatabase database;
     private DatabaseReference userRef;
     private DatabaseReference restaurantsRef;
 
-    Button btn1, btn2, btn3, btn4;
+    Button btn1, btn2, btn3, btn4; //관심구역 1,2,3,4
+
 
     RecyclerView mRecyclerView;
     RestaurantAdapter resAdapter;
     LinearLayoutManager mLayoutManager;
 
-    String stCGG = "";
+    String stCGG = "3040000";
     ArrayList<Restaurant> items = new ArrayList<>();
 
     @Override
@@ -54,7 +55,7 @@ public class OneFragment extends Fragment implements View.OnClickListener {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        userRef = database.getReference("users").child(user.getUid());
+        userRef = database.getReference("users").child("customer").child(user.getUid());
         restaurantsRef = database.getReference("restaurants");
 
         btn1 = v.findViewById(R.id.btn1);
@@ -66,23 +67,28 @@ public class OneFragment extends Fragment implements View.OnClickListener {
         btn4 = v.findViewById(R.id.btn4);
         btn4.setOnClickListener(this);
 
-
-        userRef.child("setting").child("cgg").addListenerForSingleValueEvent(new ValueEventListener() {
+        btn1.setText(stCGG);
+        userRef.child("block").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                stCGG = dataSnapshot.getValue().toString();
-                btn1.setText(stCGG);
-
-                Query query = restaurantsRef.child(stCGG).orderByChild("date").limitToLast(30);
+                final List<String> blockList = new ArrayList<>();
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    blockList.add(data.getKey());
+                }
+                Query query = restaurantsRef.child(stCGG).orderByChild("date");
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot data : dataSnapshot.getChildren()) {
+                            if (blockList.indexOf(data.getKey()) != -1) { continue; }
                             String stResKey = data.getKey();
                             String stResName = data.child("name").getValue().toString();
                             String stResAddress = data.child("address").getValue().toString();
                             String stDate = data.child("date").getValue().toString();
-                            items.add(new Restaurant(stResKey, stResName, stResAddress, stDate));
+                            long l_heart = data.child("heart").getChildrenCount();
+                            long l_review = data.child("review").getChildrenCount();
+
+                            items.add(new Restaurant(stResKey, stResName, stResAddress, "", stDate, 0, l_heart , l_review ));
                         }
                         Collections.reverse(items);
                         resAdapter.notifyDataSetChanged();
@@ -120,11 +126,11 @@ public class OneFragment extends Fragment implements View.OnClickListener {
                     case MotionEvent.ACTION_DOWN:{
                         btn1.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeon));
                         btn1.setTextColor(getApplicationContext().getResources().getColor(R.color.maincolor));
-                        btn2.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff));
+                        btn2.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
                         btn2.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
-                        btn3.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff));
+                        btn3.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
                         btn3.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
-                        btn4.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff));
+                        btn4.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
                         btn4.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
                         break;
                     }
@@ -136,13 +142,13 @@ public class OneFragment extends Fragment implements View.OnClickListener {
             public boolean onTouch(View v, MotionEvent event){
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:{
-                        btn1.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff));
+                        btn1.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
                         btn1.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
                         btn2.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeon));
                         btn2.setTextColor(getApplicationContext().getResources().getColor(R.color.maincolor));
-                        btn3.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff));
+                        btn3.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
                         btn3.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
-                        btn4.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff));
+                        btn4.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
                         btn4.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
                         break;
                     }
@@ -154,13 +160,13 @@ public class OneFragment extends Fragment implements View.OnClickListener {
             public boolean onTouch(View v, MotionEvent event){
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:{
-                        btn1.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff));
+                        btn1.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
                         btn1.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
-                        btn2.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff));
+                        btn2.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
                         btn2.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
                         btn3.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeon));
                         btn3.setTextColor(getApplicationContext().getResources().getColor(R.color.maincolor));
-                        btn4.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff));
+                        btn4.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
                         btn4.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
                         break;
                     }
@@ -172,11 +178,11 @@ public class OneFragment extends Fragment implements View.OnClickListener {
             public boolean onTouch(View v, MotionEvent event){
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:{
-                        btn1.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff));
+                        btn1.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
                         btn1.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
-                        btn2.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff));
+                        btn2.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
                         btn2.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
-                        btn3.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff));
+                        btn3.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeoff2));
                         btn3.setTextColor(getApplicationContext().getResources().getColor(R.color.D6));
                         btn4.setBackground(getApplicationContext().getResources().getDrawable(R.drawable.area_strokeon));
                         btn4.setTextColor(getApplicationContext().getResources().getColor(R.color.maincolor));
@@ -187,7 +193,6 @@ public class OneFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-
 //        스피너
         Spinner spinner = v.findViewById(R.id.spinner);
         SpinnerAdapter spinneradapter;
@@ -195,12 +200,33 @@ public class OneFragment extends Fragment implements View.OnClickListener {
 //        데이터
         List<String> data = new ArrayList<>();
         data.add("최신순"); data.add("별점순"); data.add("거리순");
-        spinneradapter = new project.com.newsikdang.SpinnerAdapter(getContext(), data);
+        spinneradapter = new SpinnerAdapter(getContext(), data);
         spinner.setAdapter(spinneradapter);
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
         return v;
 
     }
+
     @Override
     public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.btn1:
+                        break;
+                    case R.id.btn2:
+                        items.clear();
+                        resAdapter.notifyDataSetChanged();
+                        break;
+                    case R.id.btn3:
+                        break;
+                    case R.id.btn4:
+                        break;
+        }
     }
 }

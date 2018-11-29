@@ -2,6 +2,7 @@ package project.com.newsikdang;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,15 @@ import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 import java.util.List;
@@ -21,6 +31,9 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     List<Restaurant> listRestaurant;
     Context context;
 
+    FirebaseUser user;
+    DatabaseReference restaurantRef, userRef;
+
     /**
      * @Name    ViewHolder
      * @Usage   Save views in Recycler view and link between variable and layout view(tag)
@@ -28,7 +41,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public RelativeLayout rlRestaurant;
         public TextView tvName, tvAddress, tvDate, tvStar, tvHeart, tvReview;
-        public Button btnHeart;
+        public Button btnHeart, btnRemove;
         public RatingBar rbStar;
 
         //순서대로 칸, 이름, 이미지를 레이아웃에서 불러와 생성
@@ -38,10 +51,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             tvName = itemView.findViewById(R.id.tv_res_name);
             tvAddress = itemView.findViewById(R.id.tv_res_address);
             tvDate = itemView.findViewById(R.id.tv_res_day);
-            tvStar = itemView.findViewById(R.id.tv_res_star);
             tvHeart = itemView.findViewById(R.id.tv_res_heart);
             tvReview = itemView.findViewById(R.id.tv_res_review);
             btnHeart = itemView.findViewById(R.id.btn_res_heart);
+            btnRemove = itemView.findViewById(R.id.btn_res_remove);
             rbStar = itemView.findViewById(R.id.rb_res_star);
         }
     }
@@ -50,6 +63,9 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     public RestaurantAdapter(List<Restaurant> restaurants, Context context) {
         this.listRestaurant = restaurants;
         this.context = context;
+        this.user = FirebaseAuth.getInstance().getCurrentUser();
+        this.restaurantRef = FirebaseDatabase.getInstance().getReference("restaurants").child("3040000");
+        this.userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
     }
 
     //VIew생성 및 레이아웃 설정
@@ -64,7 +80,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         return vh;
     }
 
-
     /**
      * @Name    onBindViewHolder
      * @Usage   set holder's element to Firebase data
@@ -75,23 +90,76 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         //이름과 리뷰 적기
-        holder.tvName.setText(listRestaurant.get(position).getName());
-        holder.tvAddress.setText(listRestaurant.get(position).getAddress());
+        if (holder.getAdapterPosition() == RecyclerView.NO_POSITION) return;
+        final Restaurant restaurant = listRestaurant.get(holder.getAdapterPosition());
+
+        holder.tvName.setText(restaurant.getName());
+        holder.tvAddress.setText(restaurant.getAddress());
 
         Calendar now = Calendar.getInstance();
-        int date = Integer.parseInt(listRestaurant.get(position).getDate());
+        int date = Integer.parseInt(restaurant.getDate());
         Calendar date_cal = Calendar.getInstance();
         date_cal.set(date/10000,(date/100)%100-1,date%100);
         long dday = (now.getTimeInMillis()-date_cal.getTimeInMillis()) / (1000*60*60*24);
         holder.tvDate.setText(String.valueOf(dday));
 
+        userRef.child("heart").child(restaurant.getResKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) { holder.btnHeart.setSelected(true); }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+        userRef.child("block").child(restaurant.getResKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) { holder.btnRemove.setSelected(true); }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+
+        holder.tvHeart.setText(String.valueOf(restaurant.getHeart()));
         holder.btnHeart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View button) {
                 button.setSelected(!button.isSelected());
-                int cnt_like = Integer.parseInt(holder.tvHeart.getText().toString());
-                if (button.isSelected()) { holder.tvHeart.setText(String.valueOf(cnt_like+1)); }
-                else { holder.tvHeart.setText(String.valueOf(cnt_like-1)); }
+                if (button.isSelected()) {
+                    restaurantRef.child(restaurant.getResKey()).child("heart").child(user.getUid()).setValue(true);
+                    userRef.child("heart").child(restaurant.getResKey()).setValue(true);
+                    restaurant.setHeart(restaurant.getHeart()+1);
+                    holder.tvHeart.setText(String.valueOf(restaurant.getHeart()));
+                    Toast.makeText(context,"좋아요 목록에 추가되었습니다.",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    restaurantRef.child(restaurant.getResKey()).child("heart").child(user.getUid()).removeValue();
+                    userRef.child("heart").child(restaurant.getResKey()).removeValue();
+                    restaurant.setHeart(restaurant.getHeart()-1);
+                    holder.tvHeart.setText(String.valueOf(restaurant.getHeart()));
+                    Toast.makeText(context,"좋아요 목록에서 삭제되었습니다.",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        holder.btnRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View button) {
+                button.setSelected(!button.isSelected());
+                if (button.isSelected()) {
+                    restaurantRef.child(restaurant.getResKey()).child("block").child(user.getUid()).setValue(true);
+                    userRef.child("block").child(restaurant.getResKey()).setValue(true);
+                    listRestaurant.remove(position);
+                    notifyItemRemoved(position);
+                    Toast.makeText(context,"싫어요 목록에 추가되었습니다.",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    restaurantRef.child(restaurant.getResKey()).child("block").child(user.getUid()).removeValue();
+                    userRef.child("block").child(restaurant.getResKey()).removeValue();
+                    listRestaurant.remove(position);
+                    notifyItemRemoved(position);
+                    Toast.makeText(context,"싫어요 목록에서 삭제되었습니다.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -99,7 +167,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context,RestaurantActivity.class);
-                intent.putExtra("resKey",listRestaurant.get(position).getResKey());
+                intent.putExtra("resKey",restaurant.getResKey());
                 context.startActivity(intent);
             }
         });

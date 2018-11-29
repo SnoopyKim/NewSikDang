@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="160dp">
+    android:layout_height="180dp">
     <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="160dp"
+        android:id="@+id/rl_review"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
         android:background="@drawable/stroke2"
         android:layout_centerInParent="true"
-        app:layout_widthPercent="96%"
-        android:padding="10dp">
+        android:padding="15dp">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/frag3_userimg"
             android:layout_width="50dp"
@@ -43,25 +43,20 @@
             android:max="5"
             android:rating="3"/>
 
-        <ScrollView
-            android:id="@+id/sv_rev_context"
+        <TextView
+            android:id="@+id/frag3_review"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@+id/rb_rev_star"
             android:layout_alignStart="@+id/frag3_username"
             android:layout_alignEnd="@id/btn_rev_heart"
             android:layout_marginEnd="28dp"
             android:layout_marginTop="10dp"
-            android:layout_above="@+id/tv_rev_date">
-            <TextView
-                android:id="@+id/frag3_review"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:textColor="@color/textBtn"
-                android:text="context"
-                />
-        </ScrollView>
+            android:layout_above="@+id/tv_rev_date"
+            android:textSize="16dp"
+            android:textColor="@color/textBtn"
+            android:text="context"
+            />
         <TextView
             android:id="@+id/tv_rev_date"
             android:layout_width="wrap_content"
@@ -87,9 +82,9 @@
             android:layout_alignBottom="@+id/rb_rev_star"
             android:layout_alignParentEnd="true"
             android:gravity="center"
-            android:text="3"
+            android:text="0"
             android:textColor="@color/heart_cnt"
             android:textSize="14dp"/>
     </RelativeLayout>
 
-</android.support.percent.PercentRelativeLayout>
+</RelativeLayout>

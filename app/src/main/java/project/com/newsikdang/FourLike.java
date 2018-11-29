@@ -2,28 +2,74 @@ package project.com.newsikdang;
 
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class FourLike extends AppCompatActivity implements View.OnClickListener {
+public class FourLike extends AppCompatActivity {
+    private final String TAG = "FourLike";
+
+    FirebaseUser user;
+    DatabaseReference userRef, restaurantRef;
+
     RecyclerView mRecyclerView;
     RestaurantAdapter mAdapter;
     LinearLayoutManager mLayoutManager;
+
+    ArrayList<Restaurant> listLike = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fourlike);
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        userRef = FirebaseDatabase.getInstance().getReference("users").child("customer").child(user.getUid());
+        restaurantRef = FirebaseDatabase.getInstance().getReference("restaurants").child("3040000");
+
+        userRef.child("heart").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    restaurantRef.child(data.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                String stResKey = dataSnapshot.getKey();
+                                String stResName = dataSnapshot.child("name").getValue().toString();
+                                String stResAddress = dataSnapshot.child("address").getValue().toString();
+                                String stDate = dataSnapshot.child("date").getValue().toString();
+                                long l_heart = dataSnapshot.child("heart").getChildrenCount();
+                                long l_review = dataSnapshot.child("review").getChildrenCount();
+
+                                listLike.add(new Restaurant(stResKey, stResName, stResAddress, "", stDate, 0, l_heart, l_review));
+                                mAdapter.notifyItemInserted(mAdapter.getItemCount());
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) { }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+
         mRecyclerView = (RecyclerView) findViewById(R.id.like_recycler);
         mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        ArrayList<Restaurant> items = new ArrayList<>();
 
         // LinearLayout으로 설정
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -37,11 +83,9 @@ public class FourLike extends AppCompatActivity implements View.OnClickListener 
             }
         });
         // Adapter 생성
-        mAdapter = new RestaurantAdapter(items, this);
+        mAdapter = new RestaurantAdapter(listLike, this);
         mRecyclerView.setAdapter(mAdapter);
-    }
-    @Override
-    public void onClick(View v) {
+
     }
 }
 

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ManagerJoinActivity"
+    android:focusableInTouchMode="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        app:layout_heightPercent="70%"
+        android:layout_centerVertical="true"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp">
+
+        <TextView
+            android:id="@+id/tvJoin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="업주 등록"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/etSnum"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/tvJoin"
+            android:layout_marginTop="50dp"
+            android:hint="업소일련번호 입력"
+            android:backgroundTint="@color/textHint"
+            android:textColorHint="@color/textHint"
+            android:textColor="@color/black"
+            android:inputType="textEmailAddress"/>
+        <EditText
+            android:id="@+id/etDate"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/etSnum"
+            android:hint="영업자시작일 입력"
+            android:backgroundTint="@color/textHint"
+            android:textColorHint="@color/textHint"
+            android:textColor="@color/black"
+            android:inputType="textEmailAddress"/>
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/etDate"
+            android:hint="이메일 주소 입력"
+            android:backgroundTint="@color/textHint"
+            android:textColorHint="@color/textHint"
+            android:textColor="@color/black"
+            android:inputType="textEmailAddress"/>
+        <EditText
+            android:id="@+id/etPW"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/etEmail"
+            android:hint="비밀번호 (영문, 숫자 6자리)"
+            android:backgroundTint="@color/textHint"
+            android:textColorHint="@color/textHint"
+            android:textColor="@color/black"
+            android:inputType="textPassword"/>
+        <EditText
+            android:id="@+id/etPW2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/etPW"
+            android:hint="비밀번호 확인"
+            android:backgroundTint="@color/textHint"
+            android:textColorHint="@color/textHint"
+            android:textColor="@color/black"
+            android:inputType="textPassword"/>
+
+        <Button
+            android:id="@+id/btnJoin"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/etPW2"
+            android:layout_marginTop="30dp"
+            android:background="@color/btnDisabled"
+            android:text="회원가입"
+            android:textStyle="bold"
+            android:textColor="@color/textBtn"/>
+
+    </RelativeLayout>
+
+</android.support.percent.PercentRelativeLayout>
