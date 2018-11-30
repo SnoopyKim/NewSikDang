@@ -65,7 +65,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         this.context = context;
         this.user = FirebaseAuth.getInstance().getCurrentUser();
         this.restaurantRef = FirebaseDatabase.getInstance().getReference("restaurants").child("3040000");
-        this.userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
+        this.userRef = FirebaseDatabase.getInstance().getReference("users").child("customer").child(user.getUid());
     }
 
     //VIew생성 및 레이아웃 설정

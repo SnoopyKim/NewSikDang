@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,6 +28,7 @@ public class ReviewActivity extends AppCompatActivity {
 
     FirebaseUser user;
     DatabaseReference reviewRef, restaurantRef, userRef;
+    StorageReference storageRef;
 
     Button btnExit, btnSubmit;
 
@@ -194,6 +196,7 @@ public class ReviewActivity extends AppCompatActivity {
         reviewInfo.put("restaurant", resKey);
         reviewInfo.put("detail", "true");
         reviewInfo.put("uid", stUid);
+        reviewInfo.put("uphoto", user.getPhotoUrl().toString());
         reviewInfo.put("name", stName);
         reviewInfo.put("star_main", String.valueOf(rating_main));
         reviewInfo.put("star_taste", String.valueOf(rating_taste));

@@ -32,8 +32,9 @@ function saveData() {
       var tel = result[i].UPSO_SITE_TELNO; //전화번호
 
       // if date diff is over 100days, skip it
-      var date = parseInt(result[i].BMAN_STDT); //영업자 시작일
-      var date_cal = new Date(parseInt(date/10000),parseInt((date%10000)/100)-1,date%100);
+      var date = result[i].BMAN_STDT; //영업자 시작일
+      var i_date = parseInt(date);
+      var date_cal = new Date(parseInt(i_date/10000),parseInt((i_date%10000)/100)-1,i_date%100);
       if ((today-date_cal)/(1000*60*60*24) > 100)  {
         arrSkip.push(upso_sno);
         continue;
@@ -43,14 +44,13 @@ function saveData() {
       // location -> /restaurants/area_code/key(snum+name)
       arrOk.push(upso_sno);
       var key = upso_sno+upso_nm;
-      restaurantsRef.child(cgg).child(key).set({
-        snum: upso_sno,
-        name: upso_nm,
-        address: address,
-        category: category,
-        tel: tel,
-        date: date
-      });
+      restaurantsRef.child(cgg).child(key).child("snum").set(upso_sno);
+      restaurantsRef.child(cgg).child(key).child("name").set(upso_nm);
+      restaurantsRef.child(cgg).child(key).child("address").set(address);
+      restaurantsRef.child(cgg).child(key).child("category").set(category);
+      restaurantsRef.child(cgg).child(key).child("tel").set(tel);
+      restaurantsRef.child(cgg).child(key).child("date").set(date);
+
     }
     // write log number of save data & skip data
     console.log("cnt_ok: ", arrOk.length, "\ncnt_skip", arrSkip.length);

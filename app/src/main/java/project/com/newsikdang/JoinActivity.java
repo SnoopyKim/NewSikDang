@@ -171,13 +171,21 @@ public class JoinActivity extends AppCompatActivity {
 
                                         Toast.makeText(JoinActivity.this,"회원가입 되셨습니다.",Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(JoinActivity.this, Join2Activity.class);
-                                        startActivity(intent);
-                                        finish();
+                                        startActivityForResult(intent, 1);
                                     }
                                 }
                             });
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            setResult(102);
+            finish();
+        }
     }
 }

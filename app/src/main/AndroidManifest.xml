@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- WIFI 상태활용시 추가 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 갤러리 들어갈 시 추가 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -50,6 +52,9 @@
         <activity android:name=".Coupon" />
         <activity android:name=".FourCoupon" />
         <activity android:name=".ReviewActivity" />
+        <activity android:name=".ManagerLoginActivity" />
+        <activity android:name=".ManagerJoinActivity" />
+        <activity android:name=".SettingActivity"></activity>
         <activity android:name=".AreaActivity"></activity>
     </application>
 
