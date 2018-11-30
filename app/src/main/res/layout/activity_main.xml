@@ -26,7 +26,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="#000000"
+            android:background="#D6D6D6"
             android:layout_below="@+id/ll_fragment"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,20 +40,13 @@
         android:background="#FFFFFF"
         android:orientation="vertical">
             <ImageView
+                android:id="@+id/frag1_img"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="60dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/restaurant_fill"
-                android:paddingTop="5dp"
-                android:textAlignment="center"
-                />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="20dp"
-                android:textColor="#000000"
-                android:gravity="center"
-                android:text="관심목록"
-                />
+                android:src="@drawable/tab_heart_red"
+                android:padding="15dp"
+                android:textAlignment="center" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/frag2"
@@ -63,17 +56,12 @@
             android:background="#FFFFFF"
             android:orientation="vertical">
             <ImageView
+                android:id="@+id/frag2_img"
                 android:layout_width="fill_parent"
-                android:layout_height="40dp"
+                android:layout_height="60dp"
                 android:scaleType="fitCenter"
-                android:paddingTop="5dp"
-                android:src="@drawable/gps_blank" />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="20dp"
-                android:textColor="#000000"
-                android:gravity="center"
-                android:text="내위치"/>
+                android:padding="15dp"
+                android:src="@drawable/tab_gps" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/frag3"
@@ -83,17 +71,12 @@
             android:background="#FFFFFF"
             android:orientation="vertical">
             <ImageView
+                android:id="@+id/frag3_img"
                 android:layout_width="fill_parent"
-                android:layout_height="40dp"
+                android:layout_height="60dp"
                 android:scaleType="fitCenter"
-                android:paddingTop="5dp"
-                android:src="@drawable/chat_blank" />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="20dp"
-                android:textColor="#000000"
-                android:gravity="center"
-                android:text="리뷰피드"/>
+                android:padding="15dp"
+                android:src="@drawable/tab_feed" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/frag4"
@@ -103,17 +86,12 @@
             android:background="#FFFFFF"
             android:orientation="vertical">
             <ImageView
+                android:id="@+id/frag4_img"
                 android:layout_width="fill_parent"
-                android:layout_height="40dp"
+                android:layout_height="60dp"
                 android:scaleType="fitCenter"
-                android:paddingTop="5dp"
-                android:src="@drawable/user_blank" />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="20dp"
-                android:textColor="#000000"
-                android:gravity="center"
-                android:text="내정보"/>
+                android:padding="15dp"
+                android:src="@drawable/tab_user" />
         </LinearLayout>
     </LinearLayout>
     </LinearLayout>

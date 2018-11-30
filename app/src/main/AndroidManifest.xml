@@ -54,8 +54,9 @@
         <activity android:name=".ReviewActivity" />
         <activity android:name=".ManagerLoginActivity" />
         <activity android:name=".ManagerJoinActivity" />
-        <activity android:name=".SettingActivity"></activity>
-        <activity android:name=".AreaActivity"></activity>
+        <activity android:name=".SettingActivity" />
+        <activity android:name=".AreaActivity" />
+        <activity android:name=".Two_Restaurant"></activity>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +42,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         frag3.setOnClickListener(this);
         frag4 = findViewById(R.id.frag4);
         frag4.setOnClickListener(this);
+
         mCurrentFragmentIndex = FRAGMENT_ONE;
         fragmentReplace(mCurrentFragmentIndex);
 
@@ -141,8 +143,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+
+        ImageView img1 = findViewById(R.id.frag1_img);
+        ImageView img2 = findViewById(R.id.frag2_img);
+        ImageView img3 = findViewById(R.id.frag3_img);
+        ImageView img4 = findViewById(R.id.frag4_img);
+
+
         switch (v.getId()) {
             case R.id.frag1:
+                img1.setImageResource(R.drawable.tab_heart_red);
+                img2.setImageResource(R.drawable.tab_gps);
+                img3.setImageResource(R.drawable.tab_feed);
+                img4.setImageResource(R.drawable.tab_user);
                 mCurrentFragmentIndex = FRAGMENT_ONE;
                 fragmentReplace(mCurrentFragmentIndex);
                 frag1.setEnabled(false);
@@ -151,6 +164,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 frag4.setEnabled(true);
                 break;
             case R.id.frag2:
+                img1.setImageResource(R.drawable.tab_heart);
+                img2.setImageResource(R.drawable.tab_gps_red);
+                img3.setImageResource(R.drawable.tab_feed);
+                img4.setImageResource(R.drawable.tab_user);
                 mCurrentFragmentIndex = FRAGMENT_TWO;
                 fragmentReplace(mCurrentFragmentIndex);
                 frag1.setEnabled(true);
@@ -159,6 +176,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 frag4.setEnabled(true);
                 break;
             case R.id.frag3:
+                img1.setImageResource(R.drawable.tab_heart);
+                img2.setImageResource(R.drawable.tab_gps);
+                img3.setImageResource(R.drawable.tab_feed_red);
+                img4.setImageResource(R.drawable.tab_user);
                 mCurrentFragmentIndex = FRAGMENT_THREE;
                 fragmentReplace(mCurrentFragmentIndex);
                 frag1.setEnabled(true);
@@ -167,6 +188,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 frag4.setEnabled(true);
                 break;
             case R.id.frag4:
+                img1.setImageResource(R.drawable.tab_heart);
+                img2.setImageResource(R.drawable.tab_gps);
+                img3.setImageResource(R.drawable.tab_feed);
+                img4.setImageResource(R.drawable.tab_user_red);
                 mCurrentFragmentIndex = FRAGMENT_FOUR;
                 fragmentReplace(mCurrentFragmentIndex);
                 frag1.setEnabled(true);

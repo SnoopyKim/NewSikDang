@@ -24,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Calendar;
 import java.util.List;
 
-public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
+public class MapRestaurantAdapter extends RecyclerView.Adapter<MapRestaurantAdapter.ViewHolder> {
 
     //리뷰 데이터 리스트 두개 (하나는 백업용)
     //@Comment search results are dynamic element. So, Friends list back up to mFilter
@@ -41,7 +41,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public RelativeLayout rlRestaurant;
         public TextView tvName, tvAddress, tvDate, tvStar, tvHeart, tvReview;
-        public Button btnHeart, btnRemove;
+        public Button btnHeart;
         public RatingBar rbStar;
 
         //순서대로 칸, 이름, 이미지를 레이아웃에서 불러와 생성
@@ -54,13 +54,12 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             tvHeart = itemView.findViewById(R.id.tv_res_heart);
             tvReview = itemView.findViewById(R.id.tv_res_review);
             btnHeart = itemView.findViewById(R.id.btn_res_heart);
-            btnRemove = itemView.findViewById(R.id.btn_res_remove);
             rbStar = itemView.findViewById(R.id.rb_res_star);
         }
     }
 
     // 커스텀 생성자로 리뷰 데이터 리스트를 받음
-    public RestaurantAdapter(List<Restaurant> restaurants, Context context) {
+    public MapRestaurantAdapter(List<Restaurant> restaurants, Context context) {
         this.listRestaurant = restaurants;
         this.context = context;
         this.user = FirebaseAuth.getInstance().getCurrentUser();
@@ -70,10 +69,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
     //VIew생성 및 레이아웃 설정
     @Override
-    public RestaurantAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MapRestaurantAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.restaurant, parent, false);
+                .inflate(R.layout.activity_two__restaurant, parent, false);
 
         //set the view's size, margin, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
@@ -111,14 +110,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
-        userRef.child("block").child(restaurant.getResKey()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) { holder.btnRemove.setSelected(true); }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
 
         holder.tvHeart.setText(String.valueOf(restaurant.getHeart()));
         holder.btnHeart.setOnClickListener(new View.OnClickListener() {
@@ -142,26 +133,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             }
         });
 
-        holder.btnRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View button) {
-                button.setSelected(!button.isSelected());
-                if (button.isSelected()) {
-                    restaurantRef.child(restaurant.getResKey()).child("block").child(user.getUid()).setValue(true);
-                    userRef.child("block").child(restaurant.getResKey()).setValue(true);
-                    listRestaurant.remove(position);
-                    notifyItemRemoved(position);
-                    Toast.makeText(context,"싫어요 목록에 추가되었습니다.",Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    restaurantRef.child(restaurant.getResKey()).child("block").child(user.getUid()).removeValue();
-                    userRef.child("block").child(restaurant.getResKey()).removeValue();
-                    listRestaurant.remove(position);
-                    notifyItemRemoved(position);
-                    Toast.makeText(context,"싫어요 목록에서 삭제되었습니다.",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         holder.rlRestaurant.setOnClickListener(new View.OnClickListener() {
             @Override

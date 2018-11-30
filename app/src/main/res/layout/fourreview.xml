@@ -16,6 +16,7 @@
             android:layout_centerInParent="true"
             android:textSize="18dp"
             android:textStyle="bold"
+            android:textColor="@color/white"
             android:text="내 리뷰 및 댓글"/>
     </RelativeLayout>
     <android.support.v7.widget.RecyclerView
