@@ -38,7 +38,7 @@ public class FourReview extends AppCompatActivity {
         setContentView(R.layout.fourreview);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
+        userRef = FirebaseDatabase.getInstance().getReference("users").child("customer").child(user.getUid());
         reviewRef = FirebaseDatabase.getInstance().getReference("reviews").child("3040000");
 
         Query query = reviewRef.orderByChild("uid").equalTo(user.getUid());

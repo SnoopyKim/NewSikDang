@@ -40,7 +40,7 @@ public class FourFragment extends Fragment implements View.OnClickListener {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        userRef = database.getReference("users").child(user.getUid());
+        userRef = database.getReference("users").child("customer").child(user.getUid());
 
         ibSetting = v.findViewById(R.id.ibSetting);
         ibSetting.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +60,15 @@ public class FourFragment extends Fragment implements View.OnClickListener {
         tvUserName.setText(user.getDisplayName());
         tvUserEmail = v.findViewById(R.id.frag4_useremail);
         tvUserEmail.setText(user.getEmail());
+
+        RelativeLayout rl_att_1 = v.findViewById(R.id.attention_1);
+        rl_att_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),AreaActivity.class);
+                startActivity(intent);
+            }
+        });
 
 //        내쿠폰함
         ImageView llayout = v.findViewById(R.id.frag4_coupon);
