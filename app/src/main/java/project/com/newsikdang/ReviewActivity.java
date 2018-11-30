@@ -196,6 +196,7 @@ public class ReviewActivity extends AppCompatActivity {
         reviewInfo.put("restaurant", resKey);
         reviewInfo.put("detail", "true");
         reviewInfo.put("uid", stUid);
+        reviewInfo.put("uphoto", user.getPhotoUrl().toString());
         reviewInfo.put("name", stName);
         reviewInfo.put("star_main", String.valueOf(rating_main));
         reviewInfo.put("star_taste", String.valueOf(rating_taste));

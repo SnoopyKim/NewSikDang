@@ -107,7 +107,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
         restaurantRef = FirebaseDatabase.getInstance().getReference("restaurants").child("3040000").child(resKey);
         reviewRef = FirebaseDatabase.getInstance().getReference("reviews").child("3040000");
-        userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
+        userRef = FirebaseDatabase.getInstance().getReference("users").child("customer").child(user.getUid());
 
         restaurantRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

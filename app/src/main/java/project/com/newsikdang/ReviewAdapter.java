@@ -24,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by snoopy on 2017-04-01.
  */
@@ -57,6 +59,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         public TextView tvName, tvContext, tvDate, tvHeart;
         public Button btnHeart;
         public RatingBar rbStar, rbTaste, rbCost, rbService, rbAmbiance;
+        public CircleImageView ivProfile;
 
         //순서대로 칸, 이름, 이미지를 레이아웃에서 불러와 생성
         public ViewHolder(View itemView) {
@@ -72,6 +75,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             rbCost = itemView.findViewById(R.id.rb_rev_cost);
             rbService = itemView.findViewById(R.id.rb_rev_service);
             rbAmbiance = itemView.findViewById(R.id.rb_rev_ambiance);
+            ivProfile = itemView.findViewById(R.id.frag3_userimg);
         }
     }
 
@@ -123,6 +127,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         holder.tvContext.setText(review.getText());
         holder.tvDate.setText(review.getDate());
         holder.rbStar.setRating(review.getStar());
+
         if (review.isDetail()) {
             holder.rbTaste.setRating(review.getStartaste());
             holder.rbCost.setRating(review.getStarcost());
