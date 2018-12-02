@@ -198,10 +198,11 @@ public class IntroActivity extends AppCompatActivity {
 
             }
         } else if (requestCode == LOGIN || requestCode == JOIN) {
-            Intent intent = new Intent(IntroActivity.this,MainActivity.class);
-            startActivity(intent);
-            finish();
-
+            if (mAuth.getCurrentUser() != null) {
+                Intent intent = new Intent(IntroActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
         } else if (requestCode == MANAGER_LOGIN || requestCode == MANAGER_JOIN) {
             //usersRef.
             Intent intent = new Intent(IntroActivity.this,RestaurantActivity.class);

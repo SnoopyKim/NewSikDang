@@ -115,7 +115,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         final FragmentTransaction transaction = getSupportFragmentManager() .beginTransaction();
         transaction.replace(R.id.ll_fragment, newFragment);
         // Commit the transaction
-        transaction.commit(); }
+        transaction.commit();
+    }
 
     private Fragment getFragment(int idx) {
         Fragment newFragment = null;

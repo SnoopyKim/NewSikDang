@@ -10,6 +10,7 @@ public class TwoFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.twofragment, container, false);
+
         return v;
     }
 

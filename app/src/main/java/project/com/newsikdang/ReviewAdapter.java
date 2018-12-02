@@ -3,6 +3,7 @@ package project.com.newsikdang;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -60,6 +62,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         public Button btnHeart;
         public RatingBar rbStar, rbTaste, rbCost, rbService, rbAmbiance;
         public CircleImageView ivProfile;
+        public ViewPager photoPager;
+        public TextView tvIndicator;
 
         //순서대로 칸, 이름, 이미지를 레이아웃에서 불러와 생성
         public ViewHolder(View itemView) {
@@ -76,6 +80,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             rbService = itemView.findViewById(R.id.rb_rev_service);
             rbAmbiance = itemView.findViewById(R.id.rb_rev_ambiance);
             ivProfile = itemView.findViewById(R.id.frag3_userimg);
+            photoPager = itemView.findViewById(R.id.pager);
+            tvIndicator = itemView.findViewById(R.id.tv_indicator);
         }
     }
 
@@ -127,12 +133,26 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         holder.tvContext.setText(review.getText());
         holder.tvDate.setText(review.getDate());
         holder.rbStar.setRating(review.getStar());
-
+        Glide.with(context).load(review.getUserProfile()).into(holder.ivProfile);
         if (review.isDetail()) {
             holder.rbTaste.setRating(review.getStartaste());
             holder.rbCost.setRating(review.getStarcost());
             holder.rbService.setRating(review.getStarservice());
             holder.rbAmbiance.setRating(review.getStarambiance());
+
+            final SlidingImageAdapter imageAdapter = new SlidingImageAdapter(context, review.getPhoto());
+            holder.photoPager.setAdapter(imageAdapter);
+            holder.tvIndicator.setText(1+" / "+imageAdapter.getCount());
+            holder.photoPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+                @Override
+                public void onPageSelected(int position) {
+                    holder.tvIndicator.setText((position+1)+" / "+imageAdapter.getCount());
+                }
+                @Override
+                public void onPageScrollStateChanged(int state) { }
+            });
         }
 
         userRef.child("heart").child(review.getRevKey()).addListenerForSingleValueEvent(new ValueEventListener() {
