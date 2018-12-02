@@ -255,6 +255,7 @@ public class Two_Restaurant extends AppCompatActivity {
                         String revKey = dataSnapshot2.getKey();
                         String uid = dataSnapshot2.child("uid").getValue().toString();
                         String name = dataSnapshot2.child("name").getValue().toString();
+                        String profile = dataSnapshot2.child("uphoto").getValue().toString();
                         String text = dataSnapshot2.child("context").getValue().toString();
                         String date = dataSnapshot2.child("date").getValue().toString();
                         float star = Float.valueOf(dataSnapshot2.child("star_main").getValue().toString());
@@ -262,14 +263,18 @@ public class Two_Restaurant extends AppCompatActivity {
                         Review review;
                         if (!detail) {
                             l_simple += 1;
-                            review = new Review(revKey, resKey, uid, name, text, date, star, 0);
+                            review = new Review(revKey, resKey, uid, name, profile, text, date, star, 0);
                         } else {
                             l_detail += 1;
                             float star_t = Float.valueOf(dataSnapshot2.child("star_taste").getValue().toString());
                             float star_c = Float.valueOf(dataSnapshot2.child("star_cost").getValue().toString());
                             float star_s = Float.valueOf(dataSnapshot2.child("star_service").getValue().toString());
                             float star_a = Float.valueOf(dataSnapshot2.child("star_ambiance").getValue().toString());
-                            review = new Review(revKey, resKey, uid, name, text, "", date, star, star_t, star_c, star_s, star_a, 0);
+                            List<String> photo = new ArrayList<>();
+                            for (DataSnapshot photoData : dataSnapshot2.child("photo").getChildren()) {
+                                photo.add(photoData.getValue().toString());
+                            }
+                            review = new Review(revKey, resKey, uid, name, profile, text, photo, date, star, star_t, star_c, star_s, star_a, 0);
                         }
 
                         listReview.add(review);

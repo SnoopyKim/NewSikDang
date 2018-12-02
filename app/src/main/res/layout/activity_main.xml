@@ -42,10 +42,10 @@
             <ImageView
                 android:id="@+id/frag1_img"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/tab_heart_red"
-                android:padding="15dp"
+                android:padding="10dp"
                 android:textAlignment="center" />
         </LinearLayout>
         <LinearLayout
@@ -58,9 +58,9 @@
             <ImageView
                 android:id="@+id/frag2_img"
                 android:layout_width="fill_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:scaleType="fitCenter"
-                android:padding="15dp"
+                android:padding="10dp"
                 android:src="@drawable/tab_gps" />
         </LinearLayout>
         <LinearLayout
@@ -73,9 +73,9 @@
             <ImageView
                 android:id="@+id/frag3_img"
                 android:layout_width="fill_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:scaleType="fitCenter"
-                android:padding="15dp"
+                android:padding="10dp"
                 android:src="@drawable/tab_feed" />
         </LinearLayout>
         <LinearLayout
@@ -88,9 +88,9 @@
             <ImageView
                 android:id="@+id/frag4_img"
                 android:layout_width="fill_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:scaleType="fitCenter"
-                android:padding="15dp"
+                android:padding="10dp"
                 android:src="@drawable/tab_user" />
         </LinearLayout>
     </LinearLayout>

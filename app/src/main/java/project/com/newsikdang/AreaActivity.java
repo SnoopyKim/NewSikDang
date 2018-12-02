@@ -1,5 +1,6 @@
 package project.com.newsikdang;
 
+import android.support.percent.PercentRelativeLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -10,15 +11,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-public class AreaActivity extends FragmentActivity implements View.OnClickListener {
-    final String TAG = "MainActivity";
-    int mCurrentFragmentIndex;
+public class AreaActivity extends AppCompatActivity implements View.OnClickListener {
+    private static String TAG = "AreaActivity";
 
-    public final static int FRAGMENT_ONE = 0;
-    public final static int FRAGMENT_TWO = 1;
-    public final static int FRAGMENT_THREE = 2;
+    RelativeLayout a_btn1, b_btn1, c_btn1, area_a, area_b;
 
-    RelativeLayout a_btn1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,50 +23,21 @@ public class AreaActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_area);
 
         a_btn1 = findViewById(R.id.a_btn1);
-        a_btn1.setOnClickListener(this);
+        b_btn1 = findViewById(R.id.b_btn1);
+        area_a = findViewById(R.id.area_a);
+        area_b = findViewById(R.id.area_b);
 
-        mCurrentFragmentIndex = FRAGMENT_ONE;
-        fragmentReplace(mCurrentFragmentIndex);
+        area_a.setVisibility(View.VISIBLE);
+        area_b.setVisibility(View.GONE);
 
-
-    }
-
-    public void fragmentReplace(int reqNewFragmentIndex) {
-        Fragment newFragment = null; Log.d(TAG, "fragmentReplace " + reqNewFragmentIndex);
-        newFragment = getFragment(reqNewFragmentIndex);
-        // replace fragment
-        final FragmentTransaction transaction = getSupportFragmentManager() .beginTransaction();
-        transaction.replace(R.id.area_fragment, newFragment);
-        // Commit the transaction
-        transaction.commit(); }
-
-
-    private Fragment getFragment(int idx) {
-        Fragment newFragment = null;
-        switch (idx) {
-            case FRAGMENT_ONE:
-                newFragment = new map_1();
-                break;
-            case FRAGMENT_TWO:
-                newFragment = new map_2();
-                break;
-            case FRAGMENT_THREE:
-                newFragment = new map_3();
-                break;
-            default:
-                Log.d(TAG, "Unhandle case");
-                break;
-        }
-        return newFragment;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.a_btn1:
-                mCurrentFragmentIndex = FRAGMENT_ONE;
-                fragmentReplace(mCurrentFragmentIndex);
-                a_btn1.setEnabled(false);
+                area_a.setVisibility(View.GONE);
+                area_b.setVisibility(View.VISIBLE);
                 break;
         }
     }
