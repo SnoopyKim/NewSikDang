@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/rl_review"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="420dp"
         android:background="@drawable/stroke2"
         android:padding="10dp">
         <de.hdodenhof.circleimageview.CircleImageView
@@ -165,27 +165,39 @@
             android:max="5"
             android:rating="3"/>
 
-        <ImageView
-            android:id="@+id/iv_rev_image"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
+        <RelativeLayout
+            android:id="@+id/rl_rev_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignStart="@+id/frag3_username"
             android:layout_alignEnd="@+id/btn_rev_heart"
             android:layout_marginEnd="28dp"
             android:layout_below="@+id/tv_rev_service"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/review_img"
-            android:scaleType="fitXY"
-            />
+            android:layout_marginTop="10dp">
 
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_alignParentTop="true" />
+            <TextView
+                android:id="@+id/tv_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="10dp"
+                android:text="0 / 0"
+                android:textColor="@color/textHint"/>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/frag3_review"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_rev_image"
+            android:layout_below="@+id/rl_rev_img"
             android:layout_alignStart="@+id/frag3_username"
-            android:layout_alignEnd="@id/iv_rev_image"
+            android:layout_alignEnd="@id/rl_rev_img"
             android:layout_marginTop="10dp"
             android:layout_above="@+id/tv_rev_date"
             android:textSize="16dp"
