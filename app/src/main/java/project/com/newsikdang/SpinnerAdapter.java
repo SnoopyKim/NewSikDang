@@ -42,6 +42,7 @@ public class SpinnerAdapter extends BaseAdapter {
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         if(convertView==null){
             convertView = inflater.inflate(R.layout.spinner_item_down, parent, false);
+            convertView.setMinimumHeight(50);
         }
         //데이터세팅
         String text = data.get(position);
@@ -56,6 +57,10 @@ public class SpinnerAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    public int getItemposition(String value) {
+        return data.indexOf(value);
     }
 
 }
