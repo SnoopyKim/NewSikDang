@@ -8,36 +8,87 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-public class AreaActivity extends AppCompatActivity implements View.OnClickListener {
+import static com.facebook.FacebookSdk.getApplicationContext;
+import static project.com.newsikdang.MainActivity.FRAGMENT_FOUR;
+
+public class AreaActivity extends FragmentActivity implements View.OnClickListener {
     private static String TAG = "AreaActivity";
+    int mCurrentFragmentIndex;
+    public final static int FRAGMENT_ONE = 0;
+    public final static int FRAGMENT_TWO = 1;
 
-    RelativeLayout a_btn1, b_btn1, c_btn1, area_a, area_b;
-
+    Button area_btn1, area_btn2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_area);
 
-        a_btn1 = findViewById(R.id.a_btn1);
-        b_btn1 = findViewById(R.id.b_btn1);
-        area_a = findViewById(R.id.area_a);
-        area_b = findViewById(R.id.area_b);
+        area_btn1 = findViewById(R.id.area_btn1);
+        area_btn1.setOnClickListener(this);
+        area_btn2 = findViewById(R.id.area_btn2);
+        area_btn2.setOnClickListener(this);
 
-        area_a.setVisibility(View.VISIBLE);
-        area_b.setVisibility(View.GONE);
+        mCurrentFragmentIndex = FRAGMENT_ONE;
+        fragmentReplace(mCurrentFragmentIndex);
+    }
 
+    public void fragmentReplace(int reqNewFragmentIndex) {
+        Fragment newFragment = null; Log.d(TAG, "fragmentReplace " + reqNewFragmentIndex);
+        newFragment = getFragment(reqNewFragmentIndex);
+        // replace fragment
+        final FragmentTransaction transaction = getSupportFragmentManager() .beginTransaction();
+        transaction.replace(R.id.area_fragment, newFragment);
+        // Commit the transaction
+        transaction.commit();
+    }
+
+    private Fragment getFragment(int idx) {
+        Fragment newFragment = null;
+        switch (idx) {
+            case FRAGMENT_ONE:
+                newFragment = new Map1();
+                break;
+            case FRAGMENT_TWO:
+                newFragment = new Map2();
+                break;
+            default:
+                Log.d(TAG, "Unhandle case");
+                break;
+        }
+        return newFragment;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.a_btn1:
-                area_a.setVisibility(View.GONE);
-                area_b.setVisibility(View.VISIBLE);
+            case R.id.area_btn1:
+                mCurrentFragmentIndex = FRAGMENT_ONE;
+                fragmentReplace(mCurrentFragmentIndex);
+                area_btn1.setEnabled(false);
+                area_btn2.setEnabled(true);
+//                배경색변경
+                area_btn1.setBackgroundResource(R.drawable.area_strokeon);
+                area_btn2.setBackgroundResource(R.drawable.area_strokeoff2);
+//                글자색변경
+                area_btn1.setTextColor(getApplicationContext().getResources().getColor(R.color.area_on));
+                area_btn2.setTextColor(getApplicationContext().getResources().getColor(R.color.area_off));
+                break;
+            case R.id.area_btn2:
+                mCurrentFragmentIndex = FRAGMENT_TWO;
+                fragmentReplace(mCurrentFragmentIndex);
+                area_btn1.setEnabled(true);
+                area_btn2.setEnabled(false);
+//                배경색변경
+                area_btn1.setBackgroundResource(R.drawable.area_strokeoff2);
+                area_btn2.setBackgroundResource(R.drawable.area_strokeon);
+//                글자색변경
+                area_btn1.setTextColor(getApplicationContext().getResources().getColor(R.color.area_off));
+                area_btn2.setTextColor(getApplicationContext().getResources().getColor(R.color.area_on));
                 break;
         }
     }
