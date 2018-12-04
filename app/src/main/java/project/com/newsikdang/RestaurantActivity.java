@@ -39,14 +39,18 @@ public class RestaurantActivity extends AppCompatActivity {
     FirebaseUser user;
     DatabaseReference restaurantRef, reviewRef, userRef;
 
-    LinearLayout photoLayout;
+    RecyclerView rvMenu;
+    LinearLayoutManager menuManager;
+    MenuAdapter menuAdapter;
+    LinearLayout photoLayout, menuPhotoLayout;
     RelativeLayout photoNone;
 
     RecyclerView recyclerView;
-    LinearLayoutManager layoutManager;
+    LinearLayoutManager reviewManager;
     ReviewAdapter reviewAdapter;
 
-    List<String> photoList;
+    ArrayList<Menu> menuList;
+    List<String> photoList, menuPhotoList;
     List<Review> listReview;
 
     ImageView ivBack, ivSetting;
@@ -61,8 +65,6 @@ public class RestaurantActivity extends AppCompatActivity {
     RelativeLayout rlDetail, rlMenu;
     TableLayout tlTag;
     ImageView ivDetailMore, ivMenuMore, ivTagMore, ivReview;
-
-    int detailHeight, menuHeight, tagHeight;
 
     String resKey;
 
@@ -88,7 +90,7 @@ public class RestaurantActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
                 intent.putExtra("resKey", resKey);
-                intent.putStringArrayListExtra("photoList", (ArrayList<String>)photoList);
+                intent.putExtra("photoList", (ArrayList<String>)photoList);
                 intent.putExtra("resName", tvResName.getText());
                 intent.putExtra("category", tvCategory.getText());
                 intent.putExtra("address", tvResAddress.getText());
@@ -98,6 +100,8 @@ public class RestaurantActivity extends AppCompatActivity {
                 intent.putExtra("last", tvLastOrder.getText());
                 intent.putExtra("parking", tvParking.getText());
                 intent.putExtra("toilet", tvToilet.getText());
+                intent.putExtra("menuList", menuList);
+                intent.putExtra("menuPhotoList", (ArrayList<String>)menuPhotoList);
                 startActivity(intent);
             }
         });
@@ -132,13 +136,6 @@ public class RestaurantActivity extends AppCompatActivity {
         rlDetail = findViewById(R.id.rl_res_detail_view);
         rlMenu = findViewById(R.id.rl_res_menu_view);
         tlTag = findViewById(R.id.tl_res_hashtag);
-
-        rlDetail.measure(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
-        detailHeight = rlDetail.getMeasuredHeight();
-        rlMenu.measure(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
-        menuHeight = rlMenu.getMeasuredHeight();
-        tlTag.measure(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
-        tagHeight = tlTag.getMeasuredHeight();
 
         resKey = getIntent().getStringExtra("resKey");
 
@@ -175,6 +172,7 @@ public class RestaurantActivity extends AppCompatActivity {
                 foldLayout(button, rlDetail);
             }
         });
+
         ivMenuMore = findViewById(R.id.iv_res_menu_more);
         ivMenuMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,6 +180,16 @@ public class RestaurantActivity extends AppCompatActivity {
                 foldLayout(button, rlMenu);
             }
         });
+        menuPhotoLayout = findViewById(R.id.ll_res_menu_img);
+        menuList = new ArrayList<>();
+        menuPhotoList = new ArrayList<>();
+
+        rvMenu = findViewById(R.id.rv_res_menu);
+        menuManager = new LinearLayoutManager(this);
+        rvMenu.setLayoutManager(menuManager);
+        menuAdapter = new MenuAdapter(menuList, this, false);
+        rvMenu.setAdapter(menuAdapter);
+
         ivTagMore = findViewById(R.id.iv_res_hashtag_more);
         ivTagMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,8 +242,8 @@ public class RestaurantActivity extends AppCompatActivity {
         //RecyclerView 사용하기 위한 사전 작업 (크기 고정, 어댑터 설정 등등)
         recyclerView = findViewById(R.id.rv_res_review);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        reviewManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(reviewManager);
     }
 
     @Override
@@ -243,6 +251,8 @@ public class RestaurantActivity extends AppCompatActivity {
         super.onResume();
 
         photoList.clear();
+        menuList.clear();
+        menuPhotoList.clear();
         restaurantRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -250,7 +260,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     photoNone.setVisibility(View.GONE);
                     for (DataSnapshot data : dataSnapshot.child("photo").getChildren()) {
                         photoList.add(data.getValue().toString());
-                        loadImages(data.getValue().toString());
+                        loadImages(photoLayout, data.getValue().toString());
                     }
                 }
 
@@ -286,6 +296,21 @@ public class RestaurantActivity extends AppCompatActivity {
                 heart_cnt = dataSnapshot.child("heart").getChildrenCount();
                 tvHeart.setText(String.valueOf(heart_cnt));
 
+                if (dataSnapshot.child("menu").exists()) {
+                    for (DataSnapshot data : dataSnapshot.child("menu").getChildren()) {
+                        Menu menu = new Menu(data.child("name").getValue().toString(),data.child("cost").getValue().toString());
+                        menuList.add(menu);
+                    }
+                    menuAdapter.notifyDataSetChanged();
+
+                }
+                if (dataSnapshot.child("menuPhoto").exists()) {
+                    for (DataSnapshot data : dataSnapshot.child("menuPhoto").getChildren()) {
+                        menuPhotoList.add(data.getValue().toString());
+                        loadImages(menuPhotoLayout, data.getValue().toString());
+                    }
+                }
+
                 review_cnt = dataSnapshot.child("review").getChildrenCount();
                 tvReview.setText(String.valueOf(review_cnt));
                 tvReviewCnt.setText(String.valueOf(review_cnt));
@@ -306,9 +331,9 @@ public class RestaurantActivity extends AppCompatActivity {
         loadReviews();
     }
 
-    public void loadImages(String photo) {
+    public void loadImages(LinearLayout layout, String photo) {
         ImageView image = new ImageView(this);
-        int size = photoLayout.getHeight();
+        int size = layout.getHeight();
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(size,size);
         lp.setMarginStart(5);
         image.setLayoutParams(lp);
@@ -317,7 +342,7 @@ public class RestaurantActivity extends AppCompatActivity {
         Glide.with(RestaurantActivity.this).load(photo).into(image);
         //set removeListener
         // Adds the view to the layout
-        photoLayout.addView(image);
+        layout.addView(image);
     }
 
     public void loadReviews() {

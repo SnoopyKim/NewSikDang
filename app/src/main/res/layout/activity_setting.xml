@@ -48,7 +48,7 @@
             <LinearLayout
                 android:id="@+id/ll_setting_img"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="150dp"
                 android:orientation="horizontal">
                 <RelativeLayout
                     android:id="@+id/rl_setting_img"
@@ -471,60 +471,19 @@
                     </RelativeLayout>
                 </LinearLayout>
             </HorizontalScrollView>
-            <TextView
-                android:id="@+id/tv_dot_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/hsv_setting_menu_img"
-                android:layout_marginTop="10dp"
-                android:text="&#8226;"
-                android:textStyle="bold"
-                android:textSize="24dp"
-                android:textColor="@color/black"/>
-            <EditText
-                android:id="@+id/et_menu_name"
-                android:layout_width="200dp"
-                android:layout_height="30dp"
-                android:layout_toEndOf="@id/tv_dot_menu"
-                android:layout_marginStart="3dp"
-                android:layout_alignBottom="@id/tv_dot_menu"
-                android:background="@drawable/edit_setting"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:hint="메뉴이름"
-                android:textColorHint="@color/textHint"
-                android:textColor="@color/textBtn"
-                android:textSize="15dp"/>
-            <EditText
-                android:id="@+id/et_menu_cost"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:layout_toEndOf="@id/et_menu_name"
-                android:layout_marginStart="10dp"
-                android:layout_alignBottom="@id/tv_dot_menu"
-                android:background="@drawable/edit_setting"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:hint="가격"
-                android:textColorHint="@color/textHint"
-                android:textColor="@color/textBtn"
-                android:textSize="15dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_toEndOf="@+id/et_menu_cost"
-                android:layout_marginStart="3dp"
-                android:layout_alignBottom="@id/tv_dot_menu"
-                android:gravity="center"
-                android:text="원"
-                android:textColor="@color/black"
-                android:textSize="16dp"/>
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_setting_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/hsv_setting_menu_img">
+            </android.support.v7.widget.RecyclerView>
             <Button
+                android:id="@+id/btn_setting_add_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/tv_dot_menu"
+                android:layout_below="@id/rv_setting_menu"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:background="@drawable/add_menu"
