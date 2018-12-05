@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,6 +42,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
      * */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public RelativeLayout rlRestaurant;
+        public ImageView ivPhoto;
         public TextView tvName, tvAddress, tvDate, tvStar, tvHeart, tvReview;
         public Button btnHeart, btnRemove;
         public RatingBar rbStar;
@@ -48,6 +51,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         public ViewHolder(View itemView) {
             super(itemView);
             rlRestaurant = itemView.findViewById(R.id.rl_restaurant);
+            ivPhoto = itemView.findViewById(R.id.iv_res_img);
             tvName = itemView.findViewById(R.id.tv_res_name);
             tvAddress = itemView.findViewById(R.id.tv_res_address);
             tvDate = itemView.findViewById(R.id.tv_res_day);
@@ -93,6 +97,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         if (holder.getAdapterPosition() == RecyclerView.NO_POSITION) return;
         final Restaurant restaurant = listRestaurant.get(holder.getAdapterPosition());
 
+        if (!restaurant.getPhoto().equals("")) {
+            Glide.with(context).load(restaurant.getPhoto()).into(holder.ivPhoto);
+        }
+
         holder.tvName.setText(restaurant.getName());
         holder.tvAddress.setText(restaurant.getAddress());
 
@@ -102,6 +110,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         date_cal.set(date/10000,(date/100)%100-1,date%100);
         long dday = (now.getTimeInMillis()-date_cal.getTimeInMillis()) / (1000*60*60*24);
         holder.tvDate.setText(String.valueOf(dday));
+        holder.rbStar.setRating(restaurant.getStar());
+        holder.tvReview.setText(String.valueOf(restaurant.getReview()));
 
         userRef.child("heart").child(restaurant.getResKey()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

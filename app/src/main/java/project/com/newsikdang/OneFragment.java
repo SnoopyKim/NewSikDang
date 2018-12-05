@@ -86,8 +86,15 @@ public class OneFragment extends Fragment implements View.OnClickListener {
                             String stDate = data.child("date").getValue().toString();
                             long l_heart = data.child("heart").getChildrenCount();
                             long l_review = data.child("review").getChildrenCount();
-
-                            items.add(new Restaurant(stResKey, stResName, stResAddress, "", stDate, 0, l_heart , l_review ));
+                            float star;
+                            String stPhoto;
+                            if (data.child("star").exists()) {
+                                star = Float.valueOf(data.child("star").getValue().toString());
+                            } else { star = 0; }
+                            if (data.child("photo").exists()) {
+                                stPhoto = data.child("photo").child(String.valueOf(0)).getValue().toString();
+                            } else { stPhoto = ""; }
+                            items.add(new Restaurant(stResKey, stResName, stResAddress, stPhoto, stDate, star, l_heart, l_review));
                         }
                         Collections.reverse(items);
                         resAdapter.notifyDataSetChanged();

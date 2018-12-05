@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -130,7 +133,17 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         final Review review = listReview.get(position);
 
         holder.tvName.setText(review.getName());
-        holder.tvContext.setText(review.getText());
+        holder.tvContext.setText("");
+        for (String word : review.getText().split(" ")) {
+            if (word.charAt(0)=='#') {
+                Spannable span = new SpannableString(word);
+                span.setSpan(new ForegroundColorSpan(context.getColor(R.color.btnAbled)),0,span.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                holder.tvContext.append(span);
+                holder.tvContext.append(" ");
+            } else {
+                holder.tvContext.append(word+" ");
+            }
+        }
         holder.tvDate.setText(review.getDate());
         holder.rbStar.setRating(review.getStar());
         Glide.with(context).load(review.getUserProfile()).into(holder.ivProfile);
