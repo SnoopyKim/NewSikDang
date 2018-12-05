@@ -1,29 +1,44 @@
 package project.com.newsikdang;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
-import com.nhn.android.maps.NMapActivity;
-import com.nhn.android.maps.NMapView;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends NMapActivity {
 
-    private NMapView mMapView;// 지도 화면 View
-    private final String CLIENT_ID = "JG7NnskNRdLRrwJmJXQU";// 애플리케이션 클라이언트 아이디 값
+public class MapsActivity extends FragmentActivity
+        implements OnMapReadyCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.twofragment);
 
-        //Naver maps
-        mMapView = new NMapView(this);
-        setContentView(mMapView);
-        mMapView.setClientId(CLIENT_ID); // 클라이언트 아이디 값 설정
-        mMapView.setClickable(true);
-        mMapView.setEnabled(true);
-        mMapView.setFocusable(true);
-        mMapView.setFocusableInTouchMode(true);
-        mMapView.requestFocus();
+        FragmentManager fragmentManager = getFragmentManager();
+        MapFragment mapFragment = (MapFragment)fragmentManager
+                .findFragmentById(R.id.frag3_map);
+        mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public void onMapReady(final GoogleMap map) {
+
+        LatLng SEOUL = new LatLng(37.56, 126.97);
+        System.out.println("서울"+SEOUL);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(SEOUL);
+        markerOptions.title("서울");
+        markerOptions.snippet("한국의 수도");
+        map.addMarker(markerOptions);
+
+        map.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
+        map.animateCamera(CameraUpdateFactory.zoomTo(10));
     }
 
 }

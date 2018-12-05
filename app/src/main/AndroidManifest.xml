@@ -37,9 +37,6 @@
         <activity android:name=".JoinActivity" />
         <activity android:name=".Join2Activity" />
         <activity android:name=".MainActivity" />
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
         <activity android:name=".RestaurantActivity" />
 
         <meta-data
@@ -48,7 +45,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB0-4R8CftKLk5UPcphtWYv7slW7sFfedo"/>
+            android:value="AIzaSyBppTGaliqYldeIrdCg2Tab_dDX6q0ITzs"/>
 
         <activity android:name=".FourLike" />
         <activity android:name=".FourUnlike" />
@@ -61,6 +58,7 @@
         <activity android:name=".SettingActivity" />
         <activity android:name=".AreaActivity" />
         <activity android:name=".Two_Restaurant" />
+        <activity android:name=".MapsActivity"/>
         <activity android:name=".map_1" />
         <activity android:name=".map_2" />
         <activity android:name=".map_3"></activity>
