@@ -40,11 +40,12 @@ public class SettingActivity extends AppCompatActivity {
     DatabaseReference resRef;
     StorageReference storageRef;
 
+    ImageView ivBack;
     TextView tvTitle;
 
     LinearLayout photoLayout, menuPhotoLayout;
 
-    EditText etName, etCategory, etAddress, etTel, etTime, etTimeBreak, etLast, etDayoff;
+    EditText etName, etCategory, etAddress, etTel, etTime, etTimeBreak, etLast, etDayoff, etEvent;
     Spinner spParking, spToilet;
 
     RecyclerView rvMenu;
@@ -67,6 +68,13 @@ public class SettingActivity extends AppCompatActivity {
         resRef = FirebaseDatabase.getInstance().getReference("restaurants").child("3040000").child(data.getStringExtra("resKey"));
         storageRef = FirebaseStorage.getInstance().getReference("restaurants").child("304000").child(data.getStringExtra("resKey"));
 
+        ivBack = findViewById(R.id.iv_setting_back);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         tvTitle = findViewById(R.id.tv_setting_title);
         tvTitle.setText(data.getStringExtra("resName"));
 
@@ -93,6 +101,8 @@ public class SettingActivity extends AppCompatActivity {
         etLast.setText(data.getStringExtra("last"));
         etDayoff = findViewById(R.id.et_setting_dayoff);
         etDayoff.setText(data.getStringExtra("dayoff"));
+        etEvent = findViewById(R.id.et_setting_event);
+        etEvent.setText(data.getStringExtra("event"));
 
         spParking = findViewById(R.id.sp_setting_parking);
         List<String> parkingList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.parking)));
@@ -291,6 +301,8 @@ public class SettingActivity extends AppCompatActivity {
         resRef.child("category").setValue(etCategory.getText().toString());
         resRef.child("address").setValue(etAddress.getText().toString());
         resRef.child("tel").setValue(etTel.getText().toString());
+        if (etEvent.getText().toString().equals("")) { resRef.child("event").removeValue(); }
+        else { resRef.child("event").setValue(etEvent.getText().toString()); }
 
         Hashtable<String, String> resDetailInfo = new Hashtable<String, String>();
         resDetailInfo.put("time", etTime.getText().toString());
@@ -303,11 +315,15 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 check_detail = true;
-                if (check_menu && check_photo && check_menuPhoto) {
-                    finish();
-                }
+                Log.d(TAG, "onSuccess: detail");
+                if (check_menu && check_photo && check_menuPhoto) { finish(); }
             }
         });
+
+
+        if (menuList.size() == 0) { check_menu = true; }
+        if (listPhoto.size() == 0) { check_photo = true; }
+        if (listMenuPhoto.size() == 0) { check_menuPhoto = true; }
 
         for (int i=0; i<menuList.size(); i++) {
             final int f_i = i;
@@ -317,17 +333,14 @@ public class SettingActivity extends AppCompatActivity {
             resRef.child("menu").child(String.valueOf(i)).setValue(menuInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    check_menu = true;
-                    if (f_i==menuList.size()-1 && check_detail && check_photo && check_menuPhoto) {
-                        finish();
+                    if (f_i == menuList.size()-1) {
+                        check_menu = true;
+                        Log.d(TAG, "onSuccess: menu");
+                        if (check_detail && check_photo && check_menuPhoto) { finish();}
                     }
                 }
             });
         }
-
-        if (listPhoto.size() == 0) { check_photo = true; }
-        if (listMenuPhoto.size() == 0) { check_menu = true; }
-
         final List<String> listPhotoString = new ArrayList<>();
         for (int i = 0; i<listPhoto.size(); i++) {
             final int index = i;
@@ -347,6 +360,7 @@ public class SettingActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
                                             check_photo = true;
+                                            Log.d(TAG, "onSuccess: photo");
                                             if (check_detail && check_menu && check_menuPhoto) { finish(); }
                                         } else {
                                             Toast.makeText(getApplicationContext(),"업데이트에 실패했습니다.",Toast.LENGTH_SHORT).show();
@@ -378,6 +392,7 @@ public class SettingActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
                                             check_menuPhoto = true;
+                                            Log.d(TAG, "onSuccess: menuPhoto");
                                             if (check_detail && check_menu && check_photo) { finish(); }
                                         } else {
                                             Toast.makeText(getApplicationContext(),"업데이트에 실패했습니다.",Toast.LENGTH_SHORT).show();

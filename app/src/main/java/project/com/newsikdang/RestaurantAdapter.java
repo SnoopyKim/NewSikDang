@@ -43,7 +43,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public RelativeLayout rlRestaurant;
         public ImageView ivPhoto;
-        public TextView tvName, tvAddress, tvDate, tvStar, tvHeart, tvReview;
+        public TextView tvName, tvAddress, tvDate, tvEvent, tvHeart, tvReview;
         public Button btnHeart, btnRemove;
         public RatingBar rbStar;
 
@@ -55,6 +55,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             tvName = itemView.findViewById(R.id.tv_res_name);
             tvAddress = itemView.findViewById(R.id.tv_res_address);
             tvDate = itemView.findViewById(R.id.tv_res_day);
+            tvEvent = itemView.findViewById(R.id.tv_res_event);
             tvHeart = itemView.findViewById(R.id.tv_res_heart);
             tvReview = itemView.findViewById(R.id.tv_res_review);
             btnHeart = itemView.findViewById(R.id.btn_res_heart);
@@ -112,6 +113,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         holder.tvDate.setText(String.valueOf(dday));
         holder.rbStar.setRating(restaurant.getStar());
         holder.tvReview.setText(String.valueOf(restaurant.getReview()));
+        if (!restaurant.getEvent()) { holder.tvEvent.setVisibility(View.GONE); }
 
         userRef.child("heart").child(restaurant.getResKey()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -182,77 +184,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             }
         });
 
-        /*
-        String stPhoto = mFriend.get(position).getPhoto();
-        if (stPhoto.equals("None")) {
-            //친구의 이미지 정보가 없을 경우 지정해둔 기본 이미지로
-            Drawable defaultImg = context.getResources().getDrawable(R.drawable.ic_person_black_24dp);
-            holder.ivUser.setImageDrawable(defaultImg);
-        } else {
-            Glide.with(context).load(stPhoto)
-                    .placeholder(R.drawable.ic_person_black_24dp)
-                    .into(holder.ivUser);
-        }
-        */
-
-
-        /* //View(칸) 클릭 시 -> 나중에 써먹을지도?
-        holder.overall.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // TODO Auto-generated method stub
-                switch (event.getAction()) {
-                    //마우스를 눌렀을 때
-                    case MotionEvent.ACTION_DOWN:
-                        //holder.overall.setBackgroundColor(Color.parseColor("#F5F5F5"));
-
-                        break;
-                    //마우스를 땠을 때
-                    case MotionEvent.ACTION_UP:
-                        //set color back to default
-                        holder.overall.setBackgroundColor(Color.WHITE);
-
-                        //변수들의 값을 설정
-                        stFriendUid = listRestaurant.get(position).getKey();
-                        stFriendEmail = listRestaurant.get(position).getEmail();
-                        stFriendname = listRestaurant.get(position).getName();
-                        stFriendPhoto = listRestaurant.get(position).getPhoto();
-
-                        break;
-                }
-                return true;
-            }
-        });
-        */
     }
-
-    /**
-     * @Name    filter
-     * @Usage   search friends list
-     * @Param   charText : search text <- Tabactivity's changeET's event catch value
-     * @return  void
-     * @Comment mFilter : backup, mFilter : showing at user
-     * */
-    /*
-    public void filter(String charText) {
-        charText = charText.toLowerCase(Locale.getDefault());
-        //친구 데이터 리스트를 하나 비운 뒤, 입력한 문자에 따라 백업용으로 다시 친구 데이터 리스트를 만듬
-        mFriend.clear();
-        if (charText.length() == 0) {
-            mFriend.addAll(mFilter);
-        } else {
-            for (Friend friend : mFilter) {
-                String name = friend.getName();
-                if (name.toLowerCase().contains(charText)) {
-                    mFriend.add(friend);
-                }
-            }
-        }
-        //Communicate list view with adapter. Saying "data set Changed!"
-        notifyDataSetChanged();
-    }
-    */
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override

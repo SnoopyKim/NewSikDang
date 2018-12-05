@@ -29,10 +29,11 @@
             <TextView
                 android:id="@+id/tv_setting_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_toEndOf="@+id/iv_setting_back"
                 android:layout_marginStart="10dp"
                 android:layout_alignBottom="@id/iv_setting_back"
+                android:gravity="center_vertical"
                 android:text="식당 이름"
                 android:textSize="24dp"
                 android:textColor="@color/white"/>
@@ -495,11 +496,45 @@
                 android:textColor="@color/btnAbled"/>
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/rl_setting_event"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_setting_menu"
+            android:layout_marginTop="5dp"
+            android:background="@color/white"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/tv_setting_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이벤트정보"
+                android:textColor="@color/btnAbled"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/et_setting_event"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/tv_setting_event"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_setting"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/textBtn"
+                android:textSize="17dp"
+                android:hint="이벤트 내용을 입력해주세요"
+                android:textColorHint="@color/textHint"/>
+
+        </RelativeLayout>
+
         <Button
             android:id="@+id/btn_setting_apply"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_below="@id/rl_setting_menu"
+            android:layout_below="@id/rl_setting_event"
             android:background="@color/btnAbled"
             android:text="저장하기"
             android:textSize="20dp"

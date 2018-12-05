@@ -99,7 +99,7 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(IntroActivity.this,ManagerLoginActivity.class);
-                startActivityForResult(intent,LOGIN);
+                startActivityForResult(intent,MANAGER_LOGIN);
             }
         });
         tvManagerJoin = findViewById(R.id.tv_manager_join);
@@ -107,7 +107,7 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(IntroActivity.this,ManagerJoinActivity.class);
-                startActivityForResult(intent,JOIN);
+                startActivityForResult(intent,MANAGER_JOIN);
             }
         });
 

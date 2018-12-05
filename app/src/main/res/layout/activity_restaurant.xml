@@ -82,7 +82,7 @@
         <RelativeLayout
             android:id="@+id/rl_res_title"
             android:layout_width="match_parent"
-            android:layout_height="135dp"
+            android:layout_height="115dp"
             android:layout_below="@+id/hsv_res_img"
             android:layout_marginTop="1dp"
             android:background="#FFFFFF"
@@ -140,7 +140,8 @@
                 android:text="EVENT"
                 android:textColor="@color/white"
                 android:textSize="11dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/tv_res_category"
@@ -178,15 +179,6 @@
                 android:textColor="#000000"
                 android:textSize="15dp" />
 
-            <TextView
-                android:id="@+id/tv_res_event_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rb_res_star"
-                android:text="이벤트 내용"
-                android:textColor="@color/event_blue"
-                android:textSize="12dp"/>
-
             <RelativeLayout
                 android:id="@+id/rl_res_heart"
                 android:layout_width="80dp"
@@ -214,14 +206,25 @@
                     android:textColor="@color/black"
                     android:textSize="14dp" />
             </RelativeLayout>
-
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_res_event_view"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/rl_res_title"
+            android:background="@color/event_blue"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:visibility="gone"/>
 
         <RelativeLayout
             android:id="@+id/rl_res_inform_basic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rl_res_title"
+            android:layout_below="@+id/tv_res_event_view"
             android:layout_marginTop="5dp"
             android:background="@color/white"
             android:paddingTop="20dp"

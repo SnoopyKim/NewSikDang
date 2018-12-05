@@ -61,7 +61,7 @@ public class RestaurantActivity extends AppCompatActivity {
     RatingBar rbStar;
     TextView tvResName, tvCategory, tvResAddress, tvResPhone;
     TextView tvTime, tvTimeBreak, tvLastOrder, tvDayoff, tvParking, tvToilet;
-    TextView tvDate, tvHeart, tvReview;
+    TextView tvDate, tvHeart, tvReview, tvEvent, tvEventview;
 
     TextView tvReviewCnt;
     Button btnHeart, btnSimple, btnDetail;
@@ -116,6 +116,7 @@ public class RestaurantActivity extends AppCompatActivity {
                 intent.putExtra("toilet", tvToilet.getText());
                 intent.putExtra("menuList", menuList);
                 intent.putExtra("menuPhotoList", (ArrayList<String>)menuPhotoList);
+                intent.putExtra("event", tvEventview.getText());
                 startActivity(intent);
             }
         });
@@ -148,6 +149,9 @@ public class RestaurantActivity extends AppCompatActivity {
         tvDate = findViewById(R.id.tv_res_day);
         tvHeart = findViewById(R.id.tv_res_heart);
         tvReview = findViewById(R.id.tv_res_review_cnt);
+
+        tvEvent = findViewById(R.id.tv_res_event);
+        tvEventview = findViewById(R.id.tv_res_event_view);
 
         rlDetail = findViewById(R.id.rl_res_detail_view);
         rlMenu = findViewById(R.id.rl_res_menu_view);
@@ -290,6 +294,15 @@ public class RestaurantActivity extends AppCompatActivity {
                 if (dataSnapshot.child("star").exists()) {
                     rbStar.setRating(Float.valueOf(dataSnapshot.child("star").getValue().toString()));
                 } else { rbStar.setRating(0); }
+                if (dataSnapshot.child("event").exists()) {
+                    tvEventview.setText(dataSnapshot.child("event").getValue().toString());
+                    tvEventview.setVisibility(View.VISIBLE);
+                    tvEvent.setVisibility(View.VISIBLE);
+                } else {
+                    tvEventview.setText("");
+                    tvEventview.setVisibility(View.GONE);
+                    tvEvent.setVisibility(View.GONE);
+                }
                 if (dataSnapshot.child("tel").getValue().toString().equals("")) { tvResPhone.setText("정보 없음"); }
                 else { tvResPhone.setText(dataSnapshot.child("tel").getValue().toString()); }
                 if (dataSnapshot.child("detail").child("time").exists()) {
