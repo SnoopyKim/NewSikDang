@@ -42,15 +42,13 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBppTGaliqYldeIrdCg2Tab_dDX6q0ITzs"/>
+            android:value="AIzaSyBppTGaliqYldeIrdCg2Tab_dDX6q0ITzs" />
 
         <activity android:name=".FourLike" />
         <activity android:name=".FourUnlike" />
         <activity android:name=".FourReview" />
-        <activity android:name=".Coupon" />
         <activity android:name=".FourCoupon" />
         <activity android:name=".ReviewActivity" />
         <activity android:name=".ManagerLoginActivity" />
@@ -58,10 +56,7 @@
         <activity android:name=".SettingActivity" />
         <activity android:name=".AreaActivity" />
         <activity android:name=".Two_Restaurant" />
-        <activity android:name=".MapsActivity"/>
-        <activity android:name=".map_1" />
-        <activity android:name=".map_2" />
-        <activity android:name=".map_3"></activity>
+
     </application>
 
 </manifest>
