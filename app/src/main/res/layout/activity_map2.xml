@@ -194,11 +194,11 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/area_choice"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:background="@color/maincolor">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

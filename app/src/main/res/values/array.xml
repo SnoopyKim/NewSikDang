@@ -6,4 +6,21 @@
         <item>별점순</item>
         <item>거리순</item>
     </string-array>
+
+    <string-array name="parking">
+        <item>전용 주차장</item>
+        <item>사설 주자창(미지원)</item>
+        <item>사설 주차장(지원)</item>
+        <item>없음</item>
+        <item>정보 없음</item>
+    </string-array>
+
+    <string-array name="toilet">
+        <item>내부 남녀구분</item>
+        <item>외부 남녀구분</item>
+        <item>내부 공용</item>
+        <item>외부 공용</item>
+        <item>없음</item>
+        <item>정보 없음</item>
+    </string-array>
 </resources>

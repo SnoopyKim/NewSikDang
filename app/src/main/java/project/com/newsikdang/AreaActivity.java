@@ -91,6 +91,7 @@ public class AreaActivity extends FragmentActivity implements View.OnClickListen
 //                글자색변경
                 area_btn1.setTextColor(getApplicationContext().getResources().getColor(R.color.area_off));
                 area_btn2.setTextColor(getApplicationContext().getResources().getColor(R.color.area_on));
+
                 break;
         }
     }

@@ -243,7 +243,7 @@
             android:id="@+id/et_rev_context"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/rl_rev_img"
+            android:layout_above="@+id/hsv_rev_img"
             android:layout_marginTop="-10dp"
             android:layout_marginBottom="15dp"
             android:padding="10dp"
