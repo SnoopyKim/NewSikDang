@@ -46,6 +46,10 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB0-4R8CftKLk5UPcphtWYv7slW7sFfedo"/>
+
         <activity android:name=".FourLike" />
         <activity android:name=".FourUnlike" />
         <activity android:name=".FourReview" />
