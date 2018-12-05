@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
-    android:paddingLeft="13dp"
-    android:paddingRight="13dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
     android:orientation="horizontal"
-    android:background="#FFFFFF">
+    android:background="@drawable/edit_setting">
 
     <TextView
         android:id="@+id/spinnerText"

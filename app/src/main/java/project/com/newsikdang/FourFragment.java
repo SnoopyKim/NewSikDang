@@ -115,6 +115,7 @@ public class FourFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
 
+        //관심목록
         RelativeLayout rl_att_1 = v.findViewById(R.id.attention_1);
         rl_att_1.setOnClickListener(new View.OnClickListener() {
             @Override

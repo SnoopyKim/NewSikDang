@@ -45,67 +45,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         mCurrentFragmentIndex = FRAGMENT_ONE;
         fragmentReplace(mCurrentFragmentIndex);
-
-        frag1.setOnTouchListener(new View.OnTouchListener(){
-            public boolean onTouch(View v, MotionEvent event){
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:{
-                        frag1.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.lightgray));
-                        break;
-                    }
-                    case MotionEvent.ACTION_UP:{
-                        frag1.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.white));
-                        break;
-                    }
-                }
-                return false;
-            }
-        });
-        frag2.setOnTouchListener(new View.OnTouchListener(){
-            public boolean onTouch(View v, MotionEvent event){
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:{
-                        frag2.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.lightgray));
-                        break;
-                    }
-                    case MotionEvent.ACTION_UP:{
-                        frag2.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.white));
-                        break;
-                    }
-                }
-                return false;
-            }
-        });
-        frag3.setOnTouchListener(new View.OnTouchListener(){
-            public boolean onTouch(View v, MotionEvent event){
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:{
-                        frag3.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.lightgray));
-                        break;
-                    }
-                    case MotionEvent.ACTION_UP:{
-                        frag3.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.white));
-                        break;
-                    }
-                }
-                return false;
-            }
-        });
-        frag4.setOnTouchListener(new View.OnTouchListener(){
-            public boolean onTouch(View v, MotionEvent event){
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:{
-                        frag4.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.lightgray));
-                        break;
-                    }
-                    case MotionEvent.ACTION_UP:{
-                        frag4.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.white));
-                        break;
-                    }
-                }
-                return false;
-            }
-        });
     }
 
 
