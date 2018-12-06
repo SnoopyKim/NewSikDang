@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public EditText etName, etCost;
         public TextView tvName, tvCost;
+        public ImageView ivDelete;
 
         //순서대로 칸, 이름, 이미지를 레이아웃에서 불러와 생성
         public ViewHolder(View itemView) {
@@ -36,6 +38,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             etCost = itemView.findViewById(R.id.et_menu_cost);
             tvName = itemView.findViewById(R.id.tv_menu_name);
             tvCost = itemView.findViewById(R.id.tv_menu_cost);
+            ivDelete = itemView.findViewById(R.id.iv_menu_delete);
         }
     }
 
@@ -87,6 +90,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
                     menu.setCost(editable.toString());
                 }
             });
+            holder.ivDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listMenu.remove(menu);
+                    notifyItemRemoved(position);
+                }
+            });
+
         } else {
             holder.tvName.setText(menu.getName());
             holder.tvCost.setText(menu.getCost());

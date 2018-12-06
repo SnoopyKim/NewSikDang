@@ -274,8 +274,10 @@ public class RestaurantActivity extends AppCompatActivity {
         super.onResume();
 
         photoList.clear();
+        photoLayout.removeAllViews();
         menuList.clear();
         menuPhotoList.clear();
+        menuPhotoLayout.removeAllViews();
         tlTag.removeAllViews();
         restaurantRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

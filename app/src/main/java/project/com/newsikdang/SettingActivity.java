@@ -296,6 +296,7 @@ public class SettingActivity extends AppCompatActivity {
         // Adds the view to the layout
         layout.addView(image);
     }
+
     private void loadData() {
         resRef.child("name").setValue(etName.getText().toString());
         resRef.child("category").setValue(etCategory.getText().toString());
@@ -320,7 +321,7 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-
+        resRef.child("menu").removeValue();
         if (menuList.size() == 0) { check_menu = true; }
         if (listPhoto.size() == 0) { check_photo = true; }
         if (listMenuPhoto.size() == 0) { check_menuPhoto = true; }
@@ -336,7 +337,7 @@ public class SettingActivity extends AppCompatActivity {
                     if (f_i == menuList.size()-1) {
                         check_menu = true;
                         Log.d(TAG, "onSuccess: menu");
-                        if (check_detail && check_photo && check_menuPhoto) { finish();}
+                        if (check_detail && check_photo && check_menuPhoto) { finish(); }
                     }
                 }
             });
