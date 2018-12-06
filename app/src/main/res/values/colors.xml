@@ -22,5 +22,8 @@
     <color name="lightgray">#C0C0C0</color>
     <color name="maincolor">#EC5657</color>
     <color name="D6">#D6D6D6</color>
-
+    <color name="area_on">#222222</color>
+    <color name="area_off">#B4B4B4</color>
+    <color name="c69">#696969</color>
+    <color name="event_blue">#00CCFF</color>
 </resources>

@@ -1,14 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AreaActivity"
-    android:background="@color/white">
+    android:background="#99000000">
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp">
+        app:layout_widthPercent="80%"
+        app:layout_heightPercent="50%"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="110dp"
+        android:background="@color/white">
+        <LinearLayout
+            android:id="@+id/area_top"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/area_strokeoff1"
+            android:padding="0dp"
+            >
+            <Button
+                android:id="@+id/area_btn1"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/area_strokeon"
+                android:textColor="#000000"
+                android:textSize="16dp"
+                android:text=" 시/도" />
+            <Button
+                android:id="@+id/area_btn2"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/area_strokeoff2"
+                android:textColor="#D6D6D6"
+                android:textSize="16dp"
+                android:text="시/군/구" />
+        </LinearLayout>
 
+        <!--프래그먼트-->
+        <RelativeLayout
+            android:id="@+id/area_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/area_top"/>
     </RelativeLayout>
-</RelativeLayout>
+</android.support.percent.PercentRelativeLayout>

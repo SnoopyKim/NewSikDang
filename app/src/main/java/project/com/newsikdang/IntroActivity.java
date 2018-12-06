@@ -99,7 +99,7 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(IntroActivity.this,ManagerLoginActivity.class);
-                startActivityForResult(intent,LOGIN);
+                startActivityForResult(intent,MANAGER_LOGIN);
             }
         });
         tvManagerJoin = findViewById(R.id.tv_manager_join);
@@ -107,7 +107,7 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(IntroActivity.this,ManagerJoinActivity.class);
-                startActivityForResult(intent,JOIN);
+                startActivityForResult(intent,MANAGER_JOIN);
             }
         });
 
@@ -174,10 +174,25 @@ public class IntroActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (mAuth.getCurrentUser() != null) {
-            Intent intent = new Intent(IntroActivity.this,MainActivity.class);
-            startActivity(intent);
-            finish();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            FirebaseDatabase.getInstance().getReference("users").child("manager").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Intent intent;
+                    if (dataSnapshot.exists()) {
+                        intent = new Intent(IntroActivity.this,RestaurantActivity.class);
+                        intent.putExtra("userType", "manager");
+                        intent.putExtra("resKey", dataSnapshot.child("restaurant").getValue().toString());
+                    } else {
+                        intent = new Intent(IntroActivity.this,MainActivity.class);
+                    }
+                    startActivity(intent);
+                    finish();
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) { }
+            });
         }
     }
 
@@ -198,13 +213,27 @@ public class IntroActivity extends AppCompatActivity {
 
             }
         } else if (requestCode == LOGIN || requestCode == JOIN) {
-            Intent intent = new Intent(IntroActivity.this,MainActivity.class);
-            startActivity(intent);
-            finish();
-
+            if (mAuth.getCurrentUser() != null) {
+                Intent intent = new Intent(IntroActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
         } else if (requestCode == MANAGER_LOGIN || requestCode == MANAGER_JOIN) {
-            //usersRef.
-            Intent intent = new Intent(IntroActivity.this,RestaurantActivity.class);
+            FirebaseUser user = mAuth.getCurrentUser();
+            if (user!=null) {
+                FirebaseDatabase.getInstance().getReference("users").child("manager").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Intent intent = new Intent(IntroActivity.this, RestaurantActivity.class);
+                        intent.putExtra("userType", "manager");
+                        intent.putExtra("resKey", dataSnapshot.child("restaurant").getValue().toString());
+                        startActivity(intent);
+                        finish();
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) { }
+                });
+            }
 
         } else {
             Log.d(TAG, "onActivityResult: requestCode: "+requestCode);

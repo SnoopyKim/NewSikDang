@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="#D1D1D1" /> <!-- border color -->
-        </shape>
-    </item>
-    <item
-        android:bottom="2dp">   <!-- adjust borders width here -->
-        <shape android:shape="rectangle">
-            <solid android:color="#FFFFFF" />  <!-- background color -->
-        </shape>
-    </item>
-</layer-list>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="0dp"
+    android:shape="rectangle" >
+    <solid android:color="@color/white" />
+    <stroke
+        android:color="#ECEAEA"
+        android:width="0.7dp"
+        />
+</shape>

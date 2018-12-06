@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:background="@color/white">
+    <de.hdodenhof.circleimageview.CircleImageView
+    android:layout_width="10dp"
+    android:layout_height="10dp"
+    android:layout_marginStart="15dp"
+    android:layout_marginTop="28dp"
+    android:src="@color/maincolor"/>
+    <View
+        android:layout_width="2dp"
+        android:layout_height="wrap_content"
+        android:background="@color/maincolor"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="57dp"/>
+    <RelativeLayout
+        android:id="@+id/rl_restaurant"
+        app:layout_widthPercent="80%"
+        android:layout_height="50dp"
+        android:layout_alignStart="@+id/rl_review"
+        android:layout_marginTop="20dp">
+        <TextView
+            android:id="@+id/tv_res_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="세종원"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+
+        <!--디데이-->
+        <RelativeLayout
+            android:id="@+id/rl_res_dday"
+            android:layout_width="40dp"
+            android:layout_height="23dp"
+            android:layout_toEndOf="@+id/tv_res_name"
+            android:layout_marginStart="5dp"
+            android:gravity="center"
+            android:background="@drawable/bg_dday"
+            >
+            <TextView
+                android:id="@+id/tv_res_d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="D+"
+                android:textSize="12dp"
+                android:textColor="@color/white" />
+            <TextView
+                android:id="@+id/tv_res_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tv_res_d"
+                android:layout_centerVertical="true"
+                android:text="0"
+                android:textSize="12dp"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+
+        <!--이벤트-->
+        <TextView
+            android:id="@+id/tv_res_event"
+            android:layout_width="50dp"
+            android:layout_height="23dp"
+            android:layout_toEndOf="@+id/rl_res_dday"
+            android:layout_alignTop="@+id/tv_res_name"
+            android:layout_marginStart="5dp"
+            android:text="EVENT"
+            android:gravity="center"
+            android:background="@drawable/bg_event"
+            android:textSize="12dp"
+            android:textColor="@color/white"/>
+
+        <!--별점-->
+        <RatingBar
+            android:id="@+id/feed_star"
+            style="@style/ReviewRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_res_name"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="3dp"
+            android:max="5"
+            android:progressBackgroundTint="@color/time_gray"
+            android:progressTint="@color/star_yellow"
+            android:rating="3" />
+        <TextView
+            android:id="@+id/feed_starnumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/feed_star"
+            android:layout_toEndOf="@+id/feed_star"
+            android:text="76"
+            android:textColor="@color/black"
+            android:textSize="13dp"
+            android:textStyle="bold"/>
+
+        <!--하트-->
+        <Button
+            android:id="@+id/btn_res_heart"
+            android:layout_width="20dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="10dp"
+            android:layout_alignTop="@+id/feed_star"
+            android:layout_toEndOf="@+id/feed_starnumber"
+            android:background="@drawable/heart_fill_red" />
+        <TextView
+            android:id="@+id/tv_res_heart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_alignTop="@+id/feed_star"
+            android:layout_toEndOf="@+id/btn_res_heart"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="13dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_review"
+        android:layout_height="420dp"
+        android:layout_below="@+id/rl_restaurant"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/reviewstroke2"
+        android:padding="10dp"
+        app:layout_widthPercent="85%">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/frag3_userimg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:src="@color/white"
+            app:civ_border_color="@color/textBtn"
+            app:civ_border_width="2dp" />
+
+        <TextView
+            android:id="@+id/frag3_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/frag3_userimg"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/frag3_userimg"
+            android:background="#FFFFFF"
+            android:text="name"
+            android:textColor="#000000"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tv_rev_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/frag3_username"
+            android:layout_alignStart="@+id/frag3_username"
+            android:layout_marginTop="5dp"
+            android:text="총점"
+            android:textColor="@color/black"
+            android:textSize="13dp"
+            android:textStyle="bold" />
+
+        <RatingBar
+            android:id="@+id/rb_rev_star"
+            style="@style/ReviewRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/frag3_username"
+            android:layout_alignTop="@+id/tv_rev_total"
+            android:layout_alignBottom="@+id/tv_rev_total"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/tv_rev_total"
+            android:max="5"
+            android:progressBackgroundTint="@color/time_gray"
+            android:progressTint="@color/star_yellow"
+            android:rating="3" />
+
+        <TextView
+            android:id="@+id/tv_rev_taste"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_rev_total"
+            android:layout_alignStart="@+id/frag3_username"
+            android:layout_marginTop="5dp"
+            android:text="맛"
+            android:textColor="@color/black"
+            android:textSize="11.5dp"
+            android:textStyle="bold" />
+
+        <RatingBar
+            android:id="@+id/rb_rev_taste"
+            style="@style/ReviewRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/frag3_username"
+            android:layout_alignTop="@+id/tv_rev_taste"
+            android:layout_alignBottom="@+id/tv_rev_taste"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/tv_rev_taste"
+            android:max="5"
+            android:progressBackgroundTint="@color/time_gray"
+            android:progressTint="@color/star_yellow"
+            android:rating="3"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:transformPivotX="0dp" />
+
+        <TextView
+            android:id="@+id/tv_rev_cost"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_rev_total"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/rb_rev_taste"
+            android:text="가격"
+            android:textColor="@color/black"
+            android:textSize="11.5dp"
+            android:textStyle="bold" />
+
+        <RatingBar
+            android:id="@+id/rb_rev_cost"
+            style="@style/ReviewRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/frag3_username"
+            android:layout_alignTop="@+id/tv_rev_cost"
+            android:layout_alignBottom="@+id/tv_rev_cost"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/tv_rev_cost"
+            android:max="5"
+            android:progressBackgroundTint="@color/time_gray"
+            android:progressTint="@color/star_yellow"
+            android:rating="3"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:transformPivotX="0dp" />
+
+        <TextView
+            android:id="@+id/tv_rev_service"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_rev_taste"
+            android:layout_alignStart="@+id/frag3_username"
+            android:text="서비스"
+            android:textColor="@color/black"
+            android:textSize="11.5dp"
+            android:textStyle="bold" />
+
+        <RatingBar
+            android:id="@+id/rb_rev_service"
+            style="@style/ReviewRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/frag3_username"
+            android:layout_alignTop="@+id/tv_rev_service"
+            android:layout_alignBottom="@+id/tv_rev_service"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/tv_rev_service"
+            android:max="5"
+            android:progressBackgroundTint="@color/time_gray"
+            android:progressTint="@color/star_yellow"
+            android:rating="3"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:transformPivotX="0dp" />
+
+        <TextView
+            android:id="@+id/tv_rev_ambiance"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_rev_taste"
+            android:layout_toEndOf="@+id/rb_rev_taste"
+            android:text="분위기"
+            android:textColor="@color/black"
+            android:textSize="11.5dp"
+            android:textStyle="bold" />
+
+        <RatingBar
+            android:id="@+id/rb_rev_ambiance"
+            style="@style/ReviewRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/frag3_username"
+            android:layout_alignTop="@+id/tv_rev_ambiance"
+            android:layout_alignBottom="@+id/tv_rev_ambiance"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/tv_rev_ambiance"
+            android:max="5"
+            android:progressBackgroundTint="@color/time_gray"
+            android:progressTint="@color/star_yellow"
+            android:rating="3"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:transformPivotX="0dp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_rev_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_rev_service"
+            android:layout_alignStart="@+id/frag3_username"
+            android:layout_alignEnd="@+id/btn_rev_heart"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="28dp">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/graystroke" />
+
+            <TextView
+                android:id="@+id/tv_indicator"
+                android:layout_width="50dp"
+                android:layout_height="20dp"
+                android:layout_alignBottom="@+id/pager"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/reviewimgstroke"
+                android:gravity="center"
+                android:text="0 / 0"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/frag3_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tv_rev_date"
+            android:layout_below="@+id/rl_rev_img"
+            android:layout_alignStart="@+id/frag3_username"
+            android:layout_alignEnd="@id/rl_rev_img"
+            android:layout_marginTop="10dp"
+            android:text="context"
+            android:textColor="@color/textBtn"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tv_rev_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/frag3_username"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="tv_rev_date"
+            android:textColor="@color/time_gray"
+            android:textSize="14dp" />
+
+        <Button
+            android:id="@+id/btn_rev_heart"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignTop="@+id/tv_rev_heart"
+            android:layout_toStartOf="@+id/tv_rev_heart"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/heart_states" />
+
+        <TextView
+            android:id="@+id/tv_rev_heart"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:layout_alignBottom="@+id/rb_rev_star"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="9dp"
+            android:layout_marginBottom="3dp"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/heart_cnt"
+            android:textSize="14dp" />
+    </RelativeLayout>
+
+</android.support.percent.PercentRelativeLayout>

@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_res_img"
             android:layout_marginTop="5dp"
+            android:maxLines="1"
             android:text="식당 주소"
             android:textColor="@color/lightgray"
             android:textSize="12dp"/>
@@ -47,11 +48,12 @@
         <RelativeLayout
             android:id="@+id/rl_res_dday"
             android:layout_width="40dp"
-            android:layout_height="25dp"
+            android:layout_height="20dp"
             android:layout_below="@+id/tv_res_address"
-            android:layout_marginTop="5dp"
+            android:layout_alignTop="@+id/tv_res_name"
             android:layout_toEndOf="@+id/tv_res_name"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="2dp"
             android:gravity="center"
             android:background="@drawable/bg_dday"
             >
@@ -78,10 +80,11 @@
         <TextView
             android:id="@+id/tv_res_event"
             android:layout_width="50dp"
-            android:layout_height="25dp"
+            android:layout_height="20dp"
             android:layout_toEndOf="@+id/rl_res_dday"
             android:layout_alignTop="@+id/tv_res_name"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="2dp"
             android:text="EVENT"
             android:gravity="center"
             android:background="@drawable/bg_event"
@@ -92,16 +95,18 @@
             android:id="@+id/btn_res_heart"
             android:layout_width="20dp"
             android:layout_height="18dp"
-            android:layout_toEndOf="@+id/tv_res_review"
-            android:layout_marginStart="10dp"
             android:layout_alignBottom="@+id/rb_res_star"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/tv_res_review"
             android:background="@drawable/heart_states" />
+
         <TextView
             android:id="@+id/tv_res_heart"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/btn_res_heart"
             android:layout_alignBottom="@+id/rb_res_star"
+            android:layout_marginStart="0dp"
+            android:layout_toEndOf="@+id/btn_res_heart"
             android:gravity="center"
             android:text="0"
             android:textColor="@color/black"

@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class FourReview extends AppCompatActivity {
     FirebaseUser user;
@@ -51,19 +52,24 @@ public class FourReview extends AppCompatActivity {
                     String resKey = data.child("restaurant").getValue().toString();
                     String uid = data.child("uid").getValue().toString();
                     String name = data.child("name").getValue().toString();
+                    String profile = data.child("uphoto").getValue().toString();
                     String text = data.child("context").getValue().toString();
                     String date = data.child("date").getValue().toString();
                     float star = Float.valueOf(data.child("star_main").getValue().toString());
 
                     Review review;
                     if (!detail) {
-                        review = new Review(revKey, resKey, uid, name, text, date, star, 0);
+                        review = new Review(revKey, resKey, uid, name, profile, text, date, star, 0);
                     } else {
                         float star_t = Float.valueOf(data.child("star_taste").getValue().toString());
                         float star_c = Float.valueOf(data.child("star_cost").getValue().toString());
                         float star_s = Float.valueOf(data.child("star_service").getValue().toString());
                         float star_a = Float.valueOf(data.child("star_ambiance").getValue().toString());
-                        review = new Review(revKey, resKey, uid, name, text, "", date, star, star_t, star_c, star_s, star_a, 0);
+                        List<String> photo = new ArrayList<>();
+                        for (DataSnapshot photoData : data.child("photo").getChildren()) {
+                            photo.add(photoData.getValue().toString());
+                        }
+                        review = new Review(revKey, resKey, uid, name, profile, text, photo, date, star, star_t, star_c, star_s, star_a, 0);
                     }
 
                     listReview.add(review);

@@ -15,7 +15,7 @@
         android:orientation="vertical"
         android:background="@color/white">
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/ibSetting"
+            android:id="@+id/ivProfile"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
@@ -27,7 +27,7 @@
             android:id="@+id/frag4_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/ibSetting"
+            android:layout_toEndOf="@+id/ivProfile"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="10dp"
             android:text="joy"
@@ -38,7 +38,7 @@
             android:id="@+id/frag4_useremail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/ibSetting"
+            android:layout_toEndOf="@+id/ivProfile"
             android:layout_below="@+id/frag4_username"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
@@ -243,6 +243,7 @@
                 android:gravity="center"
                 />
             <TextView
+                android:id="@+id/tv_like_cnt"
                 android:layout_width="fill_parent"
                 android:layout_height="20dp"
                 android:textColor="#000000"
@@ -270,6 +271,7 @@
                 android:gravity="center"
                 />
             <TextView
+                android:id="@+id/tv_unlike_cnt"
                 android:layout_width="fill_parent"
                 android:layout_height="20dp"
                 android:textColor="#000000"
@@ -297,6 +299,7 @@
                 android:gravity="center"
                 />
             <TextView
+                android:id="@+id/tv_review_cnt"
                 android:layout_width="fill_parent"
                 android:layout_height="20dp"
                 android:textColor="#000000"
@@ -307,27 +310,35 @@
     </LinearLayout>
 
     <!--공지사항&문의하기-->
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/log_context"
         android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:orientation="vertical"
         android:background="@color/white">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
+            android:padding="10dp"
             android:text="공지사항"
             android:textSize="15dp"
             android:textColor="#000000"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="20dp"
+            android:padding="10dp"
             android:text="문의하기"
             android:textSize="15dp"
             android:textColor="#000000"/>
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="로그아웃"
+            android:textSize="15dp"
+            android:textColor="#000000"/>
+    </LinearLayout>
 </RelativeLayout>

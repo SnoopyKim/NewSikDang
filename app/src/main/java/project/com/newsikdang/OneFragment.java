@@ -1,6 +1,7 @@
 package project.com.newsikdang;
 
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
@@ -40,7 +42,7 @@ public class OneFragment extends Fragment implements View.OnClickListener {
     private DatabaseReference restaurantsRef;
 
     Button btn1, btn2, btn3, btn4; //관심구역 1,2,3,4
-
+    ImageView event_button1;
 
     RecyclerView mRecyclerView;
     RestaurantAdapter resAdapter;
@@ -66,6 +68,8 @@ public class OneFragment extends Fragment implements View.OnClickListener {
         btn3.setOnClickListener(this);
         btn4 = v.findViewById(R.id.btn4);
         btn4.setOnClickListener(this);
+        event_button1 = v.findViewById(R.id.event_button1);
+        event_button1.setOnClickListener(this);
 
         btn1.setText(stCGG);
         userRef.child("block").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -87,8 +91,19 @@ public class OneFragment extends Fragment implements View.OnClickListener {
                             String stDate = data.child("date").getValue().toString();
                             long l_heart = data.child("heart").getChildrenCount();
                             long l_review = data.child("review").getChildrenCount();
-
-                            items.add(new Restaurant(stResKey, stResName, stResAddress, "", stDate, 0, l_heart , l_review ));
+                            float star;
+                            if (data.child("star").exists()) {
+                                star = Float.valueOf(data.child("star").getValue().toString());
+                            } else { star = 0; }
+                            String stPhoto;
+                            if (data.child("photo").exists()) {
+                                stPhoto = data.child("photo").child(String.valueOf(0)).getValue().toString();
+                            } else { stPhoto = ""; }
+                            boolean event;
+                            if (data.child("event").exists()) {
+                                event = true;
+                            } else { event = false; }
+                            items.add(new Restaurant(stResKey, stResName, stResAddress, stPhoto, stDate, star, l_heart, l_review, event));
                         }
                         Collections.reverse(items);
                         resAdapter.notifyDataSetChanged();
@@ -211,7 +226,6 @@ public class OneFragment extends Fragment implements View.OnClickListener {
 //            }
 //        });
         return v;
-
     }
 
     @Override
@@ -226,6 +240,10 @@ public class OneFragment extends Fragment implements View.OnClickListener {
                     case R.id.btn3:
                         break;
                     case R.id.btn4:
+                        break;
+                    case R.id.event_button1:
+                        Intent intent = new Intent(getActivity(), Event.class);
+                        startActivity(intent);
                         break;
         }
     }

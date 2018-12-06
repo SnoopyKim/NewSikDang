@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".TwoFragment">
+
+
+    <!--이벤트설명이미지-->
+    <RelativeLayout
+        android:id="@+id/frag3_map"
+        android:layout_width="match_parent"
+        app:layout_heightPercent="31%"
+        android:layout_below="@+id/frag3_hash_line"
+        android:background="@color/lightgray">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/event_main"/>
+    </RelativeLayout>
+
+    <!--식당리스트-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/event_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/frag3_map"
+        android:background="#C0C0C0"
+        >
+    </android.support.v7.widget.RecyclerView>
+
+</android.support.percent.PercentRelativeLayout>

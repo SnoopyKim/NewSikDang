@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="150dp">
+
+    <RelativeLayout
+        android:id="@+id/rl_restaurant"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/stroke2"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/iv_res_img"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:scaleType="fitXY"
+            android:background="@drawable/restaurant_img"/>
+
+        <TextView
+            android:id="@+id/tv_res_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/iv_res_img"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="식당 주소"
+            android:textColor="@color/lightgray"
+            android:textSize="12dp"/>
+
+        <TextView
+            android:id="@+id/tv_res_name"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/tv_res_address"
+            android:layout_alignStart="@id/tv_res_address"
+            android:text="식당이름"
+            android:textColor="#000000"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <!--디데이부분-->
+        <RelativeLayout
+            android:id="@+id/rl_res_dday"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_alignStart="@+id/tv_res_name"
+            android:layout_below="@+id/tv_res_name"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:background="@drawable/bg_dday">
+            <TextView
+                android:id="@+id/tv_res_d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="D+"
+                android:textSize="11dp"
+                android:textColor="@color/white" />
+            <TextView
+                android:id="@+id/tv_res_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tv_res_d"
+                android:layout_centerVertical="true"
+                android:text="00"
+                android:textSize="11dp"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+
+        <!--이벤트-->
+        <TextView
+            android:id="@+id/tv_res_event"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_alignTop="@+id/rl_res_dday"
+            android:layout_toEndOf="@id/rl_res_dday"
+            android:layout_marginStart="5dp"
+            android:text="EVENT"
+            android:gravity="center"
+            android:background="@drawable/bg_event"
+            android:textSize="11dp"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/btn_res_heart"
+            android:layout_width="20dp"
+            android:layout_height="18dp"
+            android:layout_toEndOf="@+id/tv_res_review"
+            android:layout_marginStart="10dp"
+            android:layout_alignBottom="@+id/rb_res_star"
+            android:background="@drawable/heart_states" />
+        <TextView
+            android:id="@+id/tv_res_heart"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/btn_res_heart"
+            android:layout_alignBottom="@+id/rb_res_star"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="13dp" />
+
+
+        <RatingBar
+            android:id="@+id/rb_res_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_res_dday"
+            android:layout_alignStart="@id/tv_res_address"
+            android:layout_marginTop="5dp"
+            style="@style/ReviewRatingBar"
+            android:progressBackgroundTint="@color/time_gray"
+            android:progressTint="@color/star_yellow"
+            android:max="5"
+            android:rating="3"/>
+        <TextView
+            android:id="@+id/tv_res_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/rb_res_star"
+            android:layout_toEndOf="@+id/rb_res_star"
+            android:layout_marginStart="5dp"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="13dp" />
+    </RelativeLayout>
+
+
+</RelativeLayout>
