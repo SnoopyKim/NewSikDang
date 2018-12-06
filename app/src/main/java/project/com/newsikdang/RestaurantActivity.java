@@ -6,14 +6,17 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,11 +56,12 @@ public class RestaurantActivity extends AppCompatActivity {
     List<String> photoList, menuPhotoList;
     List<Review> listReview;
 
-    ImageView ivBack, ivSetting;
+    ImageView ivBack, ivLogout, ivSetting;
 
+    RatingBar rbStar;
     TextView tvResName, tvCategory, tvResAddress, tvResPhone;
     TextView tvTime, tvTimeBreak, tvLastOrder, tvDayoff, tvParking, tvToilet;
-    TextView tvDate, tvHeart, tvReview;
+    TextView tvDate, tvHeart, tvReview, tvEvent, tvEventview;
 
     TextView tvReviewCnt;
     Button btnHeart, btnSimple, btnDetail;
@@ -84,6 +88,16 @@ public class RestaurantActivity extends AppCompatActivity {
                 finish();
             }
         });
+        ivLogout = findViewById(R.id.iv_res_logout);
+        ivLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(RestaurantActivity.this, IntroActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         ivSetting = findViewById(R.id.iv_res_setting);
         ivSetting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +116,7 @@ public class RestaurantActivity extends AppCompatActivity {
                 intent.putExtra("toilet", tvToilet.getText());
                 intent.putExtra("menuList", menuList);
                 intent.putExtra("menuPhotoList", (ArrayList<String>)menuPhotoList);
+                intent.putExtra("event", tvEventview.getText());
                 startActivity(intent);
             }
         });
@@ -111,6 +126,7 @@ public class RestaurantActivity extends AppCompatActivity {
             ivBack.setVisibility(View.GONE);
         } else {
             //일반 사용자
+            ivLogout.setVisibility(View.GONE);
             ivSetting.setVisibility(View.GONE);
         }
 
@@ -122,6 +138,7 @@ public class RestaurantActivity extends AppCompatActivity {
         tvCategory = findViewById(R.id.tv_res_category);
         tvResAddress = findViewById(R.id.tv_res_address);
         tvResPhone = findViewById(R.id.tv_res_phone);
+        rbStar = findViewById(R.id.rb_res_star);
 
         tvTime = findViewById(R.id.tv_res_time_value);
         tvDayoff = findViewById(R.id.tv_res_dayoff_value);
@@ -132,6 +149,9 @@ public class RestaurantActivity extends AppCompatActivity {
         tvDate = findViewById(R.id.tv_res_day);
         tvHeart = findViewById(R.id.tv_res_heart);
         tvReview = findViewById(R.id.tv_res_review_cnt);
+
+        tvEvent = findViewById(R.id.tv_res_event);
+        tvEventview = findViewById(R.id.tv_res_event_view);
 
         rlDetail = findViewById(R.id.rl_res_detail_view);
         rlMenu = findViewById(R.id.rl_res_menu_view);
@@ -144,26 +164,27 @@ public class RestaurantActivity extends AppCompatActivity {
         userRef = FirebaseDatabase.getInstance().getReference("users").child("customer").child(user.getUid());
 
         btnHeart = findViewById(R.id.btn_res_heart);
-        btnHeart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View button) {
-                button.setSelected(!button.isSelected());
-                if (button.isSelected()) {
-                    restaurantRef.child(resKey).child("heart").child(user.getUid()).setValue(true);
-                    userRef.child("heart").child(resKey).setValue(true);
-                    heart_cnt += 1;
-                    tvHeart.setText(String.valueOf(heart_cnt));
-                    Toast.makeText(RestaurantActivity.this,"좋아요 목록에 추가되었습니다.",Toast.LENGTH_SHORT).show();
+        if (userType == null) {
+            btnHeart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View button) {
+                    button.setSelected(!button.isSelected());
+                    if (button.isSelected()) {
+                        restaurantRef.child(resKey).child("heart").child(user.getUid()).setValue(true);
+                        userRef.child("heart").child(resKey).setValue(true);
+                        heart_cnt += 1;
+                        tvHeart.setText(String.valueOf(heart_cnt));
+                        Toast.makeText(RestaurantActivity.this, "좋아요 목록에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        restaurantRef.child(resKey).child("heart").child(user.getUid()).removeValue();
+                        userRef.child("heart").child(resKey).removeValue();
+                        heart_cnt -= 1;
+                        tvHeart.setText(String.valueOf(heart_cnt));
+                        Toast.makeText(RestaurantActivity.this, "좋아요 목록에서 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                else {
-                    restaurantRef.child(resKey).child("heart").child(user.getUid()).removeValue();
-                    userRef.child("heart").child(resKey).removeValue();
-                    heart_cnt -= 1;
-                    tvHeart.setText(String.valueOf(heart_cnt));
-                    Toast.makeText(RestaurantActivity.this,"좋아요 목록에서 삭제되었습니다.",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            });
+        }
 
         ivDetailMore = findViewById(R.id.iv_res_detail_more);
         ivDetailMore.setOnClickListener(new View.OnClickListener() {
@@ -229,15 +250,17 @@ public class RestaurantActivity extends AppCompatActivity {
         });
 
         ivReview = findViewById(R.id.icon_review);
-        ivReview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),ReviewActivity.class);
-                intent.putExtra("resName", tvResName.getText());
-                intent.putExtra("resKey", resKey);
-                startActivity(intent);
-            }
-        });
+        if (userType == null) {
+            ivReview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
+                    intent.putExtra("resName", tvResName.getText());
+                    intent.putExtra("resKey", resKey);
+                    startActivity(intent);
+                }
+            });
+        }
 
         //RecyclerView 사용하기 위한 사전 작업 (크기 고정, 어댑터 설정 등등)
         recyclerView = findViewById(R.id.rv_res_review);
@@ -252,8 +275,11 @@ public class RestaurantActivity extends AppCompatActivity {
         super.onResume();
 
         photoList.clear();
+        photoLayout.removeAllViews();
         menuList.clear();
         menuPhotoList.clear();
+        menuPhotoLayout.removeAllViews();
+        tlTag.removeAllViews();
         restaurantRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -268,9 +294,20 @@ public class RestaurantActivity extends AppCompatActivity {
                 tvResName.setText(dataSnapshot.child("name").getValue().toString());
                 tvCategory.setText(dataSnapshot.child("category").getValue().toString());
                 tvResAddress.setText(dataSnapshot.child("address").getValue().toString());
+                if (dataSnapshot.child("star").exists()) {
+                    rbStar.setRating(Float.valueOf(dataSnapshot.child("star").getValue().toString()));
+                } else { rbStar.setRating(0); }
+                if (dataSnapshot.child("event").exists()) {
+                    tvEventview.setText(dataSnapshot.child("event").getValue().toString());
+                    tvEventview.setVisibility(View.VISIBLE);
+                    tvEvent.setVisibility(View.VISIBLE);
+                } else {
+                    tvEventview.setText("");
+                    tvEventview.setVisibility(View.GONE);
+                    tvEvent.setVisibility(View.GONE);
+                }
                 if (dataSnapshot.child("tel").getValue().toString().equals("")) { tvResPhone.setText("정보 없음"); }
                 else { tvResPhone.setText(dataSnapshot.child("tel").getValue().toString()); }
-
                 if (dataSnapshot.child("detail").child("time").exists()) {
                     tvTime.setText(dataSnapshot.child("detail").child("time").getValue().toString());
                 } else { tvTime.setText("정보 없음"); }
@@ -311,6 +348,35 @@ public class RestaurantActivity extends AppCompatActivity {
                         loadImages(menuPhotoLayout, data.getValue().toString());
                     }
                 }
+                if (dataSnapshot.child("hashtag").exists()) {
+                    TableRow.LayoutParams params1 = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,100);
+                    params1.setMarginStart(10);
+                    params1.setMarginEnd(10);
+                    TableRow.LayoutParams params2 = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.WRAP_CONTENT);
+                    params2.setMargins(0,0,0,10);
+                    TableRow row = new TableRow(getApplicationContext());
+                    row.setLayoutParams(params2);
+                    int i=0;
+                    for (DataSnapshot data : dataSnapshot.child("hashtag").getChildren()) {
+                        String tag = data.getKey();
+                        TextView textView = new TextView(getApplicationContext());
+                        textView.setText("#".concat(tag));
+                        textView.setTextSize(16);
+                        textView.setTextColor(getColor(R.color.btnAbled));
+                        textView.setGravity(Gravity.CENTER);
+                        textView.setBackground(getDrawable(R.drawable.hashtag));
+                        textView.setLayoutParams(params1);
+                        row.addView(textView);
+                        if ( i%4==0 && i!=0 ){
+                            tlTag.addView(row);
+                            row = new TableRow(getApplicationContext());
+                            row.setLayoutParams(params2);
+                        }
+                        i += 1;
+                    }
+                    tlTag.addView(row);
+                }
+
 
                 review_cnt = dataSnapshot.child("review").getChildrenCount();
                 tvReview.setText(String.valueOf(review_cnt));

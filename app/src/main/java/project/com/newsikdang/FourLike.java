@@ -53,8 +53,19 @@ public class FourLike extends AppCompatActivity {
                                 String stDate = dataSnapshot.child("date").getValue().toString();
                                 long l_heart = dataSnapshot.child("heart").getChildrenCount();
                                 long l_review = dataSnapshot.child("review").getChildrenCount();
-
-                                listLike.add(new Restaurant(stResKey, stResName, stResAddress, "", stDate, 0, l_heart, l_review));
+                                float star;
+                                if (dataSnapshot.child("star").exists()) {
+                                    star = Float.valueOf(dataSnapshot.child("star").getValue().toString());
+                                } else { star = 0; }
+                                String stPhoto;
+                                if (dataSnapshot.child("photo").exists()) {
+                                    stPhoto = dataSnapshot.child("photo").child(String.valueOf(0)).getValue().toString();
+                                } else { stPhoto = ""; }
+                                boolean event;
+                                if (dataSnapshot.child("event").exists()) {
+                                    event = true;
+                                } else { event = false; }
+                                listLike.add(new Restaurant(stResKey, stResName, stResAddress, stPhoto, stDate, star, l_heart, l_review, event));
                                 mAdapter.notifyItemInserted(mAdapter.getItemCount());
                             }
                         }
