@@ -1,7 +1,6 @@
 package project.com.newsikdang;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -223,7 +222,6 @@ public class Map extends Fragment
                     }
                 }).show();
 
-
             } else {
                 // 4-1. 사용자가 퍼미션 거부를 한 적이 없는 경우에는 퍼미션 요청을 바로 합니다.
                 // 요청 결과는 onRequestPermissionResult에서 수신됩니다.
@@ -368,20 +366,20 @@ public class Map extends Fragment
 
         Double distance=getDistance(point,currentLatLng);
 
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(currentLatLng);
-        markerOptions.title(markerTitle);
-        markerOptions.snippet(markerSnippet);
-        markerOptions.draggable(true);
+        //MarkerOptions markerOptions = new MarkerOptions();
+        //markerOptions.position(currentLatLng);
+        //markerOptions.title(markerTitle);
+        //markerOptions.snippet(markerSnippet);
+        //markerOptions.draggable(true);
 
-        currentMarker = mGoogleMap.addMarker(markerOptions);
+        //currentMarker = mGoogleMap.addMarker(markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
         mGoogleMap.moveCamera(cameraUpdate);
 
         if(distance<=1000){
             MarkerOptions mOptions = new MarkerOptions();
-            String rest_name="식당 이름";
+            String rest_name="카페 그리네";
             mOptions.title(rest_name);
             mOptions.snippet(address);
             mOptions.position(point);
