@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -207,23 +206,6 @@ public class OneFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-//        스피너
-        Spinner spinner = v.findViewById(R.id.spinner);
-        SpinnerAdapter spinneradapter;
-
-//        데이터
-        List<String> data = new ArrayList<>();
-        data.add("최신순"); data.add("별점순"); data.add("거리순");
-        spinneradapter = new SpinnerAdapter(getContext(), data);
-        spinner.setAdapter(spinneradapter);
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
         return v;
 }
 
@@ -231,10 +213,10 @@ public class OneFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.btn1:
+                        mRecyclerView.setVisibility(View.VISIBLE);
                         break;
                     case R.id.btn2:
-                        items.clear();
-                        resAdapter.notifyDataSetChanged();
+                        mRecyclerView.setVisibility(View.INVISIBLE);
                         break;
                     case R.id.btn3:
                         break;

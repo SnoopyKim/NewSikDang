@@ -11,14 +11,14 @@
         android:id="@+id/frag1_top"
         android:layout_width="match_parent"
         android:layout_height="50dp">
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="20dp"
-        android:background="@drawable/spinner_spinner"
-        />
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/spinner_spinner"
+            />
 
         <ImageButton
             android:id="@+id/frag1_alarm"

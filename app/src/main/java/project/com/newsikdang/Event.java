@@ -29,7 +29,7 @@ public class Event extends AppCompatActivity {
     private DatabaseReference restaurantsRef;
 
     RecyclerView mRecyclerView;
-    EventAdapter resAdapter;
+    MapRestaurantAdapter resAdapter;
     LinearLayoutManager mLayoutManager;
 
     String stCGG = "3040000";
@@ -104,7 +104,7 @@ public class Event extends AppCompatActivity {
             }
         });
         // Adapter 생성
-        resAdapter = new EventAdapter(items, this);
+        resAdapter = new MapRestaurantAdapter(items, this);
         mRecyclerView.setAdapter(resAdapter);
 
     }

@@ -27,7 +27,7 @@
             android:id="@+id/tv_res_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="세종원"
+            android:text="식당이름"
             android:textColor="#000000"
             android:textSize="20dp"
             android:textStyle="bold"/>
@@ -107,7 +107,7 @@
             android:layout_marginStart="10dp"
             android:layout_alignTop="@+id/feed_star"
             android:layout_toEndOf="@+id/feed_starnumber"
-            android:background="@drawable/heart_fill_red" />
+            android:background="@drawable/heart_states" />
         <TextView
             android:id="@+id/tv_res_heart"
             android:layout_width="wrap_content"

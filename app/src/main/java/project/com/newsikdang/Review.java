@@ -3,7 +3,6 @@ package project.com.newsikdang;
 import java.util.List;
 
 public class Review {
-    //이메일, 이름, 사진url으로 이루어짐
     private boolean detail;
     private String revKey;
     private String resKey;
