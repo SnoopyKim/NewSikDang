@@ -41,7 +41,7 @@ public class OneFragment extends Fragment implements View.OnClickListener {
     private DatabaseReference restaurantsRef;
 
     Button btn1, btn2, btn3, btn4; //관심구역 1,2,3,4
-    ImageView event_button1;
+    ImageView event_button1, frag1_feed;
 
     RecyclerView mRecyclerView;
     RestaurantAdapter resAdapter;
@@ -69,6 +69,8 @@ public class OneFragment extends Fragment implements View.OnClickListener {
         btn4.setOnClickListener(this);
         event_button1 = v.findViewById(R.id.event_button1);
         event_button1.setOnClickListener(this);
+        frag1_feed = v.findViewById(R.id.frag1_feed);
+        frag1_feed.setOnClickListener(this);
 
         btn1.setText(stCGG);
         userRef.child("block").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -90,8 +92,19 @@ public class OneFragment extends Fragment implements View.OnClickListener {
                             String stDate = data.child("date").getValue().toString();
                             long l_heart = data.child("heart").getChildrenCount();
                             long l_review = data.child("review").getChildrenCount();
-
-                            items.add(new Restaurant(stResKey, stResName, stResAddress, "", stDate, 0, l_heart , l_review ));
+                            float star;
+                            if (data.child("star").exists()) {
+                                star = Float.valueOf(data.child("star").getValue().toString());
+                            } else { star = 0; }
+                            String stPhoto;
+                            if (data.child("photo").exists()) {
+                                stPhoto = data.child("photo").child(String.valueOf(0)).getValue().toString();
+                            } else { stPhoto = ""; }
+                            boolean event;
+                            if (data.child("event").exists()) {
+                                event = true;
+                            } else { event = false; }
+                            items.add(new Restaurant(stResKey, stResName, stResAddress, stPhoto, stDate, star, l_heart, l_review, event));
                         }
                         Collections.reverse(items);
                         resAdapter.notifyDataSetChanged();
@@ -232,6 +245,10 @@ public class OneFragment extends Fragment implements View.OnClickListener {
                     case R.id.event_button1:
                         Intent intent = new Intent(getActivity(), Event.class);
                         startActivity(intent);
+                        break;
+                    case R.id.frag1_feed:
+                        Intent intent2 = new Intent(getActivity(), ResNotice.class);
+                        startActivity(intent2);
                         break;
         }
     }

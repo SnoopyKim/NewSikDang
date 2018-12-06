@@ -1,10 +1,9 @@
 package project.com.newsikdang;
 
-import android.content.Context;
 import android.graphics.Canvas;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.security.AccessController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -66,8 +64,18 @@ public class Event extends AppCompatActivity {
                             String stDate = data.child("date").getValue().toString();
                             long l_heart = data.child("heart").getChildrenCount();
                             long l_review = data.child("review").getChildrenCount();
-
-                            items.add(new Restaurant(stResKey, stResName, stResAddress, "", stDate, 0, l_heart , l_review ));
+                            float star;
+                            if (data.child("star").exists()) {
+                                star = Float.valueOf(data.child("star").getValue().toString());
+                            } else { star = 0; }
+                            String stPhoto;
+                            if (data.child("photo").exists()) {
+                                stPhoto = data.child("photo").child(String.valueOf(0)).getValue().toString();
+                            } else { stPhoto = ""; }
+                            boolean event;
+                            if (data.child("event").exists()) { event = true; }
+                            else { event = false; }
+                            items.add(new Restaurant(stResKey, stResName, stResAddress, stPhoto, stDate, star, l_heart , l_review, event));
                         }
                         Collections.reverse(items);
                         resAdapter.notifyDataSetChanged();

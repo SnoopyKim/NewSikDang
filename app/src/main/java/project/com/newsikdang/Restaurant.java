@@ -10,22 +10,12 @@ public class Restaurant {
     public float star;
     public long heart;
     public long review;
+    boolean event;
 
     public Restaurant() {
         //기본 생성자
     }
-    public Restaurant(String resKey, String name, String address, String date) {
-        //생성자2
-        this.resKey = resKey;
-        this.name = name;
-        this.address = address;
-        this.photo = "";
-        this.date = date;
-        this.star = 0;
-        this.heart = 0;
-        this.review = 0;
-    }
-    public Restaurant(String resKey, String name, String address, String photo, String date, float star, long heart, long review) {
+    public Restaurant(String resKey, String name, String address, String photo, String date, float star, long heart, long review, boolean event) {
         //생성자3
         this.resKey = resKey;
         this.name = name;
@@ -35,6 +25,7 @@ public class Restaurant {
         this.star = star;
         this.heart = heart;
         this.review = review;
+        this.event = event;
     }
 
     public String getResKey() { return resKey; }
@@ -45,6 +36,7 @@ public class Restaurant {
     public float getStar() { return star; }
     public long getHeart() { return heart; }
     public long getReview() { return review; }
+    public boolean getEvent() { return event; }
 
     public void setResKey(String resKey) { this.resKey = resKey; }
     public void setName(String name) { this.name = name; }
@@ -54,4 +46,5 @@ public class Restaurant {
     public void setStar(float star) { this.star = star; }
     public void setHeart(long heart) { this.heart = heart; }
     public void setReview(long review) { this.review = review; }
+    public void setEvent(boolean event) { this.event = event; }
 }

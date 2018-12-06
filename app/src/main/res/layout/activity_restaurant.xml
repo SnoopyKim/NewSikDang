@@ -21,13 +21,13 @@
             android:background="#FFFFFF">
 
             <ImageView
-                android:id="@+id/iv_res_back"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/back" />
+            android:id="@+id/iv_res_back"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/back" />
             <ImageView
                 android:id="@+id/iv_res_logout"
                 android:layout_width="35dp"
@@ -35,7 +35,9 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
-                android:src="@drawable/close" />
+                android:src="@drawable/close"
+                android:scaleX="0.8"
+                android:scaleY="0.8"/>
             <ImageView
                 android:id="@+id/iv_res_setting"
                 android:layout_width="36dp"
@@ -75,7 +77,6 @@
                         android:textStyle="bold"/>
                 </RelativeLayout>
             </LinearLayout>
-
         </HorizontalScrollView>
 
         <!--매장 이름(정보)-->
@@ -173,6 +174,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/rb_res_star"
+                android:layout_marginBottom="-3dp"
                 android:layout_marginStart="12dp"
                 android:layout_toEndOf="@+id/rb_res_star"
                 android:text="6"
