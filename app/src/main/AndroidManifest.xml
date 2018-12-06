@@ -49,17 +49,19 @@
         <activity android:name=".FourLike" />
         <activity android:name=".FourUnlike" />
         <activity android:name=".FourReview" />
-        <activity android:name=".Coupon" />
         <activity android:name=".FourCoupon" />
         <activity android:name=".ReviewActivity" />
         <activity android:name=".ManagerLoginActivity" />
         <activity android:name=".ManagerJoinActivity" />
         <activity android:name=".SettingActivity" />
-        <activity android:name=".AreaActivity"
+        <activity
+            android:name=".AreaActivity"
             android:theme="@android:style/Theme.Translucent" />
         <activity android:name=".Two_Restaurant" />
         <activity android:name=".Event" />
-        <activity android:name=".Event_restaurant"></activity>
+        <activity android:name=".Event_restaurant" />
+        <activity android:name=".ResNotice"
+            android:theme="@android:style/Theme.Translucent"></activity>
     </application>
 
 </manifest>

@@ -244,6 +244,7 @@ public class RestaurantActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         reviewManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(reviewManager);
+
     }
 
     @Override

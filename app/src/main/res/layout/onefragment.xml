@@ -20,22 +20,13 @@
         android:background="@drawable/spinner_spinner"
         />
 
-        <ImageButton
-            android:id="@+id/frag1_alarm"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:background="@drawable/alarm_blank"
-            android:layout_toStartOf="@+id/frag1_feed"
-            android:layout_alignTop="@+id/frag1_feed"
-            android:layout_marginRight="5dp"/>
-
     <ImageButton
         android:id="@+id/frag1_feed"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:background="@drawable/myfeed"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/noti_blank_red"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginTop="13dp"/>
 
     </RelativeLayout>
@@ -113,9 +104,12 @@
                 android:layout_height="match_parent">
                 <ImageView
                     android:id="@+id/event_button1"
-                    android:layout_width="200dp"
+                    android:layout_width="150dp"
                     android:layout_height="110dp"
-                    android:background="@drawable/reviewstroke2"/>
+                    android:background="@drawable/reviewstroke2"
+                    android:padding="2dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ch_event2"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
