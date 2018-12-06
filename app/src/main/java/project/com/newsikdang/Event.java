@@ -1,16 +1,13 @@
 package project.com.newsikdang;
 
+import android.content.Context;
 import android.graphics.Canvas;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,11 +18,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.AccessController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TwoFragment extends Fragment {
+public class Event extends AppCompatActivity {
 
     private FirebaseUser user;
     private FirebaseDatabase database;
@@ -33,15 +31,16 @@ public class TwoFragment extends Fragment {
     private DatabaseReference restaurantsRef;
 
     RecyclerView mRecyclerView;
-    MapRestaurantAdapter resAdapter;
+    EventAdapter resAdapter;
     LinearLayoutManager mLayoutManager;
 
     String stCGG = "3040000";
     ArrayList<Restaurant> items = new ArrayList<>();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.twofragment, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_event);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance();
@@ -81,8 +80,8 @@ public class TwoFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
 
-        mRecyclerView = v.findViewById(R.id.map_recycler);
-        mLayoutManager = new LinearLayoutManager(this.getContext());
+        mRecyclerView = findViewById(R.id.event_recycler);
+        mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         // LinearLayout으로 설정
@@ -97,17 +96,8 @@ public class TwoFragment extends Fragment {
             }
         });
         // Adapter 생성
-        resAdapter = new MapRestaurantAdapter(items, getContext());
+        resAdapter = new EventAdapter(items, this);
         mRecyclerView.setAdapter(resAdapter);
 
-        Map map = new Map();
-        // replace fragment
-        final FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.ll_map, map);
-        // Commit the transaction
-        transaction.commit();
-
-        return v;
     }
-
 }

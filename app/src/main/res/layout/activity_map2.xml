@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Map2"
+    android:background="@color/white">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/area_b"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/area_top"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp">
+
+        <RelativeLayout
+            android:id="@+id/b_btn1"
+            android:layout_height="55dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/area_stroke"
+            app:layout_marginLeftPercent="6%"
+            app:layout_widthPercent="25%">
+
+            <TextView
+                android:id="@+id/area_tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="광진구"
+                android:textColor="#222222"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/tv_map1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="29dp"
+                android:text="(세종대, 건대)"
+                android:textColor="#696969"
+                android:textSize="9dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/b_btn2"
+            android:layout_height="55dp"
+            android:layout_alignTop="@+id/b_btn1"
+            android:layout_toEndOf="@+id/b_btn1"
+            android:background="@drawable/area_strokeoff"
+            app:layout_marginLeftPercent="6%"
+            app:layout_widthPercent="25%">
+
+            <TextView
+                android:id="@+id/area_tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="성동구"
+                android:textColor="#B4B4B4"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/tv_map2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="29dp"
+                android:text="(한양대)"
+                android:textColor="#B4B4B4"
+                android:textSize="9dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/b_btn3"
+            android:layout_height="55dp"
+            android:layout_alignTop="@+id/b_btn1"
+            android:layout_toEndOf="@+id/b_btn2"
+            android:background="@drawable/area_strokeoff"
+            app:layout_marginLeftPercent="6%"
+            app:layout_widthPercent="25%">
+
+            <TextView
+                android:id="@+id/area_tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="중랑구"
+                android:textColor="#B4B4B4"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/tv_map3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="29dp"
+                android:text="(서일대)"
+                android:textColor="#B4B4B4"
+                android:textSize="9dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/b_btn4"
+            android:layout_height="55dp"
+            android:layout_below="@+id/b_btn1"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/area_strokeoff"
+            app:layout_marginLeftPercent="6%"
+            app:layout_widthPercent="25%">
+            <TextView
+                android:id="@+id/area_tv4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="동대문구"
+                android:textColor="#B4B4B4"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/tv_map4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="29dp"
+                android:text="(경희대, 외대)"
+                android:textColor="#B4B4B4"
+                android:textSize="9dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/b_btn5"
+            android:layout_height="55dp"
+            android:layout_alignTop="@+id/b_btn4"
+            android:layout_toEndOf="@+id/b_btn4"
+            android:background="@drawable/area_strokeoff"
+            app:layout_marginLeftPercent="6%"
+            app:layout_widthPercent="25%">
+
+            <TextView
+                android:id="@+id/area_tv5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="성북구"
+                android:textColor="#B4B4B4"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/tv_map5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="29dp"
+                android:text="(국민대, 고려대)"
+                android:textColor="#B4B4B4"
+                android:textSize="9dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/b_btn6"
+            android:layout_height="55dp"
+            android:layout_alignTop="@+id/b_btn5"
+            android:layout_toEndOf="@+id/b_btn5"
+            android:background="@drawable/area_strokeoff"
+            app:layout_marginLeftPercent="6%"
+            app:layout_widthPercent="25%">
+
+            <TextView
+                android:id="@+id/area_tv6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="중구"
+                android:textColor="#B4B4B4"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/tv_map6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="29dp"
+                android:text="(동국대)"
+                android:textColor="#B4B4B4"
+                android:textSize="9dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/area_choice"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/maincolor">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="선택완료"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </android.support.percent.PercentRelativeLayout>
+
+</RelativeLayout>

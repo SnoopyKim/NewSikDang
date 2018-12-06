@@ -24,7 +24,7 @@ import java.util.List;
 
 public class ThreeFragment extends Fragment {
     RecyclerView recyclerView;
-    ReviewAdapter reviewAdapter;
+    FeedAdapter reviewAdapter;
     LinearLayoutManager layoutManager;
 
     DatabaseReference reviewRef;
@@ -94,7 +94,7 @@ public class ThreeFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
         // Adapter 생성
-        reviewAdapter = new ReviewAdapter(listReview, getActivity(), true);
+        reviewAdapter = new FeedAdapter(listReview, getActivity(), true);
         recyclerView.setAdapter(reviewAdapter);
 
         return v;

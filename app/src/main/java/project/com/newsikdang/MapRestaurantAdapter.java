@@ -8,13 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Calendar;
 import java.util.List;
 
-public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
+public class MapRestaurantAdapter extends RecyclerView.Adapter<MapRestaurantAdapter.ViewHolder> {
 
     //리뷰 데이터 리스트 두개 (하나는 백업용)
     //@Comment search results are dynamic element. So, Friends list back up to mFilter
@@ -42,30 +40,26 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
      * */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public RelativeLayout rlRestaurant;
-        public ImageView ivPhoto;
-        public TextView tvName, tvAddress, tvDate, tvEvent, tvHeart, tvReview;
-        public Button btnHeart, btnRemove;
+        public TextView tvName, tvAddress, tvDate, tvStar, tvHeart, tvReview;
+        public Button btnHeart;
         public RatingBar rbStar;
 
         //순서대로 칸, 이름, 이미지를 레이아웃에서 불러와 생성
         public ViewHolder(View itemView) {
             super(itemView);
             rlRestaurant = itemView.findViewById(R.id.rl_restaurant);
-            ivPhoto = itemView.findViewById(R.id.iv_res_img);
             tvName = itemView.findViewById(R.id.tv_res_name);
             tvAddress = itemView.findViewById(R.id.tv_res_address);
             tvDate = itemView.findViewById(R.id.tv_res_day);
-            tvEvent = itemView.findViewById(R.id.tv_res_event);
             tvHeart = itemView.findViewById(R.id.tv_res_heart);
             tvReview = itemView.findViewById(R.id.tv_res_review);
             btnHeart = itemView.findViewById(R.id.btn_res_heart);
-            btnRemove = itemView.findViewById(R.id.btn_res_remove);
             rbStar = itemView.findViewById(R.id.rb_res_star);
         }
     }
 
     // 커스텀 생성자로 리뷰 데이터 리스트를 받음
-    public RestaurantAdapter(List<Restaurant> restaurants, Context context) {
+    public MapRestaurantAdapter(List<Restaurant> restaurants, Context context) {
         this.listRestaurant = restaurants;
         this.context = context;
         this.user = FirebaseAuth.getInstance().getCurrentUser();
@@ -75,10 +69,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
     //VIew생성 및 레이아웃 설정
     @Override
-    public RestaurantAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MapRestaurantAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.restaurant, parent, false);
+                .inflate(R.layout.activity_two__restaurant, parent, false);
 
         //set the view's size, margin, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
@@ -98,10 +92,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         if (holder.getAdapterPosition() == RecyclerView.NO_POSITION) return;
         final Restaurant restaurant = listRestaurant.get(holder.getAdapterPosition());
 
-        if (!restaurant.getPhoto().equals("")) {
-            Glide.with(context).load(restaurant.getPhoto()).into(holder.ivPhoto);
-        }
-
         holder.tvName.setText(restaurant.getName());
         holder.tvAddress.setText(restaurant.getAddress());
 
@@ -111,22 +101,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         date_cal.set(date/10000,(date/100)%100-1,date%100);
         long dday = (now.getTimeInMillis()-date_cal.getTimeInMillis()) / (1000*60*60*24);
         holder.tvDate.setText(String.valueOf(dday));
-        holder.rbStar.setRating(restaurant.getStar());
-        holder.tvReview.setText(String.valueOf(restaurant.getReview()));
-        if (!restaurant.getEvent()) { holder.tvEvent.setVisibility(View.GONE); }
 
         userRef.child("heart").child(restaurant.getResKey()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) { holder.btnHeart.setSelected(true); }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
-        userRef.child("block").child(restaurant.getResKey()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) { holder.btnRemove.setSelected(true); }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
@@ -154,26 +133,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             }
         });
 
-        holder.btnRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View button) {
-                button.setSelected(!button.isSelected());
-                if (button.isSelected()) {
-                    restaurantRef.child(restaurant.getResKey()).child("block").child(user.getUid()).setValue(true);
-                    userRef.child("block").child(restaurant.getResKey()).setValue(true);
-                    listRestaurant.remove(position);
-                    notifyItemRemoved(position);
-                    Toast.makeText(context,"싫어요 목록에 추가되었습니다.",Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    restaurantRef.child(restaurant.getResKey()).child("block").child(user.getUid()).removeValue();
-                    userRef.child("block").child(restaurant.getResKey()).removeValue();
-                    listRestaurant.remove(position);
-                    notifyItemRemoved(position);
-                    Toast.makeText(context,"싫어요 목록에서 삭제되었습니다.",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         holder.rlRestaurant.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,7 +143,77 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             }
         });
 
+        /*
+        String stPhoto = mFriend.get(position).getPhoto();
+        if (stPhoto.equals("None")) {
+            //친구의 이미지 정보가 없을 경우 지정해둔 기본 이미지로
+            Drawable defaultImg = context.getResources().getDrawable(R.drawable.ic_person_black_24dp);
+            holder.ivUser.setImageDrawable(defaultImg);
+        } else {
+            Glide.with(context).load(stPhoto)
+                    .placeholder(R.drawable.ic_person_black_24dp)
+                    .into(holder.ivUser);
+        }
+        */
+
+
+        /* //View(칸) 클릭 시 -> 나중에 써먹을지도?
+        holder.overall.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+                switch (event.getAction()) {
+                    //마우스를 눌렀을 때
+                    case MotionEvent.ACTION_DOWN:
+                        //holder.overall.setBackgroundColor(Color.parseColor("#F5F5F5"));
+
+                        break;
+                    //마우스를 땠을 때
+                    case MotionEvent.ACTION_UP:
+                        //set color back to default
+                        holder.overall.setBackgroundColor(Color.WHITE);
+
+                        //변수들의 값을 설정
+                        stFriendUid = listRestaurant.get(position).getKey();
+                        stFriendEmail = listRestaurant.get(position).getEmail();
+                        stFriendname = listRestaurant.get(position).getName();
+                        stFriendPhoto = listRestaurant.get(position).getPhoto();
+
+                        break;
+                }
+                return true;
+            }
+        });
+        */
     }
+
+    /**
+     * @Name    filter
+     * @Usage   search friends list
+     * @Param   charText : search text <- Tabactivity's changeET's event catch value
+     * @return  void
+     * @Comment mFilter : backup, mFilter : showing at user
+     * */
+    /*
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        //친구 데이터 리스트를 하나 비운 뒤, 입력한 문자에 따라 백업용으로 다시 친구 데이터 리스트를 만듬
+        mFriend.clear();
+        if (charText.length() == 0) {
+            mFriend.addAll(mFilter);
+        } else {
+            for (Friend friend : mFilter) {
+                String name = friend.getName();
+                if (name.toLowerCase().contains(charText)) {
+                    mFriend.add(friend);
+                }
+            }
+        }
+        //Communicate list view with adapter. Saying "data set Changed!"
+        notifyDataSetChanged();
+    }
+    */
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override

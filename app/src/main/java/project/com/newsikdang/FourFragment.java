@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,6 +65,7 @@ public class FourFragment extends Fragment {
         userRef = database.getReference("users").child("customer").child(user.getUid());
         storageRef = FirebaseStorage.getInstance().getReference("users").child(user.getUid()).child("profile.png");
 
+
         ivProfile = v.findViewById(R.id.ivProfile);
         ivProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +113,16 @@ public class FourFragment extends Fragment {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+
+        //관심목록
+        RelativeLayout rl_att_1 = v.findViewById(R.id.attention_1);
+        rl_att_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),AreaActivity.class);
+                startActivity(intent);
+            }
         });
 
 //        내쿠폰함

@@ -22,4 +22,7 @@
         <item name="android:maxHeight">15dp</item>
     </style>
 
+    <style name="EditTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@color/maincolor</item>
+    </style>
 </resources>

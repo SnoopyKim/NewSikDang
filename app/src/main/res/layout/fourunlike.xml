@@ -16,6 +16,7 @@
             android:layout_centerInParent="true"
             android:textSize="18dp"
             android:textStyle="bold"
+            android:textColor="@color/white"
             android:text="싫어요 목록"/>
     </RelativeLayout>
     <android.support.v7.widget.RecyclerView

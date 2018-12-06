@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +39,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  *           show info dialog
  * @Layout  my_friend_view.xml
  * */
-public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
+public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     //리뷰 데이터 리스트 두개 (하나는 백업용)
     //@Comment search results are dynamic element. So, Friends list back up to mFilter
@@ -89,7 +86,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     }
 
     // 커스텀 생성자로 리뷰 데이터 리스트를 받음
-    public ReviewAdapter(List<Review> reviews, Context context, boolean clickable) {
+    public FeedAdapter(List<Review> reviews, Context context, boolean clickable) {
         this.listReview = reviews;
         this.listFilter = new ArrayList<>();
         this.listFilter.addAll(reviews);
@@ -108,11 +105,11 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
     //VIew생성 및 레이아웃 설정
     @Override
-    public ReviewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FeedAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View v;
-        if (viewType == 0) { v = LayoutInflater.from(parent.getContext()).inflate(R.layout.review_simple, parent, false); }
-        else { v = LayoutInflater.from(parent.getContext()).inflate(R.layout.review_detail, parent, false); }
+        if (viewType == 0) { v = LayoutInflater.from(parent.getContext()).inflate(R.layout.frag3_review_simple, parent, false); }
+        else { v = LayoutInflater.from(parent.getContext()).inflate(R.layout.frag3_review_detail, parent, false); }
 
         //set the view's size, margin, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
@@ -133,17 +130,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         final Review review = listReview.get(position);
 
         holder.tvName.setText(review.getName());
-        holder.tvContext.setText("");
-        for (String word : review.getText().split(" ")) {
-            if (word.charAt(0)=='#') {
-                Spannable span = new SpannableString(word);
-                span.setSpan(new ForegroundColorSpan(context.getColor(R.color.btnAbled)),0,span.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                holder.tvContext.append(span);
-                holder.tvContext.append(" ");
-            } else {
-                holder.tvContext.append(word+" ");
-            }
-        }
+        holder.tvContext.setText(review.getText());
         holder.tvDate.setText(review.getDate());
         holder.rbStar.setRating(review.getStar());
         Glide.with(context).load(review.getUserProfile()).into(holder.ivProfile);
