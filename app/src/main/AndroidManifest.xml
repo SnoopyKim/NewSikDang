@@ -56,9 +56,7 @@
         <activity android:name=".SettingActivity" />
         <activity android:name=".AreaActivity"
             android:theme="@android:style/Theme.Translucent" />
-        <activity android:name=".Two_Restaurant" />
         <activity android:name=".Event" />
-        <activity android:name=".Event_restaurant"></activity>
     </application>
 
 </manifest>

@@ -59,7 +59,7 @@
             android:id="@+id/hash_img"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/hashtag_red"
+            android:src="@drawable/icon_hashtag_red"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"/>
         <EditText

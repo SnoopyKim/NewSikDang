@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_res_img"
             android:layout_marginTop="5dp"
+            android:maxLines="1"
             android:text="식당 주소"
             android:textColor="@color/lightgray"
             android:textSize="12dp"/>
