@@ -40,7 +40,7 @@ public class OneFragment extends Fragment implements View.OnClickListener {
     private DatabaseReference restaurantsRef;
 
     Button btn1, btn2, btn3, btn4; //관심구역 1,2,3,4
-    ImageView event_button1;
+    ImageView event_button1, frag1_feed;
 
     RecyclerView mRecyclerView;
     RestaurantAdapter resAdapter;
@@ -68,6 +68,8 @@ public class OneFragment extends Fragment implements View.OnClickListener {
         btn4.setOnClickListener(this);
         event_button1 = v.findViewById(R.id.event_button1);
         event_button1.setOnClickListener(this);
+        frag1_feed = v.findViewById(R.id.frag1_feed);
+        frag1_feed.setOnClickListener(this);
 
         btn1.setText(stCGG);
         userRef.child("block").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -225,6 +227,10 @@ public class OneFragment extends Fragment implements View.OnClickListener {
                     case R.id.event_button1:
                         Intent intent = new Intent(getActivity(), Event.class);
                         startActivity(intent);
+                        break;
+                    case R.id.frag1_feed:
+                        Intent intent2 = new Intent(getActivity(), ResNotice.class);
+                        startActivity(intent2);
                         break;
         }
     }

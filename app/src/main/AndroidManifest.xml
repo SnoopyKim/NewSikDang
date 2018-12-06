@@ -54,9 +54,12 @@
         <activity android:name=".ManagerLoginActivity" />
         <activity android:name=".ManagerJoinActivity" />
         <activity android:name=".SettingActivity" />
-        <activity android:name=".AreaActivity"
+        <activity
+            android:name=".AreaActivity"
             android:theme="@android:style/Theme.Translucent" />
         <activity android:name=".Event" />
+        <activity android:name=".ResNotice"
+            android:theme="@android:style/Theme.Translucent"></activity>
     </application>
 
 </manifest>
