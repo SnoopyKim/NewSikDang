@@ -4,13 +4,13 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TwoFragment extends Fragment implements View.OnClickListener {
+public class TwoFragment extends Fragment {
 
     private FirebaseUser user;
     private FirebaseDatabase database;
@@ -99,12 +99,15 @@ public class TwoFragment extends Fragment implements View.OnClickListener {
         // Adapter 생성
         resAdapter = new MapRestaurantAdapter(items, getContext());
         mRecyclerView.setAdapter(resAdapter);
+
+        Map map = new Map();
+        // replace fragment
+        final FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.ll_map, map);
+        // Commit the transaction
+        transaction.commit();
+
         return v;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-        }
-    }
 }
