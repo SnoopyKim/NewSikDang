@@ -121,7 +121,7 @@
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/attention_2"
-            android:layout_width="90dp"
+            android:layout_width="71dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/attention_1"
             android:layout_toEndOf="@+id/attention_1"
@@ -132,7 +132,7 @@
                 android:id="@+id/it2_back"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:background="@drawable/frag4_fillbox"
+                android:background="@drawable/frag4_box"
                 android:scaleType="fitXY"
                 android:gravity="center"
                 />
@@ -142,9 +142,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="7dp"
                 android:layout_centerVertical="true"
-                android:text="서울시 중랑구"
+                android:text="추가 하기"
                 android:textSize="10dp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/maincolor"/>
             <ImageView
                 android:id="@+id/id2_button"
                 android:layout_width="15dp"
@@ -152,14 +152,14 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/frag4_x"
+                android:background="@drawable/frag4_plus"
                 android:scaleType="fitXY"
                 android:gravity="center"
                 />
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/attention_3"
-            android:layout_width="90dp"
+            android:layout_width="71dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/attention_2"
             android:layout_toEndOf="@+id/attention_2"
@@ -170,7 +170,7 @@
                 android:id="@+id/it3_back"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:background="@drawable/frag4_fillbox"
+                android:background="@drawable/frag4_box"
                 android:scaleType="fitXY"
                 android:gravity="center"
                 />
@@ -180,9 +180,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="7dp"
                 android:layout_centerVertical="true"
-                android:text="서울시 성동구"
+                android:text="추가하기"
                 android:textSize="10dp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/maincolor"/>
             <ImageView
                 android:id="@+id/it3_button"
                 android:layout_width="15dp"
@@ -190,7 +190,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/frag4_x"
+                android:background="@drawable/frag4_plus"
                 android:scaleType="fitXY"
                 android:gravity="center"
                 />

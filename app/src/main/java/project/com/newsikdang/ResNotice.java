@@ -25,7 +25,8 @@ public class ResNotice extends Activity {
         close = this.findViewById(R.id.close);
 
         sw_notice = this.findViewById(R.id.sw_notice);
-        sw_notice.setOnClickListener(new View.OnClickListener() {
+
+        close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
