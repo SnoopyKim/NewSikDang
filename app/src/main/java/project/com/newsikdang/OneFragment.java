@@ -71,7 +71,7 @@ public class OneFragment extends Fragment implements View.OnClickListener {
         frag1_feed = v.findViewById(R.id.frag1_feed);
         frag1_feed.setOnClickListener(this);
 
-        btn1.setText(stCGG);
+        btn1.setText("광진구");
         userRef.child("block").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -213,25 +213,25 @@ public class OneFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.btn1:
-                        mRecyclerView.setVisibility(View.VISIBLE);
-                        break;
-                    case R.id.btn2:
-                        mRecyclerView.setVisibility(View.INVISIBLE);
-                        break;
-                    case R.id.btn3:
-                        break;
-                    case R.id.btn4:
-                        break;
-                    case R.id.event_button1:
-                        Intent intent = new Intent(getActivity(), Event.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.frag1_feed:
-                        Intent intent2 = new Intent(getActivity(), ResNotice.class);
-                        startActivity(intent2);
-                        break;
+        switch (v.getId()) {
+            case R.id.btn1:
+                mRecyclerView.setVisibility(View.VISIBLE);
+                break;
+            case R.id.btn2:
+                mRecyclerView.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.btn3:
+                break;
+            case R.id.btn4:
+                break;
+            case R.id.event_button1:
+                Intent intent = new Intent(getActivity(), Event.class);
+                startActivity(intent);
+                break;
+            case R.id.frag1_feed:
+                Intent intent2 = new Intent(getActivity(), ResNotice.class);
+                startActivity(intent2);
+                break;
         }
     }
 }

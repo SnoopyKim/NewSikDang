@@ -1,11 +1,9 @@
 package project.com.newsikdang;
 
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -98,15 +96,6 @@ public class TwoFragment extends Fragment {
 
         // LinearLayout으로 설정
         mRecyclerView.setLayoutManager(mLayoutManager);
-        // Animation Defualt 설정
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        // Decoration 설정
-        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-                super.onDraw(c, parent, state);
-            }
-        });
         // Adapter 생성
         resAdapter = new MapRestaurantAdapter(items, getContext());
         mRecyclerView.setAdapter(resAdapter);

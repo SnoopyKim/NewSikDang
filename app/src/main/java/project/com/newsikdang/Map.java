@@ -35,7 +35,6 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -77,11 +76,7 @@ public class Map extends Fragment
 
     WindowManager.LayoutParams mParams;
 
-
-    public static Map newInstance() {
-        Map map = new Map();
-        return map;
-    }
+    public Map() { }
 
     @Nullable
     @Override
@@ -134,10 +129,9 @@ public class Map extends Fragment
 
                 Log.d(TAG, "onLocationResult : " + markerSnippet);
 
-                //현재 위치에 마커 생성하고 이동
-                setCurrentLocation(location, markerTitle, markerSnippet);
-
+                //현재 위치로 이동하고 주변 음식점 마커찍기
                 mCurrentLocatiion = location;
+                setCurrentLocation(location, markerTitle, markerSnippet);
             }
         }
     };
@@ -184,7 +178,6 @@ public class Map extends Fragment
 
         //지도의 초기위치를 서울시청으로 이동
         setDefaultLocation();
-
 
         //런타임 퍼미션 처리
         // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
@@ -264,7 +257,6 @@ public class Map extends Fragment
 
 
     }
-
     @Override
     public void onStop() {
 
@@ -333,7 +325,6 @@ public class Map extends Fragment
 
     public void setCurrentLocation(Location location, String markerTitle, String markerSnippet) {
 
-
         if (currentMarker != null) currentMarker.remove();
 
         Geocoder geocoder2 = new Geocoder(this.getContext());
@@ -356,8 +347,8 @@ public class Map extends Fragment
         String []splitStr = addressList.get(0).toString().split(",");
         String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
 
-        String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
-        String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1); // 경도
+        String latitude = splitStr[14].substring(splitStr[14].indexOf("=") + 1); // 위도
+        String longitude = splitStr[16].substring(splitStr[16].indexOf("=") + 1); // 경도
 
         // 좌표(위도, 경도) 생성
         LatLng point = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
@@ -365,14 +356,6 @@ public class Map extends Fragment
         LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
         Double distance=getDistance(point,currentLatLng);
-
-        //MarkerOptions markerOptions = new MarkerOptions();
-        //markerOptions.position(currentLatLng);
-        //markerOptions.title(markerTitle);
-        //markerOptions.snippet(markerSnippet);
-        //markerOptions.draggable(true);
-
-        //currentMarker = mGoogleMap.addMarker(markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
         mGoogleMap.moveCamera(cameraUpdate);
@@ -386,7 +369,7 @@ public class Map extends Fragment
             // 마커 추가
             mGoogleMap.addMarker(mOptions);
             // 해당 좌표로 화면 줌
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15));
+            //mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15));
         }
 
     }
@@ -397,9 +380,9 @@ public class Map extends Fragment
         String markerTitle = "위치정보 가져올 수 없음";
         String markerSnippet = "위치 퍼미션과 GPS 활성 여부 확인하세요";
 
-
         if (currentMarker != null) currentMarker.remove();
 
+        /*
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(DEFAULT_LOCATION);
         markerOptions.title(markerTitle);
@@ -407,12 +390,47 @@ public class Map extends Fragment
         markerOptions.draggable(true);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         currentMarker = mGoogleMap.addMarker(markerOptions);
+        */
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);
         mGoogleMap.moveCamera(cameraUpdate);
 
     }
+    public void setRestaurantLocation(String stName, String stAddress) {
+        if (currentMarker != null) currentMarker.remove();
 
+        Geocoder geocoder2 = new Geocoder(this.getContext());
+        List<Address> addressList = null;
+        try {
+            //주소 변환
+            addressList = geocoder2.getFromLocationName(
+                    stAddress, // 주소
+                    10); // 최대 검색 결과 개수
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            Log.e("Geocoder","입출력 오류 - 서버에서 주소변환시 에러발생");
+        }
+        System.out.println(addressList.get(0).toString());
+
+        String []splitStr = addressList.get(0).toString().split(",");
+        String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
+        String latitude = splitStr[14].substring(splitStr[14].indexOf("=") + 1); // 위도
+        String longitude = splitStr[16].substring(splitStr[16].indexOf("=") + 1); // 경도
+
+        // 좌표(위도, 경도) 생성
+        LatLng point = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(point);
+        markerOptions.title(stName);
+        markerOptions.draggable(true);
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        mGoogleMap.addMarker(markerOptions);
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(point, 15);
+        mGoogleMap.moveCamera(cameraUpdate);
+    }
     private boolean checkPermission() {
 
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(this.getContext(),
@@ -456,6 +474,7 @@ public class Map extends Fragment
 
                 // 퍼미션을 허용했다면 위치 업데이트를 시작합니다.
                 startLocationUpdates();
+
             } else {
                 // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료합니다.2 가지 경우가 있습니다.
 

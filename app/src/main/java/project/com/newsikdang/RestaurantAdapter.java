@@ -96,7 +96,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         //이름과 리뷰 적기
         if (holder.getAdapterPosition() == RecyclerView.NO_POSITION) return;
-        final Restaurant restaurant = listRestaurant.get(holder.getAdapterPosition());
+        final Restaurant restaurant = listRestaurant.get(position);
 
         if (!restaurant.getPhoto().equals("")) {
             Glide.with(context).load(restaurant.getPhoto()).into(holder.ivPhoto);

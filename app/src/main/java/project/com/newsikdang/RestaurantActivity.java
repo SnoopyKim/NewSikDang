@@ -3,6 +3,7 @@ package project.com.newsikdang;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +39,8 @@ import java.util.List;
 
 public class RestaurantActivity extends AppCompatActivity {
     private static final String TAG = "RestaurantActivity";
+
+    Map map;
 
     FirebaseUser user;
     DatabaseReference restaurantRef, reviewRef, userRef;
@@ -170,13 +173,13 @@ public class RestaurantActivity extends AppCompatActivity {
                 public void onClick(View button) {
                     button.setSelected(!button.isSelected());
                     if (button.isSelected()) {
-                        restaurantRef.child(resKey).child("heart").child(user.getUid()).setValue(true);
+                        restaurantRef.child("heart").child(user.getUid()).setValue(true);
                         userRef.child("heart").child(resKey).setValue(true);
                         heart_cnt += 1;
                         tvHeart.setText(String.valueOf(heart_cnt));
                         Toast.makeText(RestaurantActivity.this, "좋아요 목록에 추가되었습니다.", Toast.LENGTH_SHORT).show();
                     } else {
-                        restaurantRef.child(resKey).child("heart").child(user.getUid()).removeValue();
+                        restaurantRef.child("heart").child(user.getUid()).removeValue();
                         userRef.child("heart").child(resKey).removeValue();
                         heart_cnt -= 1;
                         tvHeart.setText(String.valueOf(heart_cnt));
@@ -268,6 +271,14 @@ public class RestaurantActivity extends AppCompatActivity {
         reviewManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(reviewManager);
 
+        map = new Map();
+        // replace fragment
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.ll_res_map, map);
+        // Commit the transaction
+        transaction.commit();
+
+
     }
 
     @Override
@@ -291,6 +302,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     }
                 }
 
+                map.setRestaurantLocation(dataSnapshot.child("name").getValue().toString(),dataSnapshot.child("address").getValue().toString());
                 tvResName.setText(dataSnapshot.child("name").getValue().toString());
                 tvCategory.setText(dataSnapshot.child("category").getValue().toString());
                 tvResAddress.setText(dataSnapshot.child("address").getValue().toString());
