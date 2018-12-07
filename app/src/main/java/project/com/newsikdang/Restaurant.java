@@ -15,6 +15,15 @@ public class Restaurant {
     public Restaurant() {
         //기본 생성자
     }
+    public Restaurant(String name, String date, float star, long heart, long review, boolean event) {
+        this.resKey = resKey;
+        this.name = name;
+        this.date = date;
+        this.star = star;
+        this.heart = heart;
+        this.review = review;
+        this.event = event;
+    }
     public Restaurant(String resKey, String name, String address, String photo, String date, float star, long heart, long review, boolean event) {
         //생성자3
         this.resKey = resKey;

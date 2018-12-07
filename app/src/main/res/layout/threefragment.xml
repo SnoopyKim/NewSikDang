@@ -22,7 +22,7 @@
             android:background="@drawable/area_strokeon"
             android:textColor="#000000"
             android:textSize="16dp"
-            android:text="관심구역1" />
+            android:text="광진구" />
         <Button
             android:id="@+id/btn2"
             android:layout_width="fill_parent"
@@ -70,7 +70,7 @@
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/hash_img"
             android:layout_marginStart="10dp"
-            android:textColor="#000000"
+            android:textColor="@color/btnAbled"
             android:textColorHint="#D6D6D6"
             android:background="@null"
             android:hint="해시태그 검색(분위기, 특징)"
