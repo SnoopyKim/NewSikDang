@@ -58,8 +58,10 @@
             android:name=".AreaActivity"
             android:theme="@android:style/Theme.Translucent" />
         <activity android:name=".Event" />
-        <activity android:name=".ResNotice"
-            android:theme="@android:style/Theme.Translucent"></activity>
+        <activity
+            android:name=".ResNotice"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity android:name=".OneInterChoise"></activity>
     </application>
 
 </manifest>

@@ -1,20 +1,26 @@
 package project.com.newsikdang;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,6 +47,7 @@ public class OneFragment extends Fragment implements View.OnClickListener {
 
     Button btn1, btn2, btn3, btn4; //관심구역 1,2,3,4
     ImageView event_button1, frag1_feed;
+    TextView tv1, tv2;
 
     RecyclerView mRecyclerView;
     RestaurantAdapter resAdapter;
@@ -209,29 +216,43 @@ public class OneFragment extends Fragment implements View.OnClickListener {
         });
 
         return v;
-}
+    }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn1:
-                mRecyclerView.setVisibility(View.VISIBLE);
-                break;
-            case R.id.btn2:
-                mRecyclerView.setVisibility(View.INVISIBLE);
-                break;
-            case R.id.btn3:
-                break;
-            case R.id.btn4:
-                break;
-            case R.id.event_button1:
-                Intent intent = new Intent(getActivity(), Event.class);
-                startActivity(intent);
-                break;
-            case R.id.frag1_feed:
-                Intent intent2 = new Intent(getActivity(), ResNotice.class);
-                startActivity(intent2);
-                break;
-        }
+        final OneInterChoise cd = new OneInterChoise(v.getContext());
+        cd.setContentView(R.layout.activity_one_inter_choise);
+                switch (v.getId()) {
+                    case R.id.btn1:
+                        mRecyclerView.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.btn2:
+                        mRecyclerView.setVisibility(View.INVISIBLE);
+                        //팝업띄우기
+                        cd.show();
+                        //밖 클릭시 종료
+                        cd.setCanceledOnTouchOutside(true);
+                        break;
+                    case R.id.btn3:
+                        mRecyclerView.setVisibility(View.INVISIBLE);
+                        //팝업띄우기
+                        cd.show();
+                        //밖 클릭시 종료
+                        cd.setCanceledOnTouchOutside(true);
+                        break;
+                    case R.id.btn4:
+                        break;
+                    case R.id.event_button1:
+                        Intent intent = new Intent(getActivity(), Event.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.frag1_feed:
+                        final ResNotice rn = new ResNotice(v.getContext());
+                        rn.setContentView(R.layout.activity_res_notice);
+                        rn.show();
+                        //밖 클릭시 종료
+                        rn.setCanceledOnTouchOutside(true);
+
+                }
     }
 }

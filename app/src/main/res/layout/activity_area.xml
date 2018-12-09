@@ -10,7 +10,7 @@
         app:layout_widthPercent="80%"
         app:layout_heightPercent="50%"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="140dp"
         android:background="@color/white">
         <LinearLayout
             android:id="@+id/area_top"

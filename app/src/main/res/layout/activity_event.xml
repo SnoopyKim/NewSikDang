@@ -11,13 +11,14 @@
     <!--이벤트설명이미지-->
     <RelativeLayout
         android:id="@+id/frag3_map"
-        android:layout_width="match_parent"
-        app:layout_heightPercent="31%"
+        android:layout_width="wrap_content"
+        app:layout_heightPercent="28%"
         android:layout_below="@+id/frag3_hash_line"
         android:background="@color/lightgray">
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
             android:src="@drawable/event_main"/>
     </RelativeLayout>
 

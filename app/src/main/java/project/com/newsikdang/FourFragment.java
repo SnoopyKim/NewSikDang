@@ -116,7 +116,7 @@ public class FourFragment extends Fragment {
         });
 
         //관심목록
-        RelativeLayout rl_att_1 = v.findViewById(R.id.attention_1);
+        RelativeLayout rl_att_1 = v.findViewById(R.id.attention_2);
         rl_att_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

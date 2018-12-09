@@ -92,9 +92,13 @@
                 android:id="@+id/frag1_event"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+<<<<<<< HEAD
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:paddingTop="10dp">
+=======
+                android:padding="20dp">
+>>>>>>> nari
                 <TextView
                     android:id="@+id/tv_event"
                     android:layout_width="wrap_content"
@@ -114,15 +118,41 @@
                         android:layout_height="match_parent">
                         <ImageView
                             android:id="@+id/event_button1"
+<<<<<<< HEAD
                             android:layout_width="200dp"
                             android:layout_height="115dp"
                             android:background="@drawable/reviewstroke2"/>
+=======
+                            android:layout_width="140dp"
+                            android:layout_height="115dp"
+                            android:background="@drawable/reviewstroke2"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ch_event2"/>
+>>>>>>> nari
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/event_button1"
                             android:layout_marginTop="3dp"
                             android:text="2018년 12월 31일까지"
+                            android:textColor="@color/area_off"
+                            android:textSize="11dp"/>
+                        <ImageView
+                            android:id="@+id/event_button2"
+                            android:layout_width="140dp"
+                            android:layout_height="115dp"
+                            android:background="@drawable/reviewstroke2"
+                            android:layout_toEndOf="@+id/event_button1"
+                            android:layout_marginStart="20dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ch_event4"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/event_button2"
+                            android:layout_alignStart="@+id/event_button2"
+                            android:layout_marginTop="3dp"
+                            android:text="2018년 1월 31일까지"
                             android:textColor="@color/area_off"
                             android:textSize="11dp"/>
                     </RelativeLayout>
