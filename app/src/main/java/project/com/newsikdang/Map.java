@@ -344,14 +344,14 @@ public class Map extends Fragment
         }
         System.out.println(addressList.get(0).toString());
 
-        String []splitStr = addressList.get(0).toString().split(",");
-        String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
+        //String []splitStr = addressList.get(0).toString().split(",");
+        //String address = getAsplitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
 
-        String latitude = splitStr[14].substring(splitStr[14].indexOf("=") + 1); // 위도
-        String longitude = splitStr[16].substring(splitStr[16].indexOf("=") + 1); // 경도
+        Double latitude = addressList.get(0).getLatitude(); // 위도
+        Double longitude = addressList.get(0).getLongitude(); // 경도
 
         // 좌표(위도, 경도) 생성
-        LatLng point = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+        LatLng point = new LatLng(latitude, longitude);
 
         LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
@@ -364,7 +364,7 @@ public class Map extends Fragment
             MarkerOptions mOptions = new MarkerOptions();
             String rest_name="카페 그리네";
             mOptions.title(rest_name);
-            mOptions.snippet(address);
+            //mOptions.snippet(address);
             mOptions.position(point);
             // 마커 추가
             mGoogleMap.addMarker(mOptions);
@@ -412,19 +412,16 @@ public class Map extends Fragment
             Log.e("Geocoder","입출력 오류 - 서버에서 주소변환시 에러발생");
         }
         System.out.println(addressList.get(0).toString());
-
-        String []splitStr = addressList.get(0).toString().split(",");
-        String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
-        String latitude = splitStr[14].substring(splitStr[14].indexOf("=") + 1); // 위도
-        String longitude = splitStr[16].substring(splitStr[16].indexOf("=") + 1); // 경도
+        //String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
+        Double latitude = addressList.get(0).getLatitude(); // 위도
+        Double longitude = addressList.get(0).getLongitude(); // 경도
 
         // 좌표(위도, 경도) 생성
-        LatLng point = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+        LatLng point = new LatLng(latitude, longitude);
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(point);
         markerOptions.title(stName);
-        markerOptions.draggable(true);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         mGoogleMap.addMarker(markerOptions);
 

@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:orientation="horizontal"
+    android:background="@color/white"
+    android:weightSum="100"
+    android:paddingTop="10dp">
 
     <TextView
         android:id="@+id/tv_dot_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
+        android:layout_weight="5"
+        android:layout_gravity="center"
         android:text="&#8226;"
         android:textStyle="bold"
         android:textSize="24dp"
         android:textColor="@color/black"/>
     <EditText
         android:id="@+id/et_menu_name"
-        android:layout_width="180dp"
+        android:layout_width="0dp"
         android:layout_height="30dp"
+        android:layout_weight="45"
         android:layout_toEndOf="@id/tv_dot_menu"
         android:layout_marginStart="3dp"
         android:layout_alignBottom="@id/tv_dot_menu"
@@ -30,8 +35,9 @@
         android:textSize="15dp"/>
     <EditText
         android:id="@+id/et_menu_cost"
-        android:layout_width="100dp"
+        android:layout_width="0dp"
         android:layout_height="30dp"
+        android:layout_weight="25"
         android:layout_toEndOf="@id/et_menu_name"
         android:layout_marginStart="10dp"
         android:layout_alignBottom="@id/tv_dot_menu"
@@ -43,8 +49,9 @@
         android:textColor="@color/textBtn"
         android:textSize="15dp"/>
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="30dp"
+        android:layout_weight="10"
         android:layout_toEndOf="@+id/et_menu_cost"
         android:layout_marginStart="3dp"
         android:layout_alignBottom="@id/tv_dot_menu"
@@ -53,15 +60,19 @@
         android:textColor="@color/black"
         android:textSize="16dp"/>
 
-    <ImageView
-        android:id="@+id/iv_menu_delete"
-        android:layout_width="30dp"
+    <RelativeLayout
+        android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@id/tv_dot_menu"
-        android:src="@drawable/close"
-        android:tint="@color/btnAbled"
-        android:scaleX="0.6"
-        android:scaleY="0.6"/>
+        android:layout_weight="15">
+        <ImageView
+            android:id="@+id/iv_menu_delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/close"
+            android:tint="@color/btnAbled"
+            android:scaleX="0.6"
+            android:scaleY="0.6"/>
+    </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>
