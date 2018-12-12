@@ -9,14 +9,16 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,6 +30,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,14 +45,17 @@ public class OneFragment extends Fragment implements View.OnClickListener {
     private DatabaseReference restaurantsRef;
 
     Button btn1, btn2, btn3, btn4; //관심구역 1,2,3,4
-    ImageView event_button1;
 
-    RecyclerView mRecyclerView;
-    RestaurantAdapter resAdapter;
+    ImageView event_button1, frag1_feed;
+    TextView tv1, tv2;
+
+    RecyclerView mRecyclerView, late;
+    RestaurantAdapter resAdapter, adapter;
     LinearLayoutManager mLayoutManager;
 
     String stCGG = "3040000";
     ArrayList<Restaurant> items = new ArrayList<>();
+    ArrayList<Restaurant> items2 = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,8 +76,12 @@ public class OneFragment extends Fragment implements View.OnClickListener {
         btn4.setOnClickListener(this);
         event_button1 = v.findViewById(R.id.event_button1);
         event_button1.setOnClickListener(this);
+        frag1_feed = v.findViewById(R.id.frag1_feed);
+        frag1_feed.setOnClickListener(this);
 
-        btn1.setText(stCGG);
+        final Calendar now = Calendar.getInstance();
+
+        btn1.setText("광진구");
         userRef.child("block").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -89,6 +99,10 @@ public class OneFragment extends Fragment implements View.OnClickListener {
                             String stResName = data.child("name").getValue().toString();
                             String stResAddress = data.child("address").getValue().toString();
                             String stDate = data.child("date").getValue().toString();
+                            int date = Integer.parseInt(stDate);
+                            Calendar date_cal = Calendar.getInstance();
+                            date_cal.set(date/10000,(date/100)%100-1,date%100);
+                            long dday = (now.getTimeInMillis()-date_cal.getTimeInMillis()) / (1000*60*60*24);
                             long l_heart = data.child("heart").getChildrenCount();
                             long l_review = data.child("review").getChildrenCount();
                             float star;
@@ -103,10 +117,13 @@ public class OneFragment extends Fragment implements View.OnClickListener {
                             if (data.child("event").exists()) {
                                 event = true;
                             } else { event = false; }
-                            items.add(new Restaurant(stResKey, stResName, stResAddress, stPhoto, stDate, star, l_heart, l_review, event));
+                            if (dday < 100) { items.add(new Restaurant(stResKey, stResName, stResAddress, stPhoto, String.valueOf(dday), star, l_heart, l_review, event)); }
+                            else { items2.add(new Restaurant(stResKey, stResName, stResAddress, stPhoto, String.valueOf(dday), star, l_heart, l_review, event)); }
                         }
                         Collections.reverse(items);
-                        resAdapter.notifyDataSetChanged();
+                        // Adapter 생성
+                        resAdapter = new RestaurantAdapter(items, getContext());
+                        mRecyclerView.setAdapter(resAdapter);
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) { }
@@ -131,9 +148,23 @@ public class OneFragment extends Fragment implements View.OnClickListener {
                 super.onDraw(c, parent, state);
             }
         });
-        // Adapter 생성
-        resAdapter = new RestaurantAdapter(items, getContext());
-        mRecyclerView.setAdapter(resAdapter);
+
+        late = v.findViewById(R.id.recycler2);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        late.setLayoutManager(layoutManager);
+
+        EditText etSearch = v.findViewById(R.id.hash_edit);
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String stSearch = editable.toString();
+                resAdapter.filter(stSearch);
+            }
+        });
 
         btn1.setOnTouchListener(new View.OnTouchListener(){
             public boolean onTouch(View v, MotionEvent event){
@@ -208,43 +239,45 @@ public class OneFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-//        스피너
-        Spinner spinner = v.findViewById(R.id.spinner);
-        SpinnerAdapter spinneradapter;
-
-//        데이터
-        List<String> data = new ArrayList<>();
-        data.add("최신순"); data.add("별점순"); data.add("거리순");
-        spinneradapter = new SpinnerAdapter(getContext(), data);
-        spinner.setAdapter(spinneradapter);
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
         return v;
     }
 
     @Override
     public void onClick(View v) {
+        final OneInterChoise cd = new OneInterChoise(v.getContext());
+        cd.setContentView(R.layout.activity_one_inter_choise);
                 switch (v.getId()) {
                     case R.id.btn1:
+                        mRecyclerView.setVisibility(View.VISIBLE);
+                        late.setVisibility(View.GONE);
                         break;
                     case R.id.btn2:
-                        items.clear();
-                        resAdapter.notifyDataSetChanged();
-                        break;
                     case R.id.btn3:
+                        mRecyclerView.setVisibility(View.GONE);
+                        late.setVisibility(View.GONE);
+                        //팝업띄우기
+                        cd.show();
+                        //밖 클릭시 종료
+                        cd.setCanceledOnTouchOutside(true);
                         break;
                     case R.id.btn4:
+                        mRecyclerView.setVisibility(View.GONE);
+                        Collections.reverse(items2);
+                        adapter = new RestaurantAdapter(items2, this.getContext());
+                        late.setAdapter(adapter);
+                        late.setVisibility(View.VISIBLE);
                         break;
                     case R.id.event_button1:
                         Intent intent = new Intent(getActivity(), Event.class);
                         startActivity(intent);
                         break;
-        }
+                    case R.id.frag1_feed:
+                        final ResNotice rn = new ResNotice(v.getContext());
+                        rn.setContentView(R.layout.activity_res_notice);
+                        rn.show();
+                        //밖 클릭시 종료
+                        rn.setCanceledOnTouchOutside(true);
+
+                }
     }
 }

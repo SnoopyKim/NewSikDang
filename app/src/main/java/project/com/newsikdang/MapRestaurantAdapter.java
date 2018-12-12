@@ -50,6 +50,7 @@ public class MapRestaurantAdapter extends RecyclerView.Adapter<MapRestaurantAdap
         //순서대로 칸, 이름, 이미지를 레이아웃에서 불러와 생성
         public ViewHolder(View itemView) {
             super(itemView);
+            setIsRecyclable(false);
             rlRestaurant = itemView.findViewById(R.id.rl_restaurant);
             ivPhoto = itemView.findViewById(R.id.iv_res_img);
             tvName = itemView.findViewById(R.id.tv_res_name);
@@ -95,7 +96,7 @@ public class MapRestaurantAdapter extends RecyclerView.Adapter<MapRestaurantAdap
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         //이름과 리뷰 적기
         if (holder.getAdapterPosition() == RecyclerView.NO_POSITION) return;
-        final Restaurant restaurant = listRestaurant.get(holder.getAdapterPosition());
+        final Restaurant restaurant = listRestaurant.get(position);
 
         if (!restaurant.getPhoto().equals("")) {
             Glide.with(context).load(restaurant.getPhoto()).into(holder.ivPhoto);

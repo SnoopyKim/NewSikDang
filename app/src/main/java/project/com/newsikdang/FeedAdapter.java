@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -44,11 +47,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     //리뷰 데이터 리스트 두개 (하나는 백업용)
     //@Comment search results are dynamic element. So, Friends list back up to mFilter
     List<Review> listReview;
-    List<Review> listFilter;
+    List<Review> listRevFilter;
     Context context;
 
     FirebaseUser user;
-    DatabaseReference userRef, reviewRef;
+    DatabaseReference userRef, reviewRef, restaurantRef;
 
     boolean clickable;
 
@@ -58,9 +61,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
      * */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public RelativeLayout rlReview;
-        public TextView tvName, tvContext, tvDate, tvHeart;
-        public Button btnHeart;
-        public RatingBar rbStar, rbTaste, rbCost, rbService, rbAmbiance;
+        public TextView tvResName, tvRevName, tvContext, tvResDate, tvRevDate, tvResHeart, tvRevHeart, tvReview, tvEvent;
+        public Button btnResHeart, btnRevHeart, btnShare;
+        public RatingBar rbResStar, rbStar, rbTaste, rbCost, rbService, rbAmbiance;
         public CircleImageView ivProfile;
         public ViewPager photoPager;
         public TextView tvIndicator;
@@ -69,11 +72,18 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
             rlReview = itemView.findViewById(R.id.rl_review);
-            tvName = itemView.findViewById(R.id.frag3_username);
+            tvResName = itemView.findViewById(R.id.tv_res_name);
+            tvRevName = itemView.findViewById(R.id.frag3_username);
             tvContext = itemView.findViewById(R.id.frag3_review);
-            tvDate = itemView.findViewById(R.id.tv_rev_date);
-            tvHeart = itemView.findViewById(R.id.tv_rev_heart);
-            btnHeart = itemView.findViewById(R.id.btn_rev_heart);
+            tvResDate = itemView.findViewById(R.id.tv_res_day);
+            tvRevDate = itemView.findViewById(R.id.tv_rev_date);
+            tvResHeart = itemView.findViewById(R.id.tv_res_heart);
+            tvRevHeart = itemView.findViewById(R.id.tv_rev_heart);
+            btnResHeart = itemView.findViewById(R.id.btn_res_heart);
+            btnRevHeart = itemView.findViewById(R.id.btn_rev_heart);
+            btnShare = itemView.findViewById(R.id.btn_rev_share);
+            tvReview = itemView.findViewById(R.id.feed_starnumber);
+            rbResStar = itemView.findViewById(R.id.feed_star);
             rbStar = itemView.findViewById(R.id.rb_rev_star);
             rbTaste = itemView.findViewById(R.id.rb_rev_taste);
             rbCost = itemView.findViewById(R.id.rb_rev_cost);
@@ -82,19 +92,21 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             ivProfile = itemView.findViewById(R.id.frag3_userimg);
             photoPager = itemView.findViewById(R.id.pager);
             tvIndicator = itemView.findViewById(R.id.tv_indicator);
+            tvEvent = itemView.findViewById(R.id.tv_res_event);
         }
     }
 
     // 커스텀 생성자로 리뷰 데이터 리스트를 받음
     public FeedAdapter(List<Review> reviews, Context context, boolean clickable) {
         this.listReview = reviews;
-        this.listFilter = new ArrayList<>();
-        this.listFilter.addAll(reviews);
+        this.listRevFilter = new ArrayList<>();
+        this.listRevFilter.addAll(reviews);
         this.context = context;
         this.clickable = clickable;
         this.user = FirebaseAuth.getInstance().getCurrentUser();
         this.userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
         this.reviewRef = FirebaseDatabase.getInstance().getReference("reviews").child("3040000");
+        this.restaurantRef = FirebaseDatabase.getInstance().getReference("restaurants").child("3040000");
     }
 
     @Override
@@ -116,24 +128,68 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         return vh;
     }
 
-
-    /**
-     * @Name    onBindViewHolder
-     * @Usage   set holder's element to Firebase data
-     * @Param   holder : custom viewholder , position : Friend's index in Friend list
-     * @return  void
-     * @Comment Because of hover event about viewholder, define setOnTouchListener. but can't implement
-     * */
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         //이름과 리뷰 적기
         final Review review = listReview.get(position);
 
-        holder.tvName.setText(review.getName());
-        holder.tvContext.setText(review.getText());
-        holder.tvDate.setText(review.getDate());
+        restaurantRef.child(review.getResKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot data) {
+                String stResName = data.child("name").getValue().toString();
+                String stDate = data.child("date").getValue().toString();
+                long l_heart = data.child("heart").getChildrenCount();
+                long l_review = data.child("review").getChildrenCount();
+                float star;
+                if (data.child("star").exists()) {
+                    star = Float.valueOf(data.child("star").getValue().toString());
+                } else { star = 0; }
+                boolean event;
+                if (data.child("event").exists()) {
+                    event = true;
+                } else { event = false; }
+
+                holder.tvResName.setText(stResName);
+
+                Calendar now = Calendar.getInstance();
+                int date = Integer.parseInt(stDate);
+                Calendar date_cal = Calendar.getInstance();
+                date_cal.set(date/10000,(date/100)%100-1,date%100);
+                long dday = (now.getTimeInMillis()-date_cal.getTimeInMillis()) / (1000*60*60*24);
+                holder.tvResDate.setText(String.valueOf(dday));
+                holder.rbResStar.setRating(star);
+                holder.tvReview.setText(String.valueOf(l_review));
+                if (!event) { holder.tvEvent.setVisibility(View.GONE); }
+                holder.tvResHeart.setText(String.valueOf(l_heart));
+                userRef.child("heart").child(review.getResKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) { holder.btnResHeart.setSelected(true); }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) { }
+                });
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+
+        holder.tvRevName.setText(review.getName());
+        holder.tvContext.setText("");
+        for (String word : review.getText().split(" ")) {
+            if (word.charAt(0)=='#') {
+                Spannable span = new SpannableString(word);
+                span.setSpan(new ForegroundColorSpan(context.getColor(R.color.btnAbled)),0,span.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                holder.tvContext.append(span);
+                holder.tvContext.append(" ");
+            } else {
+                holder.tvContext.append(word+" ");
+            }
+        }
+        holder.tvRevDate.setText(review.getDate());
         holder.rbStar.setRating(review.getStar());
         Glide.with(context).load(review.getUserProfile()).into(holder.ivProfile);
+        if (review.getUserUid().equals(user.getUid())) { holder.btnShare.setVisibility(View.VISIBLE); }
         if (review.isDetail()) {
             holder.rbTaste.setRating(review.getStartaste());
             holder.rbCost.setRating(review.getStarcost());
@@ -158,18 +214,18 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         userRef.child("heart").child(review.getRevKey()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) { holder.btnHeart.setSelected(true); }
+                if (dataSnapshot.exists()) { holder.btnRevHeart.setSelected(true); }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
         reviewRef.child(review.getRevKey()).child("heart").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) { holder.tvHeart.setText(String.valueOf(dataSnapshot.getChildrenCount())); }
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) { holder.tvRevHeart.setText(String.valueOf(dataSnapshot.getChildrenCount())); }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
-        holder.btnHeart.setOnClickListener(new View.OnClickListener() {
+        holder.btnRevHeart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View button) {
                 button.setSelected(!button.isSelected());
@@ -177,12 +233,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                     reviewRef.child(review.getRevKey()).child("heart").child(user.getUid()).setValue(true);
                     userRef.child("heart").child(review.getRevKey()).setValue(true);
                     review.setHeart(review.getHeart()+1);
-                    holder.tvHeart.setText(String.valueOf(review.getHeart()));
+                    holder.tvRevHeart.setText(String.valueOf(review.getHeart()));
                 } else {
                     reviewRef.child(review.getRevKey()).child("heart").child(user.getUid()).removeValue();
                     userRef.child("heart").child(review.getRevKey()).removeValue();
                     review.setHeart(review.getHeart()-1);
-                    holder.tvHeart.setText(String.valueOf(review.getHeart()));
+                    holder.tvRevHeart.setText(String.valueOf(review.getHeart()));
                 }
             }
         });
@@ -198,38 +254,19 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             });
         }
 
-        /*
-        String stPhoto = mFriend.get(position).getPhoto();
-        if (stPhoto.equals("None")) {
-            //친구의 이미지 정보가 없을 경우 지정해둔 기본 이미지로
-            Drawable defaultImg = context.getResources().getDrawable(R.drawable.ic_person_black_24dp);
-            holder.ivUser.setImageDrawable(defaultImg);
-        } else {
-            Glide.with(context).load(stPhoto)
-                    .placeholder(R.drawable.ic_person_black_24dp)
-                    .into(holder.ivUser);
-        }
-        */
     }
 
-    /**
-     * @Name    filter
-     * @Usage   search friends list
-     * @Param   charText : search text <- Tabactivity's changeET's event catch value
-     * @return  void
-     * @Comment mFilter : backup, mFilter : showing at user
-     * */
-
-    public void filter_detail(boolean detail) {
-        //친구 데이터 리스트를 하나 비운 뒤, 입력한 문자에 따라 백업용으로 다시 친구 데이터 리스트를 만듬
+    public void filter(String search) {
         listReview.clear();
-        Log.d("filter", "listFilter" + listFilter);
-        for (Review review : listFilter) {
-            if (review.isDetail() == detail) {
-                Log.d("filter", "review_if "+ review);
-                listReview.add(review);
+        if (search.equals("")) { listReview.addAll(listRevFilter); }
+        else {
+            for (Review review : listRevFilter) {
+                for (String word : review.getText().split(" ")) {
+                    if (word.charAt(0)=='#' && word.substring(1).toLowerCase().contains(search.toLowerCase())) {
+                        listReview.add(review);
+                    }
+                }
             }
-            Log.d("filter", "review_else "+ review);
         }
 
         //Communicate list view with adapter. Saying "data set Changed!"

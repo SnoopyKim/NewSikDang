@@ -1,16 +1,15 @@
 package project.com.newsikdang;
 
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,6 +31,9 @@ public class TwoFragment extends Fragment {
     private DatabaseReference userRef;
     private DatabaseReference restaurantsRef;
 
+    Map map;
+
+    RelativeLayout loading;
     RecyclerView mRecyclerView;
     MapRestaurantAdapter resAdapter;
     LinearLayoutManager mLayoutManager;
@@ -48,6 +50,8 @@ public class TwoFragment extends Fragment {
         userRef = database.getReference("users").child("customer").child(user.getUid());
         restaurantsRef = database.getReference("restaurants");
 
+        loading = v.findViewById(R.id.rl_loading);
+
         userRef.child("block").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -55,7 +59,7 @@ public class TwoFragment extends Fragment {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     blockList.add(data.getKey());
                 }
-                Query query = restaurantsRef.child(stCGG).orderByChild("date");
+                Query query = restaurantsRef.child(stCGG).orderByChild("date").limitToLast(10);
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -75,14 +79,14 @@ public class TwoFragment extends Fragment {
                             if (data.child("photo").exists()) {
                                 stPhoto = data.child("photo").child(String.valueOf(0)).getValue().toString();
                             } else { stPhoto = ""; }
-                            boolean event;
-                            if (data.child("event").exists()) {
-                                event = true;
-                            } else { event = false; }
+                            boolean event = data.child("event").exists();
                             items.add(new Restaurant(stResKey, stResName, stResAddress, stPhoto, stDate, star, l_heart , l_review, event));
+                            map.addMarker(stResName,stResAddress);
                         }
+                        map.setLocation(true);
                         Collections.reverse(items);
                         resAdapter.notifyDataSetChanged();
+                        loading.setVisibility(View.GONE);
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) { }
@@ -98,20 +102,11 @@ public class TwoFragment extends Fragment {
 
         // LinearLayout으로 설정
         mRecyclerView.setLayoutManager(mLayoutManager);
-        // Animation Defualt 설정
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        // Decoration 설정
-        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-                super.onDraw(c, parent, state);
-            }
-        });
         // Adapter 생성
         resAdapter = new MapRestaurantAdapter(items, getContext());
         mRecyclerView.setAdapter(resAdapter);
 
-        Map map = new Map();
+        map = new Map();
         // replace fragment
         final FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.ll_map, map);

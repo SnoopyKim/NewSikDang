@@ -3,6 +3,7 @@ package project.com.newsikdang;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +40,8 @@ import java.util.List;
 public class RestaurantActivity extends AppCompatActivity {
     private static final String TAG = "RestaurantActivity";
 
+    Map map;
+
     FirebaseUser user;
     DatabaseReference restaurantRef, reviewRef, userRef;
 
@@ -73,6 +76,8 @@ public class RestaurantActivity extends AppCompatActivity {
     String resKey;
 
     long heart_cnt, review_cnt;
+
+    boolean manager = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +128,7 @@ public class RestaurantActivity extends AppCompatActivity {
         String userType = getIntent().getStringExtra("userType");
         if (userType != null) {
             //업주 사용자
+            manager = true;
             ivBack.setVisibility(View.GONE);
         } else {
             //일반 사용자
@@ -170,13 +176,13 @@ public class RestaurantActivity extends AppCompatActivity {
                 public void onClick(View button) {
                     button.setSelected(!button.isSelected());
                     if (button.isSelected()) {
-                        restaurantRef.child(resKey).child("heart").child(user.getUid()).setValue(true);
+                        restaurantRef.child("heart").child(user.getUid()).setValue(true);
                         userRef.child("heart").child(resKey).setValue(true);
                         heart_cnt += 1;
                         tvHeart.setText(String.valueOf(heart_cnt));
                         Toast.makeText(RestaurantActivity.this, "좋아요 목록에 추가되었습니다.", Toast.LENGTH_SHORT).show();
                     } else {
-                        restaurantRef.child(resKey).child("heart").child(user.getUid()).removeValue();
+                        restaurantRef.child("heart").child(user.getUid()).removeValue();
                         userRef.child("heart").child(resKey).removeValue();
                         heart_cnt -= 1;
                         tvHeart.setText(String.valueOf(heart_cnt));
@@ -231,7 +237,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     btnSimple.setTextColor(getResources().getColor(R.color.white));
                     btnDetail.setSelected(false);
                     btnDetail.setTextColor(getResources().getColor(R.color.textBtn));
-                    reviewAdapter.filter_detail(false);
+                    if (reviewAdapter != null) { reviewAdapter.filter_detail(false); }
                 }
             }
         });
@@ -244,7 +250,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     btnDetail.setTextColor(getResources().getColor(R.color.white));
                     btnSimple.setSelected(false);
                     btnSimple.setTextColor(getResources().getColor(R.color.textBtn));
-                    reviewAdapter.filter_detail(true);
+                    if (reviewAdapter != null) { reviewAdapter.filter_detail(true); }
                 }
             }
         });
@@ -267,6 +273,15 @@ public class RestaurantActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         reviewManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(reviewManager);
+
+        map = new Map();
+        // replace fragment
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.ll_res_map, map);
+        // Commit the transaction
+        transaction.commit();
+
+
     }
 
     @Override
@@ -290,6 +305,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     }
                 }
 
+                map.setRestaurantLocation(dataSnapshot.child("name").getValue().toString(),dataSnapshot.child("address").getValue().toString());
                 tvResName.setText(dataSnapshot.child("name").getValue().toString());
                 tvCategory.setText(dataSnapshot.child("category").getValue().toString());
                 tvResAddress.setText(dataSnapshot.child("address").getValue().toString());
@@ -353,24 +369,27 @@ public class RestaurantActivity extends AppCompatActivity {
                     params1.setMarginEnd(10);
                     TableRow.LayoutParams params2 = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.WRAP_CONTENT);
                     params2.setMargins(0,0,0,10);
-                    TableRow row = new TableRow(getApplicationContext());
-                    row.setLayoutParams(params2);
+                    TableRow row = null;
                     int i=0;
                     for (DataSnapshot data : dataSnapshot.child("hashtag").getChildren()) {
-                        String tag = data.getKey();
-                        TextView textView = new TextView(getApplicationContext());
-                        textView.setText("#".concat(tag));
-                        textView.setTextSize(16);
-                        textView.setTextColor(getColor(R.color.btnAbled));
-                        textView.setGravity(Gravity.CENTER);
-                        textView.setBackground(getDrawable(R.drawable.hashtag));
-                        textView.setLayoutParams(params1);
-                        row.addView(textView);
-                        if ( i%4==0 && i!=0 ){
-                            tlTag.addView(row);
+                        if (i%4==0){
+                            if (i!=0) { tlTag.addView(row); }
                             row = new TableRow(getApplicationContext());
                             row.setLayoutParams(params2);
+                            for (int j=0; j<4; j++) {
+                                TextView textView = new TextView(getApplicationContext());
+                                textView.setText("");
+                                textView.setTextSize(16);
+                                textView.setTextColor(getColor(R.color.btnAbled));
+                                textView.setGravity(Gravity.CENTER);
+                                textView.setBackground(getDrawable(R.drawable.hashtag));
+                                textView.setLayoutParams(params1);
+                                row.addView(textView);
+                            }
                         }
+                        String tag = data.getKey();
+                        TextView textView = (TextView)row.getChildAt(i%4);
+                        textView.setText("#".concat(tag));
                         i += 1;
                     }
                     tlTag.addView(row);
@@ -403,7 +422,7 @@ public class RestaurantActivity extends AppCompatActivity {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(size,size);
         lp.setMarginStart(5);
         image.setLayoutParams(lp);
-        image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
         //add your drawable here like this image.setImageResource(R.drawable.redeight)or set like this imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
         Glide.with(RestaurantActivity.this).load(photo).into(image);
         //set removeListener
@@ -455,9 +474,13 @@ public class RestaurantActivity extends AppCompatActivity {
 
                     Collections.sort(listReview, new ReviewComparator());
 
-                    reviewAdapter = new ReviewAdapter(listReview, getApplicationContext(), false);
+                    reviewAdapter = new ReviewAdapter(listReview, RestaurantActivity.this, false, manager);
                     recyclerView.setAdapter(reviewAdapter);
 
+                    btnSimple.setSelected(true);
+                    btnSimple.setTextColor(getResources().getColor(R.color.white));
+                    btnDetail.setSelected(false);
+                    btnDetail.setTextColor(getResources().getColor(R.color.textBtn));
                     reviewAdapter.filter_detail(false);
                 }
             }

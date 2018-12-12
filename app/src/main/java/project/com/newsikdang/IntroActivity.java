@@ -56,7 +56,7 @@ public class IntroActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
 
     TextView tvLogin, tvJoin, tvManagerLogin, tvManagerJoin;
-    RelativeLayout btnKakao, btnFacebook, btnGoogle;
+    RelativeLayout loading, btnKakao, btnFacebook, btnGoogle;
     SignInButton btnGoogleLogin;
     LoginButton btnFacebookLogin;
 
@@ -76,6 +76,8 @@ public class IntroActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         usersRef = FirebaseDatabase.getInstance().getReference("users").child("customer");
+
+        loading = findViewById(R.id.rl_loading);
 
         tvLogin = findViewById(R.id.tv_email_login);
         tvLogin.setOnClickListener(new View.OnClickListener() {
@@ -155,13 +157,11 @@ public class IntroActivity extends AppCompatActivity {
                 Log.d(TAG, "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
-
             @Override
             public void onCancel() {
                 Log.d(TAG, "facebook:onCancel");
                 // ...
             }
-
             @Override
             public void onError(FacebookException error) {
                 Log.d(TAG, "facebook:onError", error);
@@ -176,6 +176,7 @@ public class IntroActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
+            loading.setVisibility(View.VISIBLE);
             FirebaseDatabase.getInstance().getReference("users").child("manager").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -187,6 +188,7 @@ public class IntroActivity extends AppCompatActivity {
                     } else {
                         intent = new Intent(IntroActivity.this,MainActivity.class);
                     }
+                    loading.setVisibility(View.GONE);
                     startActivity(intent);
                     finish();
                 }

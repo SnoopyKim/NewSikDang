@@ -1,20 +1,12 @@
 package project.com.newsikdang;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.google.firebase.database.collection.LLRBNode;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -125,6 +117,8 @@ public class Map2 extends Fragment implements View.OnClickListener {
                 tv_map5.setTextColor(getApplicationContext().getResources().getColor(R.color.area_off)); tv_map6.setTextColor(getApplicationContext().getResources().getColor(R.color.c69));
                 break;
             case R.id.area_choice:
+                getActivity().finish();
+                break;
         }
     }
 
