@@ -76,6 +76,7 @@ public class Map extends Fragment
 
     WindowManager.LayoutParams mParams;
 
+    boolean set_location = false;
     public Map() { }
 
     @Nullable
@@ -131,7 +132,8 @@ public class Map extends Fragment
 
                 //현재 위치로 이동하고 주변 음식점 마커찍기
                 mCurrentLocatiion = location;
-                setCurrentLocation(location, markerTitle, markerSnippet);
+                if (set_location) { setCurrentLocation(); }
+                //setCurrentLocation(location, markerTitle, markerSnippet);
             }
         }
     };
@@ -323,43 +325,15 @@ public class Map extends Fragment
         return distance;
     }
 
-    public void setCurrentLocation(Location location, String markerTitle, String markerSnippet) {
-
-        if (currentMarker != null) currentMarker.remove();
-
-        Geocoder geocoder2 = new Geocoder(this.getContext());
-
-        String str="서울 광진구 화양동 군자로139";
-        List<Address> addressList = null;
-
-        try {
-            //주소 변환
-            addressList = geocoder2.getFromLocationName(
-                    str, // 주소
-                    10); // 최대 검색 결과 개수
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            Log.e("test","입출력 오류 - 서버에서 주소변환시 에러발생");
-        }
-        System.out.println(addressList.get(0).toString());
-
-        //String []splitStr = addressList.get(0).toString().split(",");
-        //String address = getAsplitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
-
-        Double latitude = addressList.get(0).getLatitude(); // 위도
-        Double longitude = addressList.get(0).getLongitude(); // 경도
-
-        // 좌표(위도, 경도) 생성
-        LatLng point = new LatLng(latitude, longitude);
+    public void setLocation(boolean check) { set_location = check; }
+    public void setCurrentLocation() {
 
         LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-        Double distance=getDistance(point,currentLatLng);
-
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
         mGoogleMap.moveCamera(cameraUpdate);
 
+        /*
+        Double distance=getDistance(point,currentLatLng);
         if(distance<=1000){
             MarkerOptions mOptions = new MarkerOptions();
             String rest_name="카페 그리네";
@@ -371,6 +345,7 @@ public class Map extends Fragment
             // 해당 좌표로 화면 줌
             //mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15));
         }
+        */
 
     }
 
@@ -395,6 +370,32 @@ public class Map extends Fragment
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);
         mGoogleMap.moveCamera(cameraUpdate);
 
+    }
+    public void addMarker(String stName, String stAddress) {
+        Geocoder geocoder2 = new Geocoder(this.getContext());
+        List<Address> addressList = null;
+        try {
+            //주소 변환
+            addressList = geocoder2.getFromLocationName(
+                    stAddress, // 주소
+                    10); // 최대 검색 결과 개수
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            Log.e("Geocoder","입출력 오류 - 서버에서 주소변환시 에러발생");
+        }
+        //String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
+        Double latitude = addressList.get(0).getLatitude(); // 위도
+        Double longitude = addressList.get(0).getLongitude(); // 경도
+
+        // 좌표(위도, 경도) 생성
+        LatLng point = new LatLng(latitude, longitude);
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(point);
+        markerOptions.title(stName);
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        mGoogleMap.addMarker(markerOptions);
     }
     public void setRestaurantLocation(String stName, String stAddress) {
         if (currentMarker != null) currentMarker.remove();

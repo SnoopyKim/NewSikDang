@@ -7,44 +7,13 @@
     tools:context=".OneFragment"
     android:background="@color/white">
 
-    <RelativeLayout
-        android:id="@+id/frag1_top"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/spinner_spinner"
-            />
-
-    <ImageButton
-        android:id="@+id/frag1_feed"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:background="@drawable/noti_blank_red"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="13dp"/>
-
-    </RelativeLayout>
-    <View
-        android:id="@+id/frag1_top_line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#D1D1D1"
-        android:layout_below="@+id/frag1_top"/>
-
     <!--관심목록바-->
     <LinearLayout
-        android:id="@+id/frag1_middle"
+        android:id="@+id/frag1_top"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/area_strokeoff1"
         android:padding="0dp"
-        android:layout_below="@+id/frag1_top_line"
         >
         <Button
             android:id="@+id/btn1"
@@ -53,7 +22,7 @@
             android:layout_weight="1"
             android:background="@drawable/area_strokeon"
             android:textColor="#EC5657"
-            android:text="관심지역1" />
+            android:text="광진구" />
         <Button
             android:id="@+id/btn2"
             android:layout_width="fill_parent"
@@ -80,11 +49,58 @@
             android:text="졸업식당" />
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/frag1_middle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="5dp"
+        android:layout_below="@+id/frag1_top"
+        android:focusableInTouchMode="true">
+        <ImageView
+            android:id="@+id/search"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/search" />
+        <EditText
+            android:id="@+id/hash_edit"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_toEndOf="@+id/search"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/frag1_feed"
+            android:textColor="@color/black"
+            android:textColorHint="#D6D6D6"
+            android:theme="@style/EditTheme"
+            android:imeOptions="actionSearch"
+            android:background="@null"
+            android:hint="가게명으로 검색"
+            android:focusedByDefault="false"/>
+        <ImageButton
+            android:id="@+id/frag1_feed"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/noti_blank_red"
+            android:layout_marginStart="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+    <View
+        android:id="@+id/frag1_middle_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D1D1D1"
+        android:layout_below="@+id/frag1_middle"/>
+
     <!--식당목록-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/frag1_middle">
+        android:layout_below="@+id/frag1_middle_line">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -92,13 +108,8 @@
                 android:id="@+id/frag1_event"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-<<<<<<< HEAD
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingTop="10dp">
-=======
                 android:padding="20dp">
->>>>>>> nari
+
                 <TextView
                     android:id="@+id/tv_event"
                     android:layout_width="wrap_content"
@@ -118,17 +129,11 @@
                         android:layout_height="match_parent">
                         <ImageView
                             android:id="@+id/event_button1"
-<<<<<<< HEAD
-                            android:layout_width="200dp"
-                            android:layout_height="115dp"
-                            android:background="@drawable/reviewstroke2"/>
-=======
                             android:layout_width="140dp"
                             android:layout_height="115dp"
                             android:background="@drawable/reviewstroke2"
                             android:scaleType="fitXY"
                             android:src="@drawable/ch_event2"/>
->>>>>>> nari
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -166,6 +171,12 @@
                 android:background="#C0C0C0">
 
             </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/frag1_event"
+                android:background="#C0C0C0"></android.support.v7.widget.RecyclerView>
         </RelativeLayout>
     </ScrollView>
 

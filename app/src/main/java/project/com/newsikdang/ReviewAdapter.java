@@ -53,16 +53,17 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     FirebaseUser user;
     DatabaseReference userRef, reviewRef;
 
-    boolean clickable;
+    boolean clickable, manager;
 
     /**
      * @Name    ViewHolder
      * @Usage   Save views in Recycler view and link between variable and layout view(tag)
      * */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public RelativeLayout rlReview;
+        public RelativeLayout rlReview, rlComment;
         public TextView tvName, tvContext, tvDate, tvHeart;
-        public Button btnHeart;
+        public TextView tvManagerName, tvManagerComment;
+        public Button btnHeart, btnShare, btnComment;
         public RatingBar rbStar, rbTaste, rbCost, rbService, rbAmbiance;
         public CircleImageView ivProfile;
         public ViewPager photoPager;
@@ -72,11 +73,14 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         public ViewHolder(View itemView) {
             super(itemView);
             rlReview = itemView.findViewById(R.id.rl_review);
+            rlComment = itemView.findViewById(R.id.rl_rev_manager);
             tvName = itemView.findViewById(R.id.frag3_username);
             tvContext = itemView.findViewById(R.id.frag3_review);
             tvDate = itemView.findViewById(R.id.tv_rev_date);
             tvHeart = itemView.findViewById(R.id.tv_rev_heart);
             btnHeart = itemView.findViewById(R.id.btn_rev_heart);
+            btnShare = itemView.findViewById(R.id.btn_rev_share);
+            btnComment = itemView.findViewById(R.id.btn_rev_comment);
             rbStar = itemView.findViewById(R.id.rb_rev_star);
             rbTaste = itemView.findViewById(R.id.rb_rev_taste);
             rbCost = itemView.findViewById(R.id.rb_rev_cost);
@@ -85,16 +89,19 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             ivProfile = itemView.findViewById(R.id.frag3_userimg);
             photoPager = itemView.findViewById(R.id.pager);
             tvIndicator = itemView.findViewById(R.id.tv_indicator);
+            tvManagerName = itemView.findViewById(R.id.tv_rev_manager_name);
+            tvManagerComment = itemView.findViewById(R.id.tv_rev_manager_context);
         }
     }
 
     // 커스텀 생성자로 리뷰 데이터 리스트를 받음
-    public ReviewAdapter(List<Review> reviews, Context context, boolean clickable) {
+    public ReviewAdapter(List<Review> reviews, Context context, boolean clickable, boolean manager) {
         this.listReview = reviews;
         this.listFilter = new ArrayList<>();
         this.listFilter.addAll(reviews);
         this.context = context;
         this.clickable = clickable;
+        this.manager = manager;
         this.user = FirebaseAuth.getInstance().getCurrentUser();
         this.userRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
         this.reviewRef = FirebaseDatabase.getInstance().getReference("reviews").child("3040000");
@@ -147,6 +154,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         holder.tvDate.setText(review.getDate());
         holder.rbStar.setRating(review.getStar());
         Glide.with(context).load(review.getUserProfile()).into(holder.ivProfile);
+        if (review.getUserUid().equals(user.getUid())) { holder.btnShare.setVisibility(View.VISIBLE); }
         if (review.isDetail()) {
             holder.rbTaste.setRating(review.getStartaste());
             holder.rbCost.setRating(review.getStarcost());
@@ -167,6 +175,19 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
                 public void onPageScrollStateChanged(int state) { }
             });
         }
+        reviewRef.child(review.getRevKey()).child("comment").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    holder.rlComment.setVisibility(View.VISIBLE);
+                    holder.tvManagerComment.setText(dataSnapshot.getValue().toString());
+                } else {
+                    holder.rlComment.setVisibility(View.GONE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
 
         userRef.child("heart").child(review.getRevKey()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -211,18 +232,18 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             });
         }
 
-        /*
-        String stPhoto = mFriend.get(position).getPhoto();
-        if (stPhoto.equals("None")) {
-            //친구의 이미지 정보가 없을 경우 지정해둔 기본 이미지로
-            Drawable defaultImg = context.getResources().getDrawable(R.drawable.ic_person_black_24dp);
-            holder.ivUser.setImageDrawable(defaultImg);
-        } else {
-            Glide.with(context).load(stPhoto)
-                    .placeholder(R.drawable.ic_person_black_24dp)
-                    .into(holder.ivUser);
+        if (manager) {
+            holder.btnComment.setVisibility(View.VISIBLE);
+            holder.btnComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CommentDialog cd = new CommentDialog(context, review.getRevKey());
+                    cd.show();
+                    cd.setCanceledOnTouchOutside(true);
+                }
+            });
         }
-        */
+
     }
 
     /**

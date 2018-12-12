@@ -62,7 +62,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public RelativeLayout rlReview;
         public TextView tvResName, tvRevName, tvContext, tvResDate, tvRevDate, tvResHeart, tvRevHeart, tvReview, tvEvent;
-        public Button btnResHeart, btnRevHeart;
+        public Button btnResHeart, btnRevHeart, btnShare;
         public RatingBar rbResStar, rbStar, rbTaste, rbCost, rbService, rbAmbiance;
         public CircleImageView ivProfile;
         public ViewPager photoPager;
@@ -81,6 +81,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             tvRevHeart = itemView.findViewById(R.id.tv_rev_heart);
             btnResHeart = itemView.findViewById(R.id.btn_res_heart);
             btnRevHeart = itemView.findViewById(R.id.btn_rev_heart);
+            btnShare = itemView.findViewById(R.id.btn_rev_share);
             tvReview = itemView.findViewById(R.id.feed_starnumber);
             rbResStar = itemView.findViewById(R.id.feed_star);
             rbStar = itemView.findViewById(R.id.rb_rev_star);
@@ -188,6 +189,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         holder.tvRevDate.setText(review.getDate());
         holder.rbStar.setRating(review.getStar());
         Glide.with(context).load(review.getUserProfile()).into(holder.ivProfile);
+        if (review.getUserUid().equals(user.getUid())) { holder.btnShare.setVisibility(View.VISIBLE); }
         if (review.isDetail()) {
             holder.rbTaste.setRating(review.getStartaste());
             holder.rbCost.setRating(review.getStarcost());

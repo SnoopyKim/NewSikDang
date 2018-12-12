@@ -50,6 +50,7 @@ public class MapRestaurantAdapter extends RecyclerView.Adapter<MapRestaurantAdap
         //순서대로 칸, 이름, 이미지를 레이아웃에서 불러와 생성
         public ViewHolder(View itemView) {
             super(itemView);
+            setIsRecyclable(false);
             rlRestaurant = itemView.findViewById(R.id.rl_restaurant);
             ivPhoto = itemView.findViewById(R.id.iv_res_img);
             tvName = itemView.findViewById(R.id.tv_res_name);

@@ -2,6 +2,7 @@ package project.com.newsikdang;
 
 import android.content.ClipData;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +45,7 @@ public class SettingActivity extends AppCompatActivity {
     ImageView ivBack;
     TextView tvTitle;
 
+    RelativeLayout loading;
     LinearLayout photoLayout, menuPhotoLayout;
 
     EditText etName, etCategory, etAddress, etTel, etTime, etTimeBreak, etLast, etDayoff, etEvent;
@@ -68,6 +71,8 @@ public class SettingActivity extends AppCompatActivity {
         resRef = FirebaseDatabase.getInstance().getReference("restaurants").child("3040000").child(data.getStringExtra("resKey"));
         storageRef = FirebaseStorage.getInstance().getReference("restaurants").child("304000").child(data.getStringExtra("resKey"));
 
+        loading = findViewById(R.id.rl_loading);
+
         ivBack = findViewById(R.id.iv_setting_back);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,10 +86,10 @@ public class SettingActivity extends AppCompatActivity {
         photoLayout = findViewById(R.id.ll_setting_img);
         menuPhotoLayout = findViewById(R.id.ll_setting_menu_img);
         ArrayList<String> photoList = (ArrayList<String>)data.getSerializableExtra("photoList");
-        for (String photo : photoList) { loadImages(photoLayout, photo); }
+        loadImages(photoLayout, photoList);
         menuList = (ArrayList<Menu>)data.getSerializableExtra("menuList");
         ArrayList<String> menuPhotoList = (ArrayList<String>)data.getSerializableExtra("menuPhotoList");
-        for (String photo : menuPhotoList) { loadImages(menuPhotoLayout, photo); }
+        loadImages(menuPhotoLayout, menuPhotoList);
 
         etName = findViewById(R.id.et_setting_res_name);
         etName.setText(data.getStringExtra("resName"));
@@ -171,6 +176,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "requestCode: " + requestCode + " resultCode: " + resultCode + " data: " + data);
         if (requestCode==1 && data!=null) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
             final LinearLayout layout = findViewById(R.id.ll_setting_img);
             ClipData clipData = data.getClipData();
             int size = layout.getHeight();
@@ -182,9 +188,9 @@ public class SettingActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(size,size);
                 lp.setMarginStart(10);
                 image.setLayoutParams(lp);
-                image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 //add your drawable here like this image.setImageResource(R.drawable.redeight)or set like this imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-                image.setImageURI(fileUri);
+                Glide.with(this).load(fileUri).into(image);
                 //set removeListener
                 image.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -208,9 +214,9 @@ public class SettingActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(size,size);
                     lp.setMarginStart(10);
                     image.setLayoutParams(lp);
-                    image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    image.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     //add your drawable here like this image.setImageResource(R.drawable.redeight)or set like this imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-                    image.setImageURI(fileUri);
+                    Glide.with(this).load(fileUri).into(image);
                     //set removeListener
                     image.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -235,9 +241,9 @@ public class SettingActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(size,size);
                 lp.setMarginStart(10);
                 image.setLayoutParams(lp);
-                image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 //add your drawable here like this image.setImageResource(R.drawable.redeight)or set like this imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-                image.setImageURI(fileUri);
+                Glide.with(this).load(fileUri).into(image);
                 //set removeListener
                 image.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -261,9 +267,9 @@ public class SettingActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(size,size);
                     lp.setMarginStart(10);
                     image.setLayoutParams(lp);
-                    image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    image.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     //add your drawable here like this image.setImageResource(R.drawable.redeight)or set like this imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-                    image.setImageURI(fileUri);
+                    Glide.with(this).load(fileUri).into(image);
                     //set removeListener
                     image.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -279,25 +285,34 @@ public class SettingActivity extends AppCompatActivity {
         }
     }
 
-    public void loadImages(LinearLayout layout, String photo) {
-        ImageView image = new ImageView(this);
-        int size = layout.getHeight();
-        if (layout == photoLayout) { size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics()); }
-        else if (layout == menuPhotoLayout) { size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, getResources().getDisplayMetrics()); }
-        Log.d(TAG, "loadImages: size: "+size);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(size,size);
-        lp.setMarginStart(5);
-        image.setLayoutParams(lp);
-        image.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        //add your drawable here like this image.setImageResource(R.drawable.redeight)or set like this imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-        Log.d(TAG, "loadImages: photo"+photo);
-        Glide.with(SettingActivity.this).load(photo).into(image);
-        //set removeListener
-        // Adds the view to the layout
-        layout.addView(image);
+    public void loadImages(final LinearLayout layout, final ArrayList<String> list) {
+        for (final String photo : list) {
+            final ImageView image = new ImageView(this);
+            int size = layout.getHeight();
+            if (layout == photoLayout) {
+                size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
+            } else if (layout == menuPhotoLayout) {
+                size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, getResources().getDisplayMetrics());
+            }
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(size, size);
+            lp.setMarginStart(5);
+            image.setLayoutParams(lp);
+            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            Glide.with(SettingActivity.this).load(photo).into(image);
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    list.remove(photo);
+                    layout.removeView(image);
+                }
+            });
+            // Adds the view to the layout
+            layout.addView(image);
+        }
     }
 
     private void loadData() {
+        loading.setVisibility(View.VISIBLE);
         resRef.child("name").setValue(etName.getText().toString());
         resRef.child("category").setValue(etCategory.getText().toString());
         resRef.child("address").setValue(etAddress.getText().toString());
@@ -317,7 +332,7 @@ public class SettingActivity extends AppCompatActivity {
             public void onSuccess(Void aVoid) {
                 check_detail = true;
                 Log.d(TAG, "onSuccess: detail");
-                if (check_menu && check_photo && check_menuPhoto) { finish(); }
+                if (check_menu && check_photo && check_menuPhoto) { loading.setVisibility(View.GONE); finish(); }
             }
         });
 
@@ -337,7 +352,7 @@ public class SettingActivity extends AppCompatActivity {
                     if (f_i == menuList.size()-1) {
                         check_menu = true;
                         Log.d(TAG, "onSuccess: menu");
-                        if (check_detail && check_photo && check_menuPhoto) { finish(); }
+                        if (check_detail && check_photo && check_menuPhoto) { loading.setVisibility(View.GONE); finish(); }
                     }
                 }
             });
@@ -362,7 +377,7 @@ public class SettingActivity extends AppCompatActivity {
                                         if (task.isSuccessful()) {
                                             check_photo = true;
                                             Log.d(TAG, "onSuccess: photo");
-                                            if (check_detail && check_menu && check_menuPhoto) { finish(); }
+                                            if (check_detail && check_menu && check_menuPhoto) { loading.setVisibility(View.GONE); finish(); }
                                         } else {
                                             Toast.makeText(getApplicationContext(),"업데이트에 실패했습니다.",Toast.LENGTH_SHORT).show();
                                         }
@@ -394,7 +409,7 @@ public class SettingActivity extends AppCompatActivity {
                                         if (task.isSuccessful()) {
                                             check_menuPhoto = true;
                                             Log.d(TAG, "onSuccess: menuPhoto");
-                                            if (check_detail && check_menu && check_photo) { finish(); }
+                                            if (check_detail && check_menu && check_photo) { loading.setVisibility(View.GONE); finish(); }
                                         } else {
                                             Toast.makeText(getApplicationContext(),"업데이트에 실패했습니다.",Toast.LENGTH_SHORT).show();
                                         }

@@ -139,6 +139,16 @@
             android:src="@color/white"
             app:civ_border_color="@color/textBtn"
             app:civ_border_width="2dp"/>
+        <Button
+            android:id="@+id/btn_rev_share"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/frag3_userimg"
+            android:layout_marginTop="10dp"
+            android:layout_alignStart="@+id/frag3_userimg"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/share"
+            android:visibility="gone"/>
         <TextView
             android:id="@+id/frag3_username"
             android:layout_width="wrap_content"

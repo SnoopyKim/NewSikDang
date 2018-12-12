@@ -97,7 +97,7 @@ public class FourReview extends AppCompatActivity {
             }
         });
         // Adapter 생성
-        reviewAdapter = new ReviewAdapter(listReview, this, true);
+        reviewAdapter = new ReviewAdapter(listReview, this, true, false);
         mRecyclerView.setAdapter(reviewAdapter);
 
     }

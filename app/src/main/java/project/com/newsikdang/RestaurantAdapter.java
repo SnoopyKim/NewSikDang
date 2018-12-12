@@ -23,7 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
@@ -31,6 +31,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     //리뷰 데이터 리스트 두개 (하나는 백업용)
     //@Comment search results are dynamic element. So, Friends list back up to mFilter
     List<Restaurant> listRestaurant;
+    List<Restaurant> listFilter;
     Context context;
 
     FirebaseUser user;
@@ -67,6 +68,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     // 커스텀 생성자로 리뷰 데이터 리스트를 받음
     public RestaurantAdapter(List<Restaurant> restaurants, Context context) {
         this.listRestaurant = restaurants;
+        this.listFilter = new ArrayList<>();
+        listFilter.addAll(restaurants);
         this.context = context;
         this.user = FirebaseAuth.getInstance().getCurrentUser();
         this.restaurantRef = FirebaseDatabase.getInstance().getReference("restaurants").child("3040000");
@@ -104,13 +107,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
         holder.tvName.setText(restaurant.getName());
         holder.tvAddress.setText(restaurant.getAddress());
-
-        Calendar now = Calendar.getInstance();
-        int date = Integer.parseInt(restaurant.getDate());
-        Calendar date_cal = Calendar.getInstance();
-        date_cal.set(date/10000,(date/100)%100-1,date%100);
-        long dday = (now.getTimeInMillis()-date_cal.getTimeInMillis()) / (1000*60*60*24);
-        holder.tvDate.setText(String.valueOf(dday));
+        holder.tvDate.setText(restaurant.getDate());
         holder.rbStar.setRating(restaurant.getStar());
         holder.tvReview.setText(String.valueOf(restaurant.getReview()));
         if (!restaurant.getEvent()) { holder.tvEvent.setVisibility(View.GONE); }
@@ -190,5 +187,20 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     @Override
     public int getItemCount() {
         return listRestaurant.size();
+    }
+
+    public void filter(String search) {
+        listRestaurant.clear();
+        if (search.equals("")) { listRestaurant.addAll(listFilter); }
+        else {
+            for (Restaurant restaurant : listFilter) {
+                if (restaurant.getName().toLowerCase().contains(search.toLowerCase())) {
+                    listRestaurant.add(restaurant);
+                }
+            }
+        }
+
+        //Communicate list view with adapter. Saying "data set Changed!"
+        notifyDataSetChanged();
     }
 }
