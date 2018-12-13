@@ -376,7 +376,7 @@ public class SettingActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
                                             check_photo = true;
-                                            Log.d(TAG, "onSuccess: photo");
+                                            Log.d(TAG, "onSuccess: listPhoto: " + listPhoto);
                                             if (check_detail && check_menu && check_menuPhoto) { loading.setVisibility(View.GONE); finish(); }
                                         } else {
                                             Toast.makeText(getApplicationContext(),"업데이트에 실패했습니다.",Toast.LENGTH_SHORT).show();

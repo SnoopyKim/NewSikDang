@@ -57,26 +57,36 @@ function saveData() {
   });
 }
 
-var event = schedule.scheduleJob('0 0 * * *', saveData());
-
 // basic function for firebase functions
 // check it at https://us-central1-newsikdang-21cb1.cloudfunctions.net/test
-exports.test = functions.https.onRequest((request, response) => {
+exports.callData = functions.https.onRequest((request, response) => {
+  saveData();
   // set schedule to call saveData() at 0:00 every day
-
-  response.send("Hello from Firebase!");
+  //var event = schedule.scheduleJob('40 * * * *', saveData());
+  //response.send("Hello from Firebase!");
 });
 
 
-/*
 // Take the text parameter passed to this HTTP endpoint and insert it into the
 // Realtime Database under the path /messages/:pushId/original
-exports.addMessage = functions.https.onRequest((req, res) => {
-  // Grab the text parameter.
-  const original = req.query.text;
-  // Push the new message into the Realtime Database using the Firebase Admin SDK.
-  return admin.database().ref('/messages').push({original: original}).then((snapshot) => {
-    // Redirect with 303 SEE OTHER to the URL of the pushed object in the Firebase console.
-    return res.redirect(303, snapshot.ref.toString());
-  });
-});*/
+exports.sendNotification = functions.database.ref("/restaurants/3040000/{key}").onCreate((snapshot,context) => {
+  var r_data = snapshot.val();
+
+  var payload = {
+    notification: {
+      title: "가게 추가",
+      body: r_data.name + " 이(가) 새로 생겼어요!"
+    }
+  };
+
+  console.log(payload);
+  admin.messaging().sendToTopic("addRes", payload)
+    .then((response) => {
+        console.log("Successfully sent message: ", response);
+        return true;
+    })
+    .catch((error) => {
+        console.log("Error sending message: ", error);
+        return false;
+    })
+});

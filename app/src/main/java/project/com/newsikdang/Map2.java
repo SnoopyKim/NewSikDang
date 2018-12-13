@@ -40,13 +40,13 @@ public class Map2 extends Fragment implements View.OnClickListener {
         tv_map3 = v.findViewById(R.id.tv_map3);tv_map4 = v.findViewById(R.id.tv_map4);
         tv_map5 = v.findViewById(R.id.tv_map5);tv_map6 = v.findViewById(R.id.tv_map6);
         area_choice = v.findViewById(R.id.area_choice);
+        area_choice.setOnClickListener(this);
 
         return v;
     }
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.b_btn1:
                 b_btn1.setBackgroundResource(R.drawable.area_stroke); b_btn2.setBackgroundResource(R.drawable.area_strokeoff);

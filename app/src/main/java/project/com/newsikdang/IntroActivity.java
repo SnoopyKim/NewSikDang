@@ -124,7 +124,9 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: btnGoogle");
-                btnGoogleLogin.performClick();
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+                //btnGoogleLogin.performClick();
             }
         });
         btnGoogleLogin = findViewById(R.id.btnGoogleLogin);

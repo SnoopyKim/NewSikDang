@@ -177,7 +177,7 @@ public class ManagerJoinActivity extends AppCompatActivity {
                     etPW2.requestFocus();
 
                 } else {
-                    Query query = restaurantRef.orderByChild("date").equalTo(Integer.valueOf(etDate.getText().toString()));
+                    Query query = restaurantRef.orderByChild("date").equalTo(etDate.getText().toString());
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
