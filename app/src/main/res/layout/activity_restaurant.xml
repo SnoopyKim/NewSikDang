@@ -602,7 +602,7 @@
                 android:layout_height="wrap_content"
                 android:text="리뷰"
                 android:textColor="@color/black"
-                android:textSize="23dp" />
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/tv_rev_cnt"
@@ -612,7 +612,7 @@
                 android:layout_toEndOf="@+id/res_review1"
                 android:text="0"
                 android:textColor="@color/btnAbled"
-                android:textSize="21dp" />
+                android:textSize="18dp" />
 
             <ImageView
                 android:id="@+id/icon_review"

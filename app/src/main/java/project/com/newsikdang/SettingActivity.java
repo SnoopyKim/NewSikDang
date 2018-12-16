@@ -290,8 +290,10 @@ public class SettingActivity extends AppCompatActivity {
             final ImageView image = new ImageView(this);
             int size = layout.getHeight();
             if (layout == photoLayout) {
+                listPhoto.add(Uri.parse(photo));
                 size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
             } else if (layout == menuPhotoLayout) {
+                listMenuPhoto.add(Uri.parse(photo));
                 size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, getResources().getDisplayMetrics());
             }
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(size, size);
@@ -376,7 +378,7 @@ public class SettingActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
                                             check_photo = true;
-                                            Log.d(TAG, "onSuccess: photo");
+                                            Log.d(TAG, "onSuccess: listPhoto: " + listPhoto);
                                             if (check_detail && check_menu && check_menuPhoto) { loading.setVisibility(View.GONE); finish(); }
                                         } else {
                                             Toast.makeText(getApplicationContext(),"업데이트에 실패했습니다.",Toast.LENGTH_SHORT).show();

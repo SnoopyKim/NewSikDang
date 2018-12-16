@@ -6,13 +6,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener{
     final String TAG = "MainActivity";
@@ -42,6 +42,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         frag3.setOnClickListener(this);
         frag4 = findViewById(R.id.frag4);
         frag4.setOnClickListener(this);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("addRes");
 
         mCurrentFragmentIndex = FRAGMENT_ONE;
         fragmentReplace(mCurrentFragmentIndex);

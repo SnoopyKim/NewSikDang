@@ -382,7 +382,6 @@ public class RestaurantActivity extends AppCompatActivity {
                                 textView.setTextSize(16);
                                 textView.setTextColor(getColor(R.color.btnAbled));
                                 textView.setGravity(Gravity.CENTER);
-                                textView.setBackground(getDrawable(R.drawable.hashtag));
                                 textView.setLayoutParams(params1);
                                 row.addView(textView);
                             }
@@ -390,6 +389,7 @@ public class RestaurantActivity extends AppCompatActivity {
                         String tag = data.getKey();
                         TextView textView = (TextView)row.getChildAt(i%4);
                         textView.setText("#".concat(tag));
+                        textView.setBackground(getDrawable(R.drawable.hashtag));
                         i += 1;
                     }
                     tlTag.addView(row);

@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class FourUnlike extends AppCompatActivity {
     private final String TAG = "FourUnlike";
@@ -40,6 +41,8 @@ public class FourUnlike extends AppCompatActivity {
         userRef = FirebaseDatabase.getInstance().getReference("users").child("customer").child(user.getUid());
         restaurantRef = FirebaseDatabase.getInstance().getReference("restaurants").child("3040000");
 
+        final Calendar now = Calendar.getInstance();
+
         userRef.child("block").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -52,6 +55,10 @@ public class FourUnlike extends AppCompatActivity {
                                 String stResName = dataSnapshot.child("name").getValue().toString();
                                 String stResAddress = dataSnapshot.child("address").getValue().toString();
                                 String stDate = dataSnapshot.child("date").getValue().toString();
+                                int date = Integer.parseInt(stDate);
+                                Calendar date_cal = Calendar.getInstance();
+                                date_cal.set(date/10000,(date/100)%100-1,date%100);
+                                long dday = (now.getTimeInMillis()-date_cal.getTimeInMillis()) / (1000*60*60*24);
                                 long l_heart = dataSnapshot.child("heart").getChildrenCount();
                                 long l_review = dataSnapshot.child("review").getChildrenCount();
                                 float star;
@@ -66,7 +73,7 @@ public class FourUnlike extends AppCompatActivity {
                                 if (dataSnapshot.child("event").exists()) {
                                     event = true;
                                 } else { event = false; }
-                                listUnlike.add(new Restaurant(stResKey, stResName, stResAddress, stPhoto, stDate, star, l_heart, l_review, event));
+                                listUnlike.add(new Restaurant(stResKey, stResName, stResAddress, stPhoto, String.valueOf(dday), star, l_heart, l_review, event));
                                 mAdapter.notifyItemInserted(mAdapter.getItemCount());
                             }
                         }

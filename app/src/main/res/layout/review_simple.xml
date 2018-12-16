@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/stroke2">
     <RelativeLayout
         android:id="@+id/rl_review"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:background="@drawable/stroke2"
         android:padding="15dp">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/frag3_userimg"
@@ -16,18 +16,8 @@
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:src="@color/white"
-            app:civ_border_color="@color/textBtn"
-            app:civ_border_width="2dp"/>
-        <Button
-            android:id="@+id/btn_rev_share"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_below="@id/frag3_userimg"
-            android:layout_marginTop="10dp"
-            android:layout_alignStart="@+id/frag3_userimg"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/share"
-            android:visibility="gone"/>
+            app:civ_border_color="@color/textHint"
+            app:civ_border_width="1dp"/>
         <TextView
             android:id="@+id/frag3_username"
             android:layout_width="wrap_content"
@@ -95,14 +85,24 @@
             android:textColor="@color/heart_cnt"
             android:textSize="14dp"/>
         <Button
-            android:id="@+id/btn_rev_comment"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/comment"
-            android:layout_below="@id/frag3_userimg"
+            android:id="@+id/btn_rev_share"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_below="@id/tv_rev_heart"
             android:layout_marginTop="10dp"
-            android:layout_alignStart="@+id/frag3_userimg"
-            android:layout_marginStart="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="3dp"
+            android:background="@drawable/share"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/btn_rev_comment"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/comment"
+            android:layout_below="@id/tv_rev_heart"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="3dp"
             android:visibility="gone"/>
     </RelativeLayout>
     <RelativeLayout
@@ -111,7 +111,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_review"
         android:background="@color/white"
-        android:padding="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="15dp"
         android:visibility="gone">
         <ImageView
             android:id="@+id/iv_rev_manager"
@@ -126,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/iv_rev_manager"
             android:layout_marginStart="10dp"
-            android:layout_alignBottom="@+id/iv_rev_manager"
+            android:layout_alignTop="@+id/iv_rev_manager"
             android:text="사장님"
             android:textSize="18dp"
             android:textColor="@color/black"/>
