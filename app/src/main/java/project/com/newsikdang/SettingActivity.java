@@ -290,8 +290,10 @@ public class SettingActivity extends AppCompatActivity {
             final ImageView image = new ImageView(this);
             int size = layout.getHeight();
             if (layout == photoLayout) {
+                listPhoto.add(Uri.parse(photo));
                 size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
             } else if (layout == menuPhotoLayout) {
+                listMenuPhoto.add(Uri.parse(photo));
                 size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, getResources().getDisplayMetrics());
             }
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(size, size);

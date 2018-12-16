@@ -385,6 +385,7 @@ public class Map extends Fragment
             Log.e("Geocoder","입출력 오류 - 서버에서 주소변환시 에러발생");
         }
         //String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
+        if (addressList.size() == 0) { return; }
         Double latitude = addressList.get(0).getLatitude(); // 위도
         Double longitude = addressList.get(0).getLongitude(); // 경도
 
@@ -412,7 +413,7 @@ public class Map extends Fragment
             e.printStackTrace();
             Log.e("Geocoder","입출력 오류 - 서버에서 주소변환시 에러발생");
         }
-        System.out.println(addressList.get(0).toString());
+        if (addressList.size() == 0) { return; }
         //String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
         Double latitude = addressList.get(0).getLatitude(); // 위도
         Double longitude = addressList.get(0).getLongitude(); // 경도

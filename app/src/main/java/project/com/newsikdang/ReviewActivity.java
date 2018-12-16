@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -246,7 +247,7 @@ public class ReviewActivity extends AppCompatActivity {
                     image.setLayoutParams(lp);
                     image.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     //add your drawable here like this image.setImageResource(R.drawable.redeight)or set like this imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-                    image.setImageURI(fileUri);
+                    Glide.with(getApplicationContext()).load(fileUri).into(image);
                     //set removeListener
                     image.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -416,6 +417,7 @@ public class ReviewActivity extends AppCompatActivity {
                 }
             });
         }
+        if (hashtagList.size() == 0)  { check_tag = true; }
         for (String tag : hashtagList) {
             hashRef.child(tag).push().setValue(revkey);
             Log.d(TAG, "addSimpleReview: tag: " + tag);

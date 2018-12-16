@@ -137,8 +137,8 @@
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:src="@color/white"
-            app:civ_border_color="@color/textBtn"
-            app:civ_border_width="2dp"/>
+            app:civ_border_color="@color/textHint"
+            app:civ_border_width="1dp"/>
         <Button
             android:id="@+id/btn_rev_share"
             android:layout_width="30dp"
